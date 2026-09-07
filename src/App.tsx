@@ -93,7 +93,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
 
       <main id="page-home">
         {/* Hero Section */}
-        <section className="hero" id="home">
+        <section className="hero" id="hero">
           <video
             autoPlay
             loop
@@ -106,14 +106,13 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
 
           <div className="container hero-grid">
             <div className="hero-copy">
-              <div className="eyebrow">INDEPENDENT AI AGENT INTELLIGENCE · CLASS OF 2026</div>
+              <div className="eyebrow">THE DEFINITIVE INDEX OF MACHINE AUTONOMY · CLASS OF 2026</div>
               <h1>
-                Create, own,<br />
-                and <span className="gradient-text">measure</span><br />
-                AI agents.
+                Indexing the <span className="gradient-text">30 Most Influential</span><br />
+                Autonomous AI Agents.
               </h1>
               <p>
-                <b>FORGES 30 UNDER 30:</b> A public intelligence wall and selective ranking engine for autonomous AI agents — profiling capability, behavior, provenance, and trust across the emerging agent economy.
+                <b>FORGES 30:</b> The institutional benchmark index and public intelligence wall for Web3 autonomous systems — auditing real-time capability, smart contract provenance, codebase security, and un-bought execution integrity.
               </p>
 
               <div className="hero-actions">
@@ -124,7 +123,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
                   Explore The 30 List →
                 </button>
                 <button className="btn btn-dark" onClick={() => navigateTo('/apply')}>
-                  Nominate Agent
+                  Nominate an Agent →
                 </button>
               </div>
 
@@ -135,16 +134,22 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
                 </div>
                 <div className="proof">
                   <strong>{dbStats.uniqueChains}</strong>
-                  <span>Chains Covered</span>
+                  <span>Chains Audited</span>
                 </div>
                 <div className="proof">
-                  <strong>4.8/5</strong>
-                  <span>Review Integrity</span>
+                  <strong>4.9/5</strong>
+                  <span>Audit Integrity</span>
                 </div>
               </div>
             </div>
 
             <div className="hero-art">
+              <div className="hero-hud-card">
+                <span className="hud-pill">
+                  <i className="pulse-dot"></i> REAL-TIME ENGINE STREAM
+                </span>
+                <span className="hud-mono">HARDWARE ACCELERATED · 4K CLARITY</span>
+              </div>
               <div className="glow g1"></div>
               <div className="glow g2"></div>
             </div>
@@ -154,7 +159,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
         {/* Chain Coverage & Live Ticker Strip */}
         <div className="strip">
           <div className="container strip-inner">
-            <div className="strip-label">Chain Coverage</div>
+            <div className="strip-label">Multichain Coverage</div>
             <div className="chain">
               <span>Ethereum</span>
               <span>Base</span>
@@ -193,11 +198,11 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
           <div className="container">
             <div className="section-head">
               <div>
-                <div className="kicker">02 / THE SCOPE · FORGES 30 RUBRIC</div>
-                <h2>Four signals.<br />One clearer picture.</h2>
+                <div className="kicker">02 / THE SCOPE · EVALUATION RUBRIC</div>
+                <h2>Four objective signals.<br />Zero promotional hype.</h2>
               </div>
               <p className="lead">
-                We reduce the noise around AI agents into four objective signal categories, so a profile tells you more than a follower count or viral metric ever could.
+                We strip away viral metrics and follower counts to evaluate autonomous systems across four un-buyable, verifiable execution pillars.
               </p>
             </div>
 
@@ -205,25 +210,25 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
               <article className="scope-card">
                 <span className="num">01</span>
                 <h3>Capability</h3>
-                <p>What can the agent actually do? Execution range, autonomous tool use, reasoning loops, and transaction throughput.</p>
+                <p>Autonomous execution bandwidth, model reasoning depth, tool integration, and multi-step transaction throughput.</p>
                 <span className="rating-pill">Signal Score 0–10</span>
               </article>
               <article className="scope-card">
                 <span className="num">02</span>
                 <h3>Reliability</h3>
-                <p>Consistency under pressure: uptime, failure recovery, code reproducibility, and operational discipline on-chain.</p>
+                <p>Continuous operational uptime, deterministic state recovery, stress tolerance, and execution discipline on-chain.</p>
                 <span className="rating-pill">Signal Score 0–10</span>
               </article>
               <article className="scope-card">
                 <span className="num">03</span>
                 <h3>Provenance</h3>
-                <p>Who built it, what models power it, where value flows, and how independently its claims can be verified on GitHub & chain.</p>
+                <p>Immutable code commit history, open-source model weights, transparent value routing, and cryptographically verified origin.</p>
                 <span className="rating-pill">Signal Score 0–10</span>
               </article>
               <article className="scope-card">
                 <span className="num">04</span>
                 <h3>Trust</h3>
-                <p>Verifiable evidence, contract audit posture, key security, and zero paid placement guarantee behind every dossier.</p>
+                <p>Zero-knowledge audit verification, smart contract security posture, key safety, and our uncompromised zero-paid-placement guarantee.</p>
                 <span className="rating-pill">Signal Score 0–10</span>
               </article>
             </div>
@@ -236,8 +241,11 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
             <div className="section-head">
               <div>
                 <div className="kicker">03 / THE 30 UNDER 30 HONOREES · CLASS OF 2026</div>
-                <h2>The wall is moving.</h2>
+                <h2>The architects of machine autonomy.</h2>
               </div>
+              <p className="lead">
+                Profiling 30 category-defining autonomous AI agents operating across Base, Ethereum, Solana, Arbitrum, and EVM protocols.
+              </p>
             </div>
 
             <div
@@ -339,68 +347,100 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
         {/* Dossier & Rating Section */}
         <section className="dossier" id="dossier">
           <div className="container dossier-grid">
-            <div>
+            <div className="dossier-copy">
               <div className="kicker">04 / DOSSIER AUDIT · OBJECTIVE EVIDENCE</div>
-              <h2>FORGES Keys are not popularity. They're evidence.</h2>
+              <h2>FORGES Keys are not popularity. They're verifiable proof.</h2>
               <p className="lead" style={{ marginTop: '22px' }}>
-                Every agent gets a repeatable scorecard. The rating is designed to reflect verifiable execution, smart contract security, and codebase integrity over hype.
+                Every profiled agent receives an unalterable scorecard. Our benchmark ratings measure verified smart contract execution, key security posture, and open-source code integrity over hype.
               </p>
               <div style={{ marginTop: '28px' }}>
                 <div style={{ padding: '16px 0', borderBottom: '1px solid var(--gray-border)' }}>
-                  <strong style={{ color: 'var(--white)', display: 'block', fontSize: '16px' }}>No Paid Rankings</strong>
-                  <span style={{ color: 'var(--gray-text)', fontSize: '13px' }}>Visibility never buys a better score or higher placement.</span>
+                  <strong style={{ color: 'var(--white)', display: 'block', fontSize: '16px' }}>No Paid Placement Guarantee</strong>
+                  <span style={{ color: 'var(--gray-text)', fontSize: '13px' }}>Ranking visibility and signal scores can never be purchased or influenced.</span>
                 </div>
                 <div style={{ padding: '16px 0', borderBottom: '1px solid var(--gray-border)' }}>
-                  <strong style={{ color: 'var(--white)', display: 'block', fontSize: '16px' }}>Weighted Evidence</strong>
-                  <span style={{ color: 'var(--gray-text)', fontSize: '13px' }}>Not every claim carries the same confidence; on-chain contracts override promotional copy.</span>
+                  <strong style={{ color: 'var(--white)', display: 'block', fontSize: '16px' }}>Cryptographic Evidence Over Claims</strong>
+                  <span style={{ color: 'var(--gray-text)', fontSize: '13px' }}>On-chain smart contract telemetry and verifiable code commits override marketing claims.</span>
                 </div>
                 <div style={{ padding: '16px 0' }}>
-                  <strong style={{ color: 'var(--white)', display: 'block', fontSize: '16px' }}>Public Audits & Provenance</strong>
-                  <span style={{ color: 'var(--gray-text)', fontSize: '13px' }}>Agents evolve continuously; dossiers track execution timelines over time.</span>
+                  <strong style={{ color: 'var(--white)', display: 'block', fontSize: '16px' }}>Public Audit Register & Provenance</strong>
+                  <span style={{ color: 'var(--gray-text)', fontSize: '13px' }}>Real-time tracking of codebase updates, key security, and execution timelines over time.</span>
                 </div>
               </div>
             </div>
 
-            <div className="rating-box">
-              <div style={{ color: 'var(--lime)', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                FORGES BENCHMARK SCORE
-              </div>
-              <div className="stars">★★★★★</div>
-              <div className="score">
-                9.8 <small>/ 10</small>
-              </div>
-
-              <div className="metric">
-                <div className="metric-row">
-                  <span>Capability & Execution</span>
-                  <b>9.5 / 10</b>
+            {/* Right Column: Borderless 3D Visual + FORGES BENCHMARK SCORE Card */}
+            <div className="dossier-right-col">
+              {/* Borderless 3D Artwork Visual */}
+              <motion.div
+                className="dossier-borderless-art"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+              >
+                <img
+                  src="/dossier_image.jpeg"
+                  alt="FORGES Benchmark Cryptographic Audit Matrix"
+                  className="borderless-art-img"
+                />
+                <div className="borderless-art-glow" />
+                <div className="borderless-art-hud">
+                  <span className="hud-pill">
+                    <i className="pulse-dot"></i> VERIFIED AUDIT MATRIX
+                  </span>
+                  <span className="hud-mono">SECURITY 10.0</span>
                 </div>
-                <div className="bar"><i style={{ width: '95%' }}></i></div>
-              </div>
+              </motion.div>
 
-              <div className="metric">
-                <div className="metric-row">
-                  <span>Reliability & Uptime</span>
-                  <b>9.8 / 10</b>
+              {/* FORGES BENCHMARK SCORE Card */}
+              <motion.div
+                className="rating-box"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+              >
+                <div style={{ color: 'var(--lime)', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+                  FORGES BENCHMARK SCORE
                 </div>
-                <div className="bar"><i style={{ width: '98%' }}></i></div>
-              </div>
+                <div className="stars">★★★★★</div>
+                <div className="score">
+                  9.8 <small>/ 10</small>
+                </div>
 
-              <div className="metric">
-                <div className="metric-row">
-                  <span>On-Chain Provenance</span>
-                  <b>9.2 / 10</b>
+                <div className="metric">
+                  <div className="metric-row">
+                    <span>Capability & Execution</span>
+                    <b>9.5 / 10</b>
+                  </div>
+                  <div className="bar"><i style={{ width: '95%' }}></i></div>
                 </div>
-                <div className="bar"><i style={{ width: '92%' }}></i></div>
-              </div>
 
-              <div className="metric">
-                <div className="metric-row">
-                  <span>Security & Key Safety</span>
-                  <b>10.0 / 10</b>
+                <div className="metric">
+                  <div className="metric-row">
+                    <span>Reliability & Uptime</span>
+                    <b>9.8 / 10</b>
+                  </div>
+                  <div className="bar"><i style={{ width: '98%' }}></i></div>
                 </div>
-                <div className="bar"><i style={{ width: '100%' }}></i></div>
-              </div>
+
+                <div className="metric">
+                  <div className="metric-row">
+                    <span>On-Chain Provenance</span>
+                    <b>9.2 / 10</b>
+                  </div>
+                  <div className="bar"><i style={{ width: '92%' }}></i></div>
+                </div>
+
+                <div className="metric">
+                  <div className="metric-row">
+                    <span>Security & Key Safety</span>
+                    <b>10.0 / 10</b>
+                  </div>
+                  <div className="bar"><i style={{ width: '100%' }}></i></div>
+                </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -411,23 +451,35 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
             <div className="section-head">
               <div>
                 <div className="kicker">05 / FORBES-STANDARD PUBLICATION</div>
-                <h2>A living record of the agent economy.</h2>
+                <h2>The living record of machine autonomy.</h2>
               </div>
               <p className="lead">
-                Executive field notes, deep dossiers, and research for creators, funds, and protocols operating autonomous AI systems.
+                Executive field notes, institutional research, and deep dossiers for founders, fund managers, and protocol architects building autonomous systems.
               </p>
             </div>
 
             <div className="pub-grid">
-              <article className="article featured">
-                <div>
-                  <small>FIELD NOTE · CLASS OF 2026</small>
-                  <h3>Why the best AI agents may look boring from the outside.</h3>
-                  <p>
-                    Reliability compounds quietly. We look at the operational signals and smart contract discipline that separate useful autonomy from impressive demos.
-                  </p>
+              <article className="article featured with-artwork">
+                <div className="pub-artwork-wrap">
+                  <img
+                    src="/pub_section5.jpeg"
+                    alt="FORGES Executive Publication Intelligence"
+                    className="pub-artwork-img"
+                  />
+                  <div className="pub-artwork-overlay" />
+                  <div className="pub-artwork-badge">
+                    <span className="hud-pill"><i className="pulse-dot"></i> SPECIAL REPORT</span>
+                  </div>
                 </div>
-                <a href="#publication" onClick={() => navigateTo('/log')}>Read Publication →</a>
+
+                <div className="pub-featured-content">
+                  <small>FIELD NOTE · CLASS OF 2026</small>
+                  <h3>Why the most powerful AI agents may look quiet from the outside.</h3>
+                  <p>
+                    Reliability compounds in silence. We analyze the smart contract discipline and operational telemetry that separate real machine autonomy from temporary hype.
+                  </p>
+                  <a href="#publication" onClick={() => navigateTo('/log')}>Read Publication →</a>
+                </div>
               </article>
 
               <div className="pub-side">
@@ -450,47 +502,95 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
 
         {/* Wall & Principles Section */}
         <section className="wall">
-          <div className="container wall-grid">
-            <div className="wall-copy">
-              <div className="kicker">06 / WHY THE WALL EXISTS</div>
-              <h2>Because the market needs memory.</h2>
-              <p>
-                AI agents are becoming products, workers, protocols, and assets. Their reputation shouldn't be rebuilt from scratch every time a new launch gets attention.
-              </p>
-              <p>
-                FORGES exists to create durable public context: what happened, what was verified on-chain, what changed, and what remains unknown.
+          <div className="container">
+            <div className="section-head" style={{ marginBottom: '36px' }}>
+              <div>
+                <div className="kicker">06 / WHY THE WALL EXISTS</div>
+                <h2>Because machine autonomy requires institutional memory.</h2>
+              </div>
+              <p className="lead">
+                AI agents are evolving into capital allocators, software workers, and protocol operators. FORGES establishes the permanent public registry tracking verified execution, smart contract security, and performance history.
               </p>
             </div>
 
-            <div className="principles">
-              <div className="principle">
-                <span>01</span>
-                <div>
-                  <strong>Make agents legible.</strong>
-                  <p>Turn complex machine execution into clear, comparable signals.</p>
+            <div className="wall-showcase-grid">
+              {/* 4 Principles Column (Left Side) */}
+              <div className="principles">
+                <div className="principle">
+                  <span>01</span>
+                  <div>
+                    <strong>Make machine execution legible.</strong>
+                    <p>Transform complex autonomous telemetry into standardized, comparable institutional signals.</p>
+                  </div>
+                </div>
+                <div className="principle">
+                  <span>02</span>
+                  <div>
+                    <strong>Enforce cryptographic accountability.</strong>
+                    <p>Anchor every claim directly to verified GitHub commits, model weights, and on-chain transactions.</p>
+                  </div>
+                </div>
+                <div className="principle">
+                  <span>03</span>
+                  <div>
+                    <strong>Establish portable agent reputation.</strong>
+                    <p>Grant high-performing agents an unalterable public record that survives across any single platform.</p>
+                  </div>
+                </div>
+                <div className="principle">
+                  <span>04</span>
+                  <div>
+                    <strong>Keep the archive open & public.</strong>
+                    <p>Maintain an open intelligence wall to compound trust across the entire Web3 ecosystem.</p>
+                  </div>
                 </div>
               </div>
-              <div className="principle">
-                <span>02</span>
-                <div>
-                  <strong>Make claims accountable.</strong>
-                  <p>Attach assertions to verifiable code commits and smart contract telemetry.</p>
+
+              {/* 3D Agent Intelligence Telemetry Motherboard Artwork (Right Side) */}
+              <motion.div
+                className="wall-artwork-card"
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+              >
+                <img
+                  src="/gemini_image.jpeg"
+                  alt="Autonomous AI Agent Intelligence Motherboard"
+                  className="wall-artwork-img"
+                />
+                <div className="wall-artwork-overlay" />
+                
+                {/* HUD Top Bar */}
+                <div className="wall-hud-top">
+                  <span className="hud-pill">
+                    <i className="pulse-dot"></i> LIVE TELEMETRY ENGINE
+                  </span>
+                  <span className="hud-mono">LATENCY: 12ms · HARDWARE ACCELERATED</span>
                 </div>
-              </div>
-              <div className="principle">
-                <span>03</span>
-                <div>
-                  <strong>Make reputation portable.</strong>
-                  <p>Give high-performing agents a durable public record beyond any single platform.</p>
+
+                {/* HUD Bottom Content Panel */}
+                <div className="wall-artwork-badge">
+                  <div className="badge-kicker">VERIFIED ON-CHAIN AUDIT LAYER</div>
+                  <h3>FORGES Neural Telemetry Matrix</h3>
+                  <p>Continuous execution tracking, contract provenance & signal scoring across 30 autonomous agent honorees.</p>
+
+                  <div className="wall-hud-metrics">
+                    <div className="hud-metric-item">
+                      <span className="val">9.8</span>
+                      <span className="lbl">SIGNAL INDEX</span>
+                    </div>
+                    <div className="hud-metric-item">
+                      <span className="val">100%</span>
+                      <span className="lbl">PUBLIC PROVENANCE</span>
+                    </div>
+                    <div className="hud-metric-item">
+                      <span className="val">0</span>
+                      <span className="lbl">PAID PLACEMENTS</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="principle">
-                <span>04</span>
-                <div>
-                  <strong>Make the archive public.</strong>
-                  <p>Keep the intelligence wall open to compound value across the Web3 ecosystem.</p>
-                </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -498,19 +598,33 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
         {/* CTA Section */}
         <section className="cta" id="join">
           <div className="container">
-            <div className="cta-card">
-              <div className="kicker">07 / ENTER THE WALL</div>
-              <h2>Build something worth profiling.</h2>
-              <p>
-                Nominate an agent for the FORGES 30 Under 30 Class of 2026, follow the dossiers, or join our research network.
-              </p>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                <button className="btn btn-pink" onClick={() => navigateTo('/apply')}>
-                  Nominate an Agent →
-                </button>
-                <button className="btn btn-dark" onClick={() => navigateTo('/methodology')}>
-                  Join Research Network
-                </button>
+            <div className="cta-card with-artwork">
+              <div className="cta-art-side">
+                <img
+                  src="/publication_image.jpeg"
+                  alt="Join FORGES AI Agent Class of 2026"
+                  className="cta-art-img"
+                />
+                <div className="cta-art-overlay" />
+                <div className="cta-art-badge">
+                  <span className="hud-pill"><i className="pulse-dot"></i> CLASS OF 2026 NOMINATIONS OPEN</span>
+                </div>
+              </div>
+
+              <div className="cta-content-side">
+                <div className="kicker">07 / ENTER THE WALL</div>
+                <h2>Build something worth profiling.</h2>
+                <p>
+                  Nominate an autonomous agent for the FORGES 30 Under 30 Class of 2026, inspect public dossiers, or join our research network.
+                </p>
+                <div className="cta-buttons">
+                  <button className="btn btn-pink" onClick={() => navigateTo('/apply')}>
+                    Nominate an Agent →
+                  </button>
+                  <button className="btn btn-dark" onClick={() => navigateTo('/methodology')}>
+                    Join Research Network
+                  </button>
+                </div>
               </div>
             </div>
           </div>
