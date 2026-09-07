@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { OrdinalNavbar } from '../components/OrdinalNavbar';
+import { ForgesNavbar } from '../components/OrdinalNavbar';
 import { COMPLETE_AGENT_DATABASE } from '../data/agentDatabase';
 import { AgentAvatar } from '../components/AgentAvatar';
 
@@ -113,7 +113,7 @@ COMPLETE_AGENT_DATABASE.forEach((agent, index) => {
       `Telemetry collected over continuous 30-day monitoring on ${agent.chain}.`,
       agent.commits30d > 0 ? 'Public code repositories audited for dependencies and commits.' : 'Closed-source codebase limit verifiability.'
     ],
-    verdict: agent.verdict || `${agent.name} is evaluated under the Ordinal Web3 AI Agent Index.`,
+    verdict: agent.verdict || `${agent.name} is evaluated under the FORGES Web3 AI Agent Index.`,
     rightOfReply: {
       hasResponded: agent.status === 'verified',
       statement: agent.status === 'verified' ? 'Telemetry records acknowledged and confirmed by engineering team.' : undefined,
@@ -141,18 +141,19 @@ export const ReportsCatalogView: React.FC<{ onSelectReport: (slug: string) => vo
   });
 
   return (
-    <div className="ordinal-app">
-      <OrdinalNavbar currentPath="/reports" />
+    <div className="forges-app">
+      <ForgesNavbar currentPath="/reports" />
 
-      <div className="ticker-band">
+      {/* Report Marquee Header */}
+      <div className="ticker-band" style={{ marginTop: '76px' }}>
         <div className="ticker-track">
-          <span>ORDINAL RESEARCH DESK · DOSSIER CATALOG · VERIFIED TELEMETRY · ROLLING 30-DAY COVERAGE</span>
-          <span>ORDINAL RESEARCH DESK · DOSSIER CATALOG · VERIFIED TELEMETRY · ROLLING 30-DAY COVERAGE</span>
+          <span>FORGES RESEARCH DESK · DOSSIER CATALOG · VERIFIED TELEMETRY · ROLLING 30-DAY COVERAGE</span>
+          <span>FORGES RESEARCH DESK · DOSSIER CATALOG · VERIFIED TELEMETRY · ROLLING 30-DAY COVERAGE</span>
         </div>
       </div>
 
-      <main className="wrap" style={{ padding: '48px 28px 80px' }}>
-        <div className="kicker">Ordinal Research Desk</div>
+      <main className="container" style={{ padding: '40px 0 80px' }}>
+        <div className="kicker">FORGES Research Desk</div>
         <h1 className="headline" style={{ fontSize: 'clamp(2rem, 4.4vw, 3.2rem)', margin: '12px 0 16px' }}>
           Dossier Reports Catalog
         </h1>
@@ -233,8 +234,8 @@ export const ReportsCatalogView: React.FC<{ onSelectReport: (slug: string) => vo
 
 export const ReportDetailView: React.FC<{ report: ReportData; onBack: () => void }> = ({ report, onBack }) => {
   return (
-    <div className="ordinal-app">
-      <OrdinalNavbar currentPath="/reports" />
+    <div className="forges-app">
+      <ForgesNavbar currentPath="/reports" />
 
       <div className="ticker-band">
         <div className="ticker-track">

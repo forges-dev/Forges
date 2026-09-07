@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { COMPLETE_AGENT_DATABASE, getFullAgentDatabase, fetchLiveAgentDatabase, type AgentEntity } from '../data/agentDatabase';
-import { OrdinalNavbar } from '../components/OrdinalNavbar';
+import { ForgesNavbar } from '../components/OrdinalNavbar';
 import { AgentAvatar } from '../components/AgentAvatar';
 import { AgentDossierModal } from '../components/AgentDossierModal';
 
@@ -66,8 +66,8 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
   }, [allAgents, filterType, searchQuery]);
 
   return (
-    <div className="ordinal-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
-      <OrdinalNavbar currentPath="/rankings" onNavigate={navigateTo} />
+    <div className="forges-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
+      <ForgesNavbar currentPath="/rankings" onNavigate={navigateTo} />
 
       {/* Ticker Band */}
       <div className="ticker-band" style={{ marginTop: '76px' }}>

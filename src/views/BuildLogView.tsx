@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { BUILD_LOG_ENTRIES, type LogEntryType } from '../data/buildLogData';
 import { QUALIFIED_NOTICE_DATA } from '../data/buildStages';
-import { OrdinalNavbar } from '../components/OrdinalNavbar';
+import { ForgesNavbar } from '../components/OrdinalNavbar';
 import { CountUpNumber } from '../components/CountUpNumber';
 
 interface BuildLogViewProps {
@@ -36,8 +36,8 @@ export const BuildLogView: React.FC<BuildLogViewProps> = ({ onNavigate, defaultT
   const correctionCount = BUILD_LOG_ENTRIES.filter((e) => e.type === 'correction' || e.type === 'reversal').length;
 
   return (
-    <div className="ordinal-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
-      <OrdinalNavbar currentPath={activeTab === 'qualified' ? '/qualified' : '/log'} onNavigate={onNavigate} />
+    <div className="forges-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
+      <ForgesNavbar currentPath={activeTab === 'qualified' ? '/qualified' : '/log'} onNavigate={onNavigate} />
 
       <div className="ticker-band" style={{ marginTop: '76px' }}>
         <div className="ticker-track">

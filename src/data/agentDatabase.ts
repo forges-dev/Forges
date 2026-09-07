@@ -1304,7 +1304,7 @@ export function mapBackendAgentToEntity(apiAgent: any, index: number): AgentEnti
 export function getFullAgentDatabase(): AgentEntity[] {
   if (typeof window === 'undefined') return [...COMPLETE_AGENT_DATABASE].sort((a, b) => b.score - a.score);
   try {
-    const raw = localStorage.getItem('ordinal_submitted_agents');
+    const raw = localStorage.getItem('forges_submitted_agents');
     if (!raw) return [...COMPLETE_AGENT_DATABASE].sort((a, b) => b.score - a.score);
     const customList: AgentEntity[] = JSON.parse(raw);
     const existingIds = new Set(COMPLETE_AGENT_DATABASE.map(a => a.id));
@@ -1339,7 +1339,7 @@ export async function fetchLiveAgentDatabase(): Promise<AgentEntity[]> {
       });
 
       // Also merge local storage custom submissions
-      const localRaw = typeof window !== 'undefined' ? localStorage.getItem('ordinal_submitted_agents') : null;
+      const localRaw = typeof window !== 'undefined' ? localStorage.getItem('forges_submitted_agents') : null;
       const localCustom: AgentEntity[] = localRaw ? JSON.parse(localRaw) : [];
       const extraLocal = localCustom.filter(a => !knownNames.has(a.name.toLowerCase().replace(/[^a-z0-9]/g, '')));
 
@@ -1358,11 +1358,11 @@ export async function fetchLiveAgentDatabase(): Promise<AgentEntity[]> {
 export function saveAgentToClientDatabase(agent: AgentEntity) {
   if (typeof window === 'undefined') return;
   try {
-    const existingRaw = localStorage.getItem('ordinal_submitted_agents');
+    const existingRaw = localStorage.getItem('forges_submitted_agents');
     const list: AgentEntity[] = existingRaw ? JSON.parse(existingRaw) : [];
     list.unshift(agent);
-    localStorage.setItem('ordinal_submitted_agents', JSON.stringify(list));
-    window.dispatchEvent(new CustomEvent('ordinal_db_updated', { detail: agent }));
+    localStorage.setItem('forges_submitted_agents', JSON.stringify(list));
+    window.dispatchEvent(new CustomEvent('forges_db_updated', { detail: agent }));
   } catch (e) {
     console.error('Failed to save agent to client database:', e);
   }

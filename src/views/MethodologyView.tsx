@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { OrdinalNavbar } from '../components/OrdinalNavbar';
+import { ForgesNavbar } from '../components/OrdinalNavbar';
 
 interface MethodologyViewProps {
   onNavigate?: (path: string) => void;
@@ -19,8 +19,8 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({ onNavigate }) 
   };
 
   return (
-    <div className="ordinal-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
-      <OrdinalNavbar currentPath="/methodology" onNavigate={navigateTo} />
+    <div className="forges-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
+      <ForgesNavbar currentPath="/methodology" onNavigate={navigateTo} />
 
       {/* Ticker Band */}
       <div className="ticker-band" style={{ marginTop: '76px' }}>

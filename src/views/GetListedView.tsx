@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { OrdinalNavbar } from '../components/OrdinalNavbar';
+import { ForgesNavbar } from '../components/OrdinalNavbar';
 import { saveAgentToClientDatabase, type AgentEntity } from '../data/agentDatabase';
 
 interface GetListedViewProps {
@@ -143,8 +143,8 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
   const stars = compScore >= 90 ? '★★★' : compScore >= 80 ? '★★' : compScore >= 70 ? '★' : 'Unrated';
 
   return (
-    <div className="ordinal-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
-      <OrdinalNavbar currentPath="/apply" onNavigate={navigateTo} />
+    <div className="forges-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
+      <ForgesNavbar currentPath="/apply" onNavigate={navigateTo} />
 
       <div className="ticker-band" style={{ marginTop: '76px' }}>
         <div className="ticker-track">

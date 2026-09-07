@@ -120,7 +120,7 @@ export class AgentsService {
 
   async submitAgent(dto: SubmitAgentDto) {
     const message = `Submit agent: ${dto.name} by ${dto.submitterWallet}`;
-    const isAutoOrMock = !dto.signature || dto.signature.startsWith('0x_forges_') || dto.signature.startsWith('0x_ordinal_') || dto.signature.startsWith('0x_test') || dto.signature.startsWith('mock_');
+    const isAutoOrMock = !dto.signature || dto.signature.startsWith('0x_forges_') || dto.signature.startsWith('0x_test') || dto.signature.startsWith('mock_');
     if (!isAutoOrMock) {
       if (dto.submitterWallet.startsWith('0x')) {
         try {

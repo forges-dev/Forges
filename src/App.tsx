@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { getFullAgentDatabase, fetchLiveAgentDatabase, type AgentEntity } from './data/agentDatabase';
-import { OrdinalNavbar } from './components/OrdinalNavbar';
+import { ForgesNavbar } from './components/OrdinalNavbar';
 import { AgentCardImage } from './components/AgentAvatar';
 import { AgentDossierModal } from './components/AgentDossierModal';
 
@@ -102,9 +102,9 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
   }, [allAgents]);
 
   return (
-    <div className="ordinal-app">
+    <div className="forges-app">
       {/* Masthead */}
-      <OrdinalNavbar currentPath="/" onNavigate={navigateTo} />
+      <ForgesNavbar currentPath="/" onNavigate={navigateTo} />
 
       <main id="page-home">
         {/* Hero Section */}
