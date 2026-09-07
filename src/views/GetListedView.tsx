@@ -388,12 +388,6 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
               <button onClick={() => navigateTo('/qualified')}>Qualified Volume</button>
               <button onClick={() => navigateTo('/methodology')}>Methodology</button>
             </div>
-            <div className="footer-col">
-              <h4>Legal</h4>
-              <button onClick={() => navigateTo('/methodology')}>Audit Rubric</button>
-              <button onClick={() => navigateTo('/')}>Terms of Service</button>
-              <button onClick={() => navigateTo('/')}>Privacy Policy</button>
-            </div>
           </div>
           <div className="footer-bottom">
             <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>

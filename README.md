@@ -1,6 +1,6 @@
 <div align="center">
 
-![FORGES Banner](./public/ordo-banner.png)
+![FORGES Banner](./public/banner-forges2.jpeg)
 
 # FORGES
 
@@ -16,7 +16,7 @@
 [![Animations](https://img.shields.io/badge/Animations-Framer%20Motion%2012-FF4081?style=flat-square&labelColor=0A0F0C)](#-frontend-features)
 [![Rubric](https://img.shields.io/badge/Rubric-Forbes%20Standard-E0A82E?style=flat-square&labelColor=0A0F0C)](#-the-forges-key-rubric)
 [![X (Twitter)](https://img.shields.io/badge/X-@ForgesAgentsX-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/ForgesAgentsX)
-[![GitHub](https://img.shields.io/badge/GitHub-KingofSpades--dev/FORGES-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/KingofSpades-dev/FORGES)
+[![GitHub](https://img.shields.io/badge/GitHub-forges--dev/Forges-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/forges-dev/Forges)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square&labelColor=0A0F0C)](#-license)
 
 </div>
@@ -164,7 +164,7 @@ Score: < 65      ──►  ⚪     0 Keys   (Registered Only)
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/KingofSpades-dev/FORGES.git
+   git clone https://github.com/forges-dev/Forges.git
    cd FORGES
    ```
 

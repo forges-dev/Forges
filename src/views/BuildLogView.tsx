@@ -299,12 +299,6 @@ export const BuildLogView: React.FC<BuildLogViewProps> = ({ onNavigate, defaultT
               <button onClick={() => onNavigate('/log')}>Qualified Volume</button>
               <button onClick={() => onNavigate('/methodology')}>Methodology</button>
             </div>
-            <div className="footer-col">
-              <h4>Legal</h4>
-              <button onClick={() => onNavigate('/methodology')}>Audit Rubric</button>
-              <button onClick={() => onNavigate('/')}>Terms of Service</button>
-              <button onClick={() => onNavigate('/')}>Privacy Policy</button>
-            </div>
           </div>
           <div className="footer-bottom">
             <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>
