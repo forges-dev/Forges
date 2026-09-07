@@ -71,13 +71,13 @@ const CountdownScreen = ({ processAfter, onComplete }: { processAfter: string; o
       </div>
 
       <p style={{ color: 'var(--ink-soft)', maxWidth: '520px', fontSize: '15px', lineHeight: 1.6, margin: 0 }}>
-        Ordinal nodes are compiling off-chain reputation snapshots and validating smart contract telemetry. Your final rating and secure badge will be unlocked when the verification cooldown expires.
+        FORGES nodes are compiling off-chain reputation snapshots and validating smart contract telemetry. Your final rating and secure badge will be unlocked when the verification cooldown expires.
       </p>
 
       <div style={{ background: 'rgba(226, 193, 124, 0.1)', border: '1px dashed var(--brass)', borderRadius: '8px', padding: '16px 24px', maxWidth: '500px', marginTop: '12px' }}>
         <h4 style={{ color: 'var(--brass)', fontSize: '14px', fontWeight: 900, margin: '0 0 6px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>🚀 Speed Up Rating Queue</h4>
         <p style={{ color: 'var(--ink-soft)', fontSize: '13px', lineHeight: 1.5, margin: '0 0 12px 0' }}>
-          Want to skip the queue? Hold at least <b>50,000 $ORDINAL</b> in your wallet for <b>instant rating</b>!
+          Want to skip the queue? Hold at least <b>50,000 $FORGES</b> in your wallet for <b>instant rating</b>!
         </p>
         <a
           href="https://pump.fun/coin/3x3JGdcSj1zjuqV9doa657QRVrDUMxjwRN5baxSGpump"
@@ -97,7 +97,7 @@ const CountdownScreen = ({ processAfter, onComplete }: { processAfter: string; o
           onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
           onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
         >
-          Buy $ORDINAL
+          Buy $FORGES
         </a>
       </div>
     </div>
@@ -1324,7 +1324,7 @@ export default function RatingAgents() {
                       <div className="spinner"></div>
                       <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: '28px', color: 'var(--brass)', margin: 0 }}>Scanning &amp; Ingesting Agent Telemetry...</h3>
                       <p style={{ color: 'var(--ink-soft)', maxWidth: '520px', fontSize: '15px', lineHeight: 1.6, margin: 0 }}>
-                        The Ordo reputation nodes are currently verifying contract signatures, ingesting off-chain GitHub code metrics, and pulling live Solana smart contract balances. Please wait while the analysis compiles.
+                        The FORGES reputation nodes are currently verifying contract signatures, ingesting off-chain GitHub code metrics, and pulling live Solana smart contract balances. Please wait while the analysis compiles.
                       </p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px', fontSize: '13px', color: 'var(--ink-faint)', fontWeight: 700, marginTop: '12px' }}>
                         <span style={{ color: selectedAgent.status === 'submitted' ? 'var(--accent)' : 'var(--ink-soft)' }}>1. Signature Verified ✓</span>
@@ -1359,7 +1359,7 @@ export default function RatingAgents() {
 
                 const starsCount = scoreObj && typeof scoreObj.starsCount === 'number' ? scoreObj.starsCount : 0;
                 const starLabel = scoreObj && scoreObj.starLabel ? scoreObj.starLabel : "Unrated";
-                const starDesc = scoreObj && scoreObj.starDesc ? scoreObj.starDesc : "Below Ordo rating threshold.";
+                const starDesc = scoreObj && scoreObj.starDesc ? scoreObj.starDesc : "Below FORGES rating threshold.";
 
                 return (
                   <>
@@ -1547,7 +1547,7 @@ export default function RatingAgents() {
                           />
                         </svg>
                         <div className="radial-center-text">
-                          <span className="lbl">ORDO SCORE</span>
+                          <span className="lbl">FORGES SCORE</span>
                           <span className="num">{displayScore}</span>
                           <span className="of">/100</span>
                         </div>
@@ -1825,10 +1825,10 @@ export default function RatingAgents() {
               </div>
               <div className="foot-col">
                 <h5>Community</h5>
-                <a href="https://x.com/OrdinalAgentsX" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <a href="https://x.com/ForgesAgentsX" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                   <XLogoIcon size={13} /> Official X
                 </a>
-                <a href="https://github.com/KingofSpades-dev/Ordinal" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <a href="https://github.com/KingofSpades-dev/FORGES" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                   <GitHubLogoIcon size={13} /> GitHub
                 </a>
                 <a href="/methodology">Methodology</a>
@@ -1837,7 +1837,7 @@ export default function RatingAgents() {
             </div>
           </div>
           <div className="foot-bottom">
-            <p>© 2026 Ordo</p>
+            <p>© 2026 FORGES</p>
             <p>Independent · Unbuyable · Dated</p>
           </div>
         </div>

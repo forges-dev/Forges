@@ -84,7 +84,7 @@ export class ScoringService {
       confidence = 0.0;
       keysCount = 0;
       keyLabel = 'Registered, unrated';
-      keyDesc = 'Insufficient evidence to produce an ORDO Key rating.';
+      keyDesc = 'Insufficient evidence to produce a FORGES Key rating.';
     } else {
       // Task 1.3 Michelin Standards: 3 Keys >= 90, 2 Keys >= 80, 1 Key >= 65, Registered < 65
       // Guardrail Constraint: If no audit or risky admin keys, max allowed keys is 1
@@ -93,7 +93,7 @@ export class ScoringService {
       keysCount = Math.min(computedKeys, maxKeysBySecurity);
 
       keyLabel = keysCount === 3 ? "Three Keys: Benchmark" : keysCount === 2 ? "Two Keys: Exemplary" : keysCount === 1 ? "One Key: Notable" : "Registered, unrated";
-      keyDesc = keysCount === 3 ? "A category-defining agent. The benchmark against which others are measured." : keysCount === 2 ? "Exemplary agent execution and verifiable security posture." : keysCount === 1 ? "A notable agent with verified utility and baseline posture." : "Registered agent in ORDO directory; unrated or below key award threshold.";
+      keyDesc = keysCount === 3 ? "A category-defining agent. The benchmark against which others are measured." : keysCount === 2 ? "Exemplary agent execution and verifiable security posture." : keysCount === 1 ? "A notable agent with verified utility and baseline posture." : "Registered agent in FORGES directory; unrated or below key award threshold.";
     }
 
     console.log(`[SCAN PIPELINE - STEP 3] Michelin Rubric v0.1 Calculation for "${agent.name}":`);

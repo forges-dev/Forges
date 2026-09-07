@@ -23,15 +23,12 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
   const [submissionRef, setSubmissionRef] = useState<string>('');
 
   useEffect(() => {
-    // Check if there was a previous draft in localStorage
     try {
-      const draft = localStorage.getItem('ordinal_getlisted_draft');
+      const draft = localStorage.getItem('forges_getlisted_draft');
       if (draft) {
         setFormData(JSON.parse(draft));
       }
-    } catch (e) {
-      // ignore
-    }
+    } catch (e) {}
   }, []);
 
   const navigateTo = (path: string) => {
@@ -49,10 +46,8 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
     const updated = { ...formData, [field]: value };
     setFormData(updated);
     try {
-      localStorage.setItem('ordinal_getlisted_draft', JSON.stringify(updated));
-    } catch (e) {
-      // ignore
-    }
+      localStorage.setItem('forges_getlisted_draft', JSON.stringify(updated));
+    } catch (e) {}
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -63,18 +58,15 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
     }
 
     setIsSubmitting(true);
-
-    const refId = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+    const refId = 'FORGES-' + Math.floor(100000 + Math.random() * 900000);
     setSubmissionRef(refId);
 
-    // Calculate live provisional score
     const discScore = formData.docsUrl && formData.website ? 94 : formData.website ? 75 : 50;
     const consScore = formData.contract ? 89 : 60;
     const incScore = 85;
     const indScore = formData.githubUrl && formData.githubUrl.trim() !== '' && formData.githubUrl !== 'N/A' ? 92 : 68;
     const compScore = parseFloat((discScore * 0.3 + consScore * 0.35 + incScore * 0.2 + indScore * 0.15).toFixed(1));
 
-    // Create and save to local persistent database
     const newAgent: AgentEntity = {
       id: 'agent-' + Date.now(),
       rank: 'NEW',
@@ -103,47 +95,28 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
       consistencyScore: consScore,
       incidentScore: incScore,
       independenceScore: indScore,
-      verdict: `Registered cohort agent verified via ${formData.chain} contract telemetry.`
+      verdict: `Provisional evaluation index for ${formData.agentName}.`
     };
 
-    saveAgentToClientDatabase(newAgent);
-
-    // Save submitted record to localStorage for audit history
     try {
-      const existing = JSON.parse(localStorage.getItem('ordinal_submissions') || '[]');
-      existing.unshift({
-        refId,
-        submittedAt: new Date().toISOString(),
-        ...formData
-      });
-      localStorage.setItem('ordinal_submissions', JSON.stringify(existing));
-      localStorage.removeItem('ordinal_getlisted_draft');
-    } catch (err) {
-      // ignore
-    }
-
-    // Call Backend API
-    try {
-      const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3001').replace(/\/+$/, '');
-      await fetch(`${API_URL}/api/v1/agents/submit`, {
+      await fetch((import.meta.env.VITE_API_URL || 'http://localhost:3001') + '/api/v1/agents/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.agentName,
           category: formData.category.toLowerCase(),
-          contractAddresses: [formData.contract],
-          chains: [formData.chain.toLowerCase()],
+          contractAddresses: formData.contract,
+          chains: formData.chain.toLowerCase(),
           website: formData.website,
-          docsUrl: formData.docsUrl ? formData.docsUrl : undefined,
-          githubUrl: formData.githubUrl || undefined,
-          launchDate: new Date().toISOString(),
-          submitterWallet: formData.contract,
-          signature: '0x_ordinal_auto_verification'
+          docsUrl: formData.docsUrl || formData.website,
+          githubUrl: formData.githubUrl || 'N/A',
+          selectionRationale: formData.description || `Nominated AI agent for Class of 2026.`,
+          submittedBy: 'user_nomination'
         })
       });
-    } catch (e) {
-      // Proceed gracefully
-    }
+    } catch (err) {}
+
+    saveAgentToClientDatabase(newAgent);
 
     setTimeout(() => {
       setIsSubmitting(false);
@@ -161,7 +134,6 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
     }, 600);
   };
 
-  // Live rating calculation
   const discScore = formData.docsUrl && formData.website ? 94 : formData.website ? 75 : 50;
   const consScore = formData.contract ? 89 : 60;
   const incScore = 85;
@@ -169,270 +141,263 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
   const compScore = discScore * 0.3 + consScore * 0.35 + incScore * 0.2 + indScore * 0.15;
   const hasInput = Boolean(formData.agentName && formData.contract);
   const stars = compScore >= 90 ? '★★★' : compScore >= 80 ? '★★' : compScore >= 70 ? '★' : 'Unrated';
-  const tier = compScore >= 85 ? 'Verified Tier 1' : compScore >= 70 ? 'Registered Cohort' : 'Watchlist / Review';
 
   return (
-    <div className="ordinal-app">
+    <div className="ordinal-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
       <OrdinalNavbar currentPath="/apply" onNavigate={navigateTo} />
 
-      <div className="ticker-band">
+      <div className="ticker-band" style={{ marginTop: '76px' }}>
         <div className="ticker-track">
-          <span>GET LISTED · SUBMIT AGENT FOR EVALUATION · LIVE TELEMETRY SCAN & PROVISIONAL RATING</span>
-          <span>GET LISTED · SUBMIT AGENT FOR EVALUATION · LIVE TELEMETRY SCAN & PROVISIONAL RATING</span>
+          <span>FORGES 30 UNDER 30 · NOMINATE AN AGENT · EVALUATION PIPELINE · LIVE DIAGNOSTICS</span>
+          <span>FORGES 30 UNDER 30 · NOMINATE AN AGENT · EVALUATION PIPELINE · LIVE DIAGNOSTICS</span>
         </div>
       </div>
 
-      <main className="wrap" style={{ padding: '44px 28px 80px' }}>
-        <div className="page-head" style={{ padding: 0, border: 'none', marginBottom: '40px' }}>
-          <div className="kicker">Ordinal Evaluation Pipeline</div>
+      <main style={{ padding: '60px 0 100px' }}>
+        <div className="container">
+          <div className="kicker">07 / EVALUATION PIPELINE · NOMINATIONS</div>
           <motion.h1
-            className="headline"
-            style={{ fontSize: 'clamp(2.2rem, 5vw, 3.4rem)' }}
+            style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 900, letterSpacing: '-0.04em', margin: '12px 0 20px', color: 'var(--white)' }}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Get Listed
+            Nominate an Agent for <span className="gradient-text">Class of 2026</span>
           </motion.h1>
-          <p className="dek" style={{ fontSize: '1.15rem', maxWidth: '760px', marginTop: '16px' }}>
-            Submit an autonomous agent for review, run instant telemetry diagnostics, and calculate provisional reputation scores across 4 weighted audit criteria.
+          <p className="lead" style={{ maxWidth: '720px', fontSize: '16.5px', color: 'var(--gray-text)', marginBottom: '40px' }}>
+            Submit an autonomous AI agent for audit review, run instant telemetry diagnostics, and calculate provisional reputation scores across 4 weighted criteria.
           </p>
-        </div>
 
-        <div className="apply-grid">
-          <div className="apply-form-container">
-            <form className="apply-form" onSubmit={handleFormSubmit}>
-              <AnimatePresence>
-                {formSubmitted && (
-                  <motion.div
-                    className="alert-success"
-                    style={{ borderLeft: '4px solid #2E7D32', padding: '18px 20px' }}
-                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <div style={{ fontWeight: 700, marginBottom: '6px', fontSize: '0.95rem' }}>
-                      ✓ Submission & Rating Benchmark Recorded!
-                    </div>
-                    <div style={{ color: '#1B5E20', fontSize: '0.82rem', lineHeight: '1.6' }}>
-                      Reference ID: <b>{submissionRef}</b>. The Ordinal Research Desk has indexed your contract telemetry for verification and queued it for the rolling 30-day index.
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '40px' }}>
+            {/* Nomination Form */}
+            <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '24px', padding: '36px' }}>
+              <form onSubmit={handleFormSubmit}>
+                <AnimatePresence>
+                  {formSubmitted && (
+                    <motion.div
+                      style={{ background: 'rgba(215, 249, 0, 0.1)', borderLeft: '4px solid var(--lime)', padding: '20px', borderRadius: '12px', marginBottom: '24px' }}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <div style={{ fontWeight: 900, color: 'var(--lime)', fontSize: '16px', marginBottom: '4px' }}>
+                        ✓ Nomination & Telemetry Diagnostics Recorded!
+                      </div>
+                      <div style={{ color: 'var(--gray-text)', fontSize: '13px', lineHeight: 1.6 }}>
+                        Reference ID: <b>{submissionRef}</b>. The FORGES Research Desk has indexed your contract telemetry and queued it for evaluation.
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-              <div className="field">
-                <label>Agent Name *</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Cipherworks"
-                  value={formData.agentName}
-                  onChange={(e) => handleFieldChange('agentName', e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-row-2col">
-                <div className="field">
-                  <label>Primary Chain *</label>
-                  <select
-                    value={formData.chain}
-                    onChange={(e) => handleFieldChange('chain', e.target.value)}
-                  >
-                    <option>Ethereum</option>
-                    <option>Solana</option>
-                    <option>Base</option>
-                    <option>Arbitrum</option>
-                    <option>Polygon</option>
-                    <option>BNB Chain</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-
-                <div className="field">
-                  <label>Category *</label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => handleFieldChange('category', e.target.value)}
-                  >
-                    <option>Market Making</option>
-                    <option>Treasury Management</option>
-                    <option>Yield Strategy</option>
-                    <option>Arbitrage</option>
-                    <option>Copy Trading</option>
-                    <option>Lending</option>
-                    <option>Developer</option>
-                    <option>Security</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="field">
-                <label>Smart Contract / Wallet Address *</label>
-                <input
-                  type="text"
-                  placeholder="0x... or Solana Base58"
-                  value={formData.contract}
-                  onChange={(e) => handleFieldChange('contract', e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-row-2col">
-                <div className="field">
-                  <label>Official Website URL *</label>
+                <div style={{ marginBottom: '20px' }}>
+                  <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
+                    Agent Name *
+                  </label>
                   <input
                     type="text"
-                    placeholder="https://..."
-                    value={formData.website}
-                    onChange={(e) => handleFieldChange('website', e.target.value)}
+                    placeholder="e.g. Cipherworks"
+                    value={formData.agentName}
+                    onChange={(e) => handleFieldChange('agentName', e.target.value)}
                     required
                   />
                 </div>
 
-                <div className="field">
-                  <label>Documentation URL (Docs)</label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                  <div>
+                    <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
+                      Primary Chain *
+                    </label>
+                    <select
+                      value={formData.chain}
+                      onChange={(e) => handleFieldChange('chain', e.target.value)}
+                    >
+                      <option>Ethereum</option>
+                      <option>Solana</option>
+                      <option>Base</option>
+                      <option>Arbitrum</option>
+                      <option>Polygon</option>
+                      <option>BNB Chain</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
+                      Category *
+                    </label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => handleFieldChange('category', e.target.value)}
+                    >
+                      <option>Market Making</option>
+                      <option>Treasury Management</option>
+                      <option>Yield Strategy</option>
+                      <option>Arbitrage</option>
+                      <option>Copy Trading</option>
+                      <option>Lending</option>
+                      <option>Developer</option>
+                      <option>Security</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: '20px' }}>
+                  <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
+                    Smart Contract / Wallet Address *
+                  </label>
                   <input
                     type="text"
-                    placeholder="https://docs... or N/A"
-                    value={formData.docsUrl}
-                    onChange={(e) => handleFieldChange('docsUrl', e.target.value)}
+                    placeholder="0x... or Solana Base58"
+                    value={formData.contract}
+                    onChange={(e) => handleFieldChange('contract', e.target.value)}
+                    required
                   />
                 </div>
-              </div>
 
-              <div className="field">
-                <label>GitHub Repository URL</label>
-                <input
-                  type="text"
-                  placeholder="https://github.com/... or N/A if closed-source"
-                  value={formData.githubUrl}
-                  onChange={(e) => handleFieldChange('githubUrl', e.target.value)}
-                />
-              </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                  <div>
+                    <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
+                      Official Website URL *
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="https://..."
+                      value={formData.website}
+                      onChange={(e) => handleFieldChange('website', e.target.value)}
+                      required
+                    />
+                  </div>
 
-              <div className="field">
-                <label>Describe Strategy, Custody Model & Admin Key Controls</label>
-                <textarea
-                  placeholder="How does the agent make decisions? Who holds signing keys, and what timelocks or multisigs protect user funds?"
-                  value={formData.description}
-                  onChange={(e) => handleFieldChange('description', e.target.value)}
-                ></textarea>
-              </div>
+                  <div>
+                    <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
+                      Documentation URL (Docs)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="https://docs..."
+                      value={formData.docsUrl}
+                      onChange={(e) => handleFieldChange('docsUrl', e.target.value)}
+                    />
+                  </div>
+                </div>
 
-              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginTop: '8px' }}>
+                <div style={{ marginBottom: '20px' }}>
+                  <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
+                    GitHub Repository URL
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="https://github.com/..."
+                    value={formData.githubUrl}
+                    onChange={(e) => handleFieldChange('githubUrl', e.target.value)}
+                  />
+                </div>
+
+                <div style={{ marginBottom: '24px' }}>
+                  <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
+                    Strategy, Custody Model & Security Controls
+                  </label>
+                  <textarea
+                    rows={4}
+                    placeholder="How does the agent execute decisions? Who holds signing keys, and what timelocks or multisigs protect user funds?"
+                    value={formData.description}
+                    onChange={(e) => handleFieldChange('description', e.target.value)}
+                  ></textarea>
+                </div>
+
                 <button
                   type="submit"
-                  className="submit-btn"
-                  style={{ margin: 0 }}
+                  className="btn btn-pink"
+                  style={{ width: '100%', padding: '16px' }}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Verifying & Recording...' : 'Submit for Official Audit'}
+                  {isSubmitting ? 'Ingesting & Diagnostics...' : 'Submit for Class of 2026 Audit →'}
                 </button>
-              </div>
-            </form>
-
-            {/* Live Rating Diagnostic Simulation */}
-            <div style={{ marginTop: '36px', border: '1px solid var(--ink)', padding: '24px', background: 'var(--paper-dim)' }}>
-              <div className="kicker" style={{ marginBottom: '8px' }}>Live Rating Engine Diagnostics</div>
-              <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: '1.3rem', margin: '0 0 14px 0' }}>
-                Provisional Rating Simulator
-              </h3>
-
-              <div className="diag-stats-grid">
-                <div style={{ background: 'var(--paper)', border: '1px solid var(--rule)', padding: '12px' }}>
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.66rem', color: 'var(--ink-soft)', textTransform: 'uppercase' }}>
-                    Estimated Score
-                  </div>
-                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: '1.8rem', fontWeight: 700, color: 'var(--crimson)' }}>
-                    {hasInput ? compScore.toFixed(1) : '-'}
-                  </div>
-                </div>
-                <div style={{ background: 'var(--paper)', border: '1px solid var(--rule)', padding: '12px' }}>
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.66rem', color: 'var(--ink-soft)', textTransform: 'uppercase' }}>
-                    Key Award
-                  </div>
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '1.5rem', fontWeight: 700, color: 'var(--brass)' }}>
-                    {hasInput ? stars : '-'}
-                  </div>
-                </div>
-                <div style={{ background: 'var(--paper)', border: '1px solid var(--rule)', padding: '12px' }}>
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.66rem', color: 'var(--ink-soft)', textTransform: 'uppercase' }}>
-                    Tier Level
-                  </div>
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.82rem', fontWeight: 600, marginTop: '8px' }}>
-                    {hasInput ? tier : 'Pending Input'}
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.74rem', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Disclosure Completeness (30% - Docs & Site):</span>
-                  <b>{hasInput ? `${discScore}/100` : '-'}</b>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>On-Chain Consistency (35% - Contract Telemetry):</span>
-                  <b>{hasInput ? `${consScore}/100` : '-'}</b>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Incident Response (20% - Security Audit & Keys):</span>
-                  <b>{hasInput ? `${incScore}/100` : '-'}</b>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Code Independence (15% - GitHub Source):</span>
-                  <b>{hasInput ? `${indScore}/100` : '-'}</b>
-                </div>
-              </div>
+              </form>
             </div>
-          </div>
 
-          <div className="apply-notes">
-            <h3>Submission & Rating Standards</h3>
-            <p>
-              Ordinal evaluates agents on verifiable code and on-chain telemetry, not promotional claims.
-            </p>
-            <ul>
-              <li><b>30 Days On-Chain Activity:</b> Must have live transaction records on target network.</li>
-              <li><b>Custody & Key Transparency:</b> Clear disclosure of multisig signers and timelocks.</li>
-              <li><b>Zero Fee Listing:</b> No paid listing or score inflation accepted.</li>
-              <li><b>Provisional 60-Day Badge:</b> Initial rating is evaluated continuously.</li>
-            </ul>
+            {/* Diagnostic Card */}
+            <div>
+              <div className="rating-box">
+                <div style={{ color: 'var(--lime)', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                  PROVISIONAL RATING SIMULATOR
+                </div>
+                <div className="stars">{hasInput ? stars : '☆☆☆'}</div>
+                <div className="score">
+                  {hasInput ? compScore.toFixed(1) : '-'} <small>/ 10</small>
+                </div>
 
-            <div style={{ marginTop: '24px', border: '1px dashed var(--brass)', padding: '18px', background: 'var(--brass-soft)' }}>
-              <h4 style={{ fontFamily: "'Fraunces', serif", margin: '0 0 6px 0', fontSize: '1.05rem', color: 'var(--brass)' }}>
-                Priority Evaluation Queue
-              </h4>
-              <p style={{ fontSize: '0.86rem', lineHeight: '1.5', margin: '0 0 10px 0', color: 'var(--ink-soft)' }}>
-                Need expedited review? Wallets holding $ORDINAL are routed to the priority telemetry worker node for immediate evaluation.
-              </p>
-              <a
-                href="https://pump.fun/coin/3x3JGdcSj1zjuqV9doa657QRVrDUMxjwRN5baxSGpump"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn"
-                style={{
-                  display: 'inline-block',
-                  padding: '8px 16px',
-                  fontSize: '0.68rem',
-                  background: 'var(--brass)',
-                  borderColor: 'var(--brass)',
-                  color: '#fff'
-                }}
-              >
-                $ORDINAL Access Portal
-              </a>
+                <div className="metric">
+                  <div className="metric-row">
+                    <span>Disclosure Completeness</span>
+                    <b>{discScore} / 100</b>
+                  </div>
+                  <div className="bar"><i style={{ width: `${discScore}%` }}></i></div>
+                </div>
+
+                <div className="metric">
+                  <div className="metric-row">
+                    <span>On-Chain Consistency</span>
+                    <b>{consScore} / 100</b>
+                  </div>
+                  <div className="bar"><i style={{ width: `${consScore}%` }}></i></div>
+                </div>
+
+                <div className="metric">
+                  <div className="metric-row">
+                    <span>Incident Response</span>
+                    <b>{incScore} / 100</b>
+                  </div>
+                  <div className="bar"><i style={{ width: `${incScore}%` }}></i></div>
+                </div>
+
+                <div className="metric">
+                  <div className="metric-row">
+                    <span>Code Independence</span>
+                    <b>{indScore} / 100</b>
+                  </div>
+                  <div className="bar"><i style={{ width: `${indScore}%` }}></i></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </main>
 
+      {/* Footer */}
       <footer>
-        <div className="wrap">
-          <div className="foot-row">
-            <span>Ordinal: The Web3 AI Agent Index</span>
-            <span>Independent Editorial Desk</span>
-            <span>ordinal30.com</span>
+        <div className="container">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <div className="logo" onClick={() => navigateTo('/')}>
+                <span className="logo-mark"></span>
+                <span>FORGES 30</span>
+              </div>
+              <p>The independent intelligence wall & Forbes 30 Under 30 index for autonomous AI agents. Profile. Verify. Remember.</p>
+            </div>
+            <div className="footer-col">
+              <h4>Explore</h4>
+              <button onClick={() => navigateTo('/')}>The 30 List</button>
+              <button onClick={() => navigateTo('/rankings')}>Rankings</button>
+              <button onClick={() => navigateTo('/log')}>Build Log</button>
+            </div>
+            <div className="footer-col">
+              <h4>Network</h4>
+              <button onClick={() => navigateTo('/apply')}>Nominate Agent</button>
+              <button onClick={() => navigateTo('/qualified')}>Qualified Volume</button>
+              <button onClick={() => navigateTo('/methodology')}>Methodology</button>
+            </div>
+            <div className="footer-col">
+              <h4>Legal</h4>
+              <button onClick={() => navigateTo('/methodology')}>Audit Rubric</button>
+              <button onClick={() => navigateTo('/')}>Terms of Service</button>
+              <button onClick={() => navigateTo('/')}>Privacy Policy</button>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>
+            <span>Hoodopus Lime Color Palette.</span>
           </div>
         </div>
       </footer>

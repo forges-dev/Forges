@@ -15,76 +15,83 @@ interface AgentAvatarProps {
 
 // Curated high-res Web3 logos for established networks & agents
 const KNOWN_AGENT_LOGOS: Record<string, string> = {
+  'cipherworks': 'https://www.google.com/s2/favicons?domain=cipherworks.ai&sz=128',
+  'clanker-tokenbot': 'https://assets.coingecko.com/coins/images/51860/standard/clanker.png',
+  'clanker': 'https://assets.coingecko.com/coins/images/51860/standard/clanker.png',
+  'clanker (tokenbot)': 'https://assets.coingecko.com/coins/images/51860/standard/clanker.png',
+  'nosana': 'https://assets.coingecko.com/coins/images/22564/standard/nosana.png',
+  'nosana (nos)': 'https://assets.coingecko.com/coins/images/22564/standard/nosana.png',
+  'myshell': 'https://assets.coingecko.com/coins/images/34947/standard/myshell.png',
+  'myshell (shell)': 'https://assets.coingecko.com/coins/images/34947/standard/myshell.png',
   'bittensor': 'https://assets.coingecko.com/coins/images/29854/standard/bittensor-logo-clean-200.png',
   'bittensor (tao)': 'https://assets.coingecko.com/coins/images/29854/standard/bittensor-logo-clean-200.png',
   'fetch-ai': 'https://assets.coingecko.com/coins/images/5681/standard/Fetch.jpg',
+  'fetch.ai': 'https://assets.coingecko.com/coins/images/5681/standard/Fetch.jpg',
   'fetch.ai (fet)': 'https://assets.coingecko.com/coins/images/5681/standard/Fetch.jpg',
+  'agent-zero': 'https://raw.githubusercontent.com/agent0ai/agent-zero/main/docs/logo.png',
+  'agent zero': 'https://raw.githubusercontent.com/agent0ai/agent-zero/main/docs/logo.png',
+  'agent zero (a0t)': 'https://raw.githubusercontent.com/agent0ai/agent-zero/main/docs/logo.png',
+  'elizaos': 'https://raw.githubusercontent.com/elizaOS/eliza/main/packages/client-twitter/assets/logo.png',
   'virtuals-protocol': 'https://assets.coingecko.com/coins/images/33077/standard/virtuals.png',
   'virtuals protocol': 'https://assets.coingecko.com/coins/images/33077/standard/virtuals.png',
-  'autonolas': 'https://assets.coingecko.com/coins/images/31034/standard/olas.png',
-  'autonolas (olas)': 'https://assets.coingecko.com/coins/images/31034/standard/olas.png',
-  'nosana': 'https://assets.coingecko.com/coins/images/22564/standard/nosana.png',
-  'nosana (nos)': 'https://assets.coingecko.com/coins/images/22564/standard/nosana.png',
-  'zerebro': 'https://assets.coingecko.com/coins/images/51015/standard/zerebro.png',
-  'aixbt': 'https://assets.coingecko.com/coins/images/51761/standard/aixbt.jpg',
-  'elizaos': 'https://raw.githubusercontent.com/elizaOS/eliza/main/packages/client-twitter/assets/logo.png',
-  'paal-ai': 'https://assets.coingecko.com/coins/images/30748/standard/Paal.png',
-  'paal ai': 'https://assets.coingecko.com/coins/images/30748/standard/Paal.png',
   'chaingpt': 'https://assets.coingecko.com/coins/images/29729/standard/ChainGPT_Logo.png',
   'chaingpt (cgpt)': 'https://assets.coingecko.com/coins/images/29729/standard/ChainGPT_Logo.png',
-  'truth-terminal': 'https://assets.coingecko.com/coins/images/50787/standard/goat.jpg',
-  'truth terminal': 'https://assets.coingecko.com/coins/images/50787/standard/goat.jpg',
-  'myshell': 'https://assets.coingecko.com/coins/images/34947/standard/myshell.png',
-  'myshell (shell)': 'https://assets.coingecko.com/coins/images/34947/standard/myshell.png',
-  'heurist': 'https://assets.coingecko.com/coins/images/38600/standard/heurist.jpg',
-  'heurist (heu)': 'https://assets.coingecko.com/coins/images/38600/standard/heurist.jpg',
+  'moltbook': 'https://avatars.githubusercontent.com/u/190847983?v=4',
   'pippin-agent': 'https://assets.coingecko.com/coins/images/51493/standard/pippin.png',
   'pippin': 'https://assets.coingecko.com/coins/images/51493/standard/pippin.png',
-  'griffain': 'https://assets.coingecko.com/coins/images/52077/standard/griffain.jpg',
+  'paal-ai': 'https://assets.coingecko.com/coins/images/30748/standard/Paal.png',
+  'paal ai': 'https://assets.coingecko.com/coins/images/30748/standard/Paal.png',
+  'bankr': 'https://bankr.bot/favicon.ico',
+  'bankr (bnkr)': 'https://bankr.bot/favicon.ico',
+  'heurist': 'https://assets.coingecko.com/coins/images/38600/standard/heurist.jpg',
+  'heurist (heu)': 'https://assets.coingecko.com/coins/images/38600/standard/heurist.jpg',
+  'solana-agent-kit': 'https://raw.githubusercontent.com/sendaifun/solana-agent-kit/main/logo.png',
+  'solana agent kit': 'https://raw.githubusercontent.com/sendaifun/solana-agent-kit/main/logo.png',
+  'talus-network': 'https://talus.network/favicon.ico',
+  'talus network': 'https://talus.network/favicon.ico',
+  'wayfinder': 'https://wayfinder.ai/favicon.ico',
+  'wayfinder (prompt)': 'https://wayfinder.ai/favicon.ico',
   'almanak': 'https://assets.coingecko.com/coins/images/35000/standard/almanak.png',
+  'theoriq': 'https://theoriq.ai/favicon.ico',
+  'theoriq (thq)': 'https://theoriq.ai/favicon.ico',
+  'sentient': 'https://sentient.xyz/favicon.ico',
+  'sentient (sent)': 'https://sentient.xyz/favicon.ico',
+  'chaos-labs': 'https://chaoslabs.xyz/favicon.ico',
+  'chaos labs': 'https://chaoslabs.xyz/favicon.ico',
+  'chaos labs (chaos)': 'https://chaoslabs.xyz/favicon.ico',
+  'freysa': 'https://freysa.ai/favicon.ico',
+  'freysa (fai)': 'https://freysa.ai/favicon.ico',
+  'autonolas': 'https://assets.coingecko.com/coins/images/31034/standard/olas.png',
+  'autonolas (olas)': 'https://assets.coingecko.com/coins/images/31034/standard/olas.png',
   '0g-labs': 'https://assets.coingecko.com/coins/images/36000/standard/0g.png',
+  '0g labs': 'https://assets.coingecko.com/coins/images/36000/standard/0g.png',
+  '0g': 'https://assets.coingecko.com/coins/images/36000/standard/0g.png',
+  '0g labs (og / aogi)': 'https://assets.coingecko.com/coins/images/36000/standard/0g.png',
+  'luna': 'https://assets.coingecko.com/coins/images/33077/standard/virtuals.png',
+  'luna by virtuals': 'https://assets.coingecko.com/coins/images/33077/standard/virtuals.png',
+  'truth-terminal': 'https://assets.coingecko.com/coins/images/50787/standard/goat.jpg',
+  'truth terminal': 'https://assets.coingecko.com/coins/images/50787/standard/goat.jpg',
+  'aixbt': 'https://assets.coingecko.com/coins/images/51761/standard/aixbt.jpg',
+  'promethia': 'https://promethia.finance/favicon.ico',
+  'promethia (pro)': 'https://promethia.finance/favicon.ico',
+  'aurelia': 'https://aurelia.ai/favicon.ico',
+  'aurelia ai': 'https://aurelia.ai/favicon.ico',
   'clawd': 'https://avatars.githubusercontent.com/u/190847983?v=4',
   'clawd (clawd.atg.eth)': 'https://avatars.githubusercontent.com/u/190847983?v=4',
 };
 
-// Domains known to be active and have verified web favicons
-const VERIFIED_FAVICON_DOMAINS: string[] = [
-  'clawdbotatg.eth.link',
-  'cipherworks.ai',
-  'aurelia.ai',
-  'elizaos.ai',
-  'promethia.finance',
-  'bittensor.com',
-  'virtuals.io',
-  'fetch.ai',
-  'freysa.ai',
-  'nosana.io',
-  'zerebro.org',
-  'aixbt.tech',
-  'olas.network',
-  'paal.ai',
-  'chaingpt.org',
-  'myshell.ai',
-  'heurist.ai',
-  'theoriq.ai',
-  'talus.network',
-  'recall.network',
-  'sentient.foundation',
-  'bankr.bot',
-  'chaoslabs.xyz',
-  'almanak.co',
-  'wayfinder.ai',
-  'kiteai.io',
-  '0g.ai',
-  'naptha.ai',
-  'agentzero.ai'
-];
+
 
 export const getFaviconUrl = (website?: string, agentName?: string, slug?: string): string | null => {
-  const key = (slug || agentName || '').toLowerCase().trim();
-  if (KNOWN_AGENT_LOGOS[key]) {
-    return KNOWN_AGENT_LOGOS[key];
-  }
+  const keySlug = (slug || '').toLowerCase().trim();
+  const keyName = (agentName || '').toLowerCase().trim();
+  const cleanName = keyName.replace(/\s*\([^)]*\)/g, '').trim();
+  const cleanSlug = keySlug.replace(/-agent$/, '').trim();
+
+  if (KNOWN_AGENT_LOGOS[keySlug]) return KNOWN_AGENT_LOGOS[keySlug];
+  if (KNOWN_AGENT_LOGOS[keyName]) return KNOWN_AGENT_LOGOS[keyName];
+  if (KNOWN_AGENT_LOGOS[cleanName]) return KNOWN_AGENT_LOGOS[cleanName];
+  if (KNOWN_AGENT_LOGOS[cleanSlug]) return KNOWN_AGENT_LOGOS[cleanSlug];
 
   if (!website || website === 'N/A' || website === 'NONE' || website === '') return null;
 
@@ -92,15 +99,9 @@ export const getFaviconUrl = (website?: string, agentName?: string, slug?: strin
     const cleanUrl = website.startsWith('http') ? website : `https://${website}`;
     const url = new URL(cleanUrl);
     const domain = url.hostname.replace(/^www\./, '').toLowerCase();
-    
-    // Only attempt favicon for verified online domains or unavatar with 404 fallback
-    const isKnownDomain = VERIFIED_FAVICON_DOMAINS.some(d => domain.includes(d) || d.includes(domain));
-    if (isKnownDomain) {
-      return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-    }
+    if (!domain || domain === 'localhost') return null;
 
-    // For other domains, use DuckDuckGo favicon service (which doesn't inject blue globes)
-    return `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
   } catch {
     return null;
   }

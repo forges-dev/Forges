@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple-style Design System — Web</title>
+<style>
+  :root {
+    color-scheme: light dark;
+
+    /* ---------- Typography ---------- */
+    --font-system: -apple-system, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+    --text-largetitle: 34px;
+    --text-title1: 28px;
+    --text-title2: 22px;
+    --text-title3: 20px;
+    --text-headline: 17px;
+    --text-body: 17px;
+    --text-callout: 16px;
+    --text-subhead: 15px;
+    --text-footnote: 13px;
+    --text-caption: 12px;
+
+    /* ---------- Spacing / radius ---------- */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-full: 999px;
+
+    --tap-min: 44px;
+
+    /* ---------- Brand palette (from ordinal30.com) ---------- */
+    --paper: #faf9f6;
+    --paper-dim: #f0eee7;
+    --paper-card: #ffffff;
+    --ink: #0e0d0b;
+    --ink-soft: #4a473f;
+    --ink-faint: #767267;
+    --brass: #a9812e;
+    --brass-soft: #a9812e1f;
+    --crimson: #8e1f26;
+    --crimson-soft: #8e1f2614;
+    --rule: #d8d3c4;
+    --rule-strong: #0e0d0b;
+    --up: #2e7d32;
+    --up-dark: #6fbf73;
+    --down: #c62828;
+    --down-dark: #e08a8a;
+
+    /* ---------- Light palette (semantic, mapped to brand) ---------- */
+    --label: var(--ink);
+    --label-secondary: var(--ink-soft);
+    --label-tertiary: var(--ink-faint);
+    --bg-primary: var(--paper-card);
+    --bg-secondary: var(--paper-dim);
+    --bg-grouped: var(--paper);
+    --separator: var(--rule);
+    --fill: var(--brass-soft);
+
+    --system-blue: var(--brass);
+    --system-green: var(--up);
+    --system-red: var(--crimson);
+    --system-orange: #ff9500;
+    --system-yellow: #ffcc00;
+    --system-purple: #af52de;
+    --system-pink: var(--crimson);
+    --system-indigo: #5856d6;
+    --system-teal: #30b0c7;
+
+    --glass-bg: rgba(250,249,246,0.6);
+    --glass-border: rgba(216,211,196,0.6);
+    --shadow-card: 0 1px 3px rgba(14,13,11,0.06), 0 8px 24px rgba(14,13,11,0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --label: var(--paper);
+      --label-secondary: #c9c4b5;
+      --label-tertiary: #8f8a7c;
+      --bg-primary: #171512;
+      --bg-secondary: #1f1c17;
+      --bg-grouped: var(--ink);
+      --separator: #3a352c;
+      --fill: rgba(169,129,46,0.18);
+
+      --system-blue: #c9a24a;
+      --system-green: var(--up-dark);
+      --system-red: var(--down-dark);
+      --system-pink: var(--down-dark);
+
+      --glass-bg: rgba(23,21,18,0.6);
+      --glass-border: rgba(169,129,46,0.25);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.4);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-grouped);
+    color: var(--label);
+    font-family: var(--font-system);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--system-blue); text-decoration: none; }
+  a:focus-visible, button:focus-visible, input:focus-visible, .toggle:focus-visible {
+    outline: 2px solid var(--system-blue);
+    outline-offset: 2px;
+  }
+
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: var(--space-7) var(--space-5) 96px;
+  }
+
+  header.hero {
+    padding: var(--space-7) 0 var(--space-6);
+  }
+  header.hero .eyebrow {
+    font-size: var(--text-subhead);
+    color: var(--label-secondary);
+    margin-bottom: var(--space-2);
+  }
+  header.hero h1 {
+    font-size: 48px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    margin: 0 0 var(--space-3);
+  }
+  header.hero p {
+    font-size: var(--text-title3);
+    color: var(--label-secondary);
+    max-width: 60ch;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  section { margin-top: var(--space-7); }
+  section h2 {
+    font-size: var(--text-largetitle);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--space-2);
+  }
+  section > p.desc {
+    font-size: var(--text-body);
+    color: var(--label-secondary);
+    max-width: 65ch;
+    margin: 0 0 var(--space-5);
+    line-height: 1.5;
+  }
+
+  /* ---------- Color swatches ---------- */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--space-3);
+  }
+  .swatch {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--separator);
+    background: var(--bg-primary);
+  }
+  .swatch .chip { height: 64px; }
+  .swatch .info { padding: var(--space-2) var(--space-3) var(--space-3); }
+  .swatch .name { font-size: var(--text-footnote); font-weight: 600; }
+  .swatch .hex { font-size: var(--text-caption); color: var(--label-secondary); }
+
+  /* ---------- Type scale ---------- */
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--separator);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-row .label {
+    width: 130px;
+    flex-shrink: 0;
+    font-size: var(--text-footnote);
+    color: var(--label-secondary);
+  }
+  .type-row .sample { font-weight: 600; }
+
+  /* ---------- Cards ---------- */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-4);
+  }
+  .card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-card);
+  }
+  .card .icon {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--system-blue);
+    margin-bottom: var(--space-4);
+  }
+  .card h3 { font-size: var(--text-headline); margin: 0 0 var(--space-1); }
+  .card p { font-size: var(--text-subhead); color: var(--label-secondary); margin: 0; line-height: 1.4; }
+
+  /* ---------- Buttons ---------- */
+  .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap-min);
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-full);
+    font-size: var(--text-headline);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-filled { background: var(--system-blue); color: #fff; }
+  .btn-filled:hover { opacity: 0.9; }
+  .btn-tinted { background: var(--brass-soft); color: var(--system-blue); }
+  .btn-tinted:hover { background: #a9812e33; }
+  .btn-plain { background: transparent; color: var(--system-blue); padding: 0 var(--space-2); }
+  .btn-gray { background: var(--fill); color: var(--label); }
+  .btn-destructive { background: var(--system-red); color: #fff; }
+
+  /* ---------- Inputs ---------- */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    max-width: 340px;
+  }
+  .field label { font-size: var(--text-footnote); color: var(--label-secondary); }
+  .field input {
+    height: var(--tap-min);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--separator);
+    background: var(--bg-primary);
+    padding: 0 var(--space-4);
+    font-size: var(--text-body);
+    color: var(--label);
+    font-family: inherit;
+  }
+  .field input::placeholder { color: var(--label-tertiary); }
+
+  /* ---------- Toggle ---------- */
+  .toggle {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 51px;
+    height: 31px;
+    border-radius: var(--radius-full);
+    background: var(--fill);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border: none;
+    flex-shrink: 0;
+  }
+  .toggle::after {
+    content: "";
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 27px; height: 27px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    transition: transform 0.2s ease;
+  }
+  .toggle:checked { background: var(--system-green); }
+  .toggle:checked::after { transform: translateX(20px); }
+
+  .list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    background: var(--bg-primary);
+  }
+  .list-row + .list-row { border-top: 1px solid var(--separator); }
+  .list-group {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    max-width: 400px;
+  }
+
+  /* ---------- Glass nav ---------- */
+  .glass-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+  .glass-bar .brand { font-weight: 700; font-size: var(--text-headline); }
+  .glass-bar nav { display: flex; gap: var(--space-5); font-size: var(--text-subhead); color: var(--label-secondary); }
+
+  /* ---------- Token table ---------- */
+  table.tokens {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-footnote);
+  }
+  table.tokens th, table.tokens td {
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--separator);
+  }
+  table.tokens th { color: var(--label-secondary); font-weight: 600; }
+  table.tokens td code { font-family: "SF Mono", Menlo, monospace; font-size: 12px; }
+
+  footer {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--separator);
+    font-size: var(--text-footnote);
+    color: var(--label-tertiary);
+  }
+
+  @media (max-width: 600px) {
+    header.hero h1 { font-size: 34px; }
+    .type-row { flex-direction: column; gap: var(--space-1); }
+    .type-row .label { width: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Referensi untuk web</div>
+    <h1>Sistem desain gaya Apple</h1>
+    <p>Token dan komponen yang meniru prinsip Human Interface Guidelines — Clarity, Deference, Depth — diterjemahkan ke CSS murni yang bisa dipakai langsung di proyek web.</p>
+  </header>
+
+  <section>
+    <h2>Navigasi kaca</h2>
+    <p class="desc">Material tembus pandang dengan blur, mengikuti gaya Liquid Glass terbaru Apple.</p>
+    <div class="glass-bar">
+      <div class="brand">Acme</div>
+      <nav>
+        <span>Beranda</span>
+        <span>Produk</span>
+        <span>Tentang</span>
+        <span>Kontak</span>
+      </nav>
+    </div>
+  </section>
+
+  <section>
+    <h2>Warna</h2>
+    <p class="desc">Palet brand dari ordinal30.com, dipetakan ke peran semantik ala HIG — brass menggantikan biru sistem sebagai warna aksi utama, crimson sebagai warna destruktif/turun, dan up/down untuk indikator naik-turun bergaya ticker.</p>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="chip" style="background:var(--paper)"></div><div class="info"><div class="name">Paper</div><div class="hex">#FAF9F6</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--paper-dim)"></div><div class="info"><div class="name">Paper Dim</div><div class="hex">#F0EEE7</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--paper-card); border:1px solid var(--rule)"></div><div class="info"><div class="name">Paper Card</div><div class="hex">#FFFFFF</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ink)"></div><div class="info"><div class="name">Ink</div><div class="hex">#0E0D0B</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ink-soft)"></div><div class="info"><div class="name">Ink Soft</div><div class="hex">#4A473F</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ink-faint)"></div><div class="info"><div class="name">Ink Faint</div><div class="hex">#767267</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--brass)"></div><div class="info"><div class="name">Brass</div><div class="hex">#A9812E</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--crimson)"></div><div class="info"><div class="name">Crimson</div><div class="hex">#8E1F26</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--rule)"></div><div class="info"><div class="name">Rule</div><div class="hex">#D8D3C4</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--up)"></div><div class="info"><div class="name">Up</div><div class="hex">#2E7D32</div></div></div>
+      <div class="swatch"><div class="chip" style="background:var(--down)"></div><div class="info"><div class="name">Down</div><div class="hex">#C62828</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tipografi</h2>
+    <p class="desc">Skala berdasarkan Dynamic Type Apple. Font sistem <code>-apple-system</code> otomatis merender sebagai SF Pro di perangkat Apple, dan jatuh ke font terdekat di platform lain.</p>
+    <div>
+      <div class="type-row"><div class="label">Large Title · 34</div><div class="sample" style="font-size:var(--text-largetitle)">Judul besar</div></div>
+      <div class="type-row"><div class="label">Title 1 · 28</div><div class="sample" style="font-size:var(--text-title1)">Judul tingkat satu</div></div>
+      <div class="type-row"><div class="label">Title 2 · 22</div><div class="sample" style="font-size:var(--text-title2)">Judul tingkat dua</div></div>
+      <div class="type-row"><div class="label">Title 3 · 20</div><div class="sample" style="font-size:var(--text-title3)">Judul tingkat tiga</div></div>
+      <div class="type-row"><div class="label">Headline · 17</div><div class="sample" style="font-size:var(--text-headline)">Headline tebal</div></div>
+      <div class="type-row"><div class="label">Body · 17</div><div class="sample" style="font-size:var(--text-body); font-weight:400">Teks isi biasa untuk paragraf</div></div>
+      <div class="type-row"><div class="label">Subhead · 15</div><div class="sample" style="font-size:var(--text-subhead); font-weight:400; color:var(--label-secondary)">Subjudul pendukung</div></div>
+      <div class="type-row"><div class="label">Footnote · 13</div><div class="sample" style="font-size:var(--text-footnote); font-weight:400; color:var(--label-secondary)">Catatan kaki kecil</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tombol</h2>
+    <p class="desc">Empat gaya tombol standar HIG, tinggi minimum 44px agar target sentuh nyaman.</p>
+    <div class="row">
+      <button class="btn btn-filled">Lanjutkan</button>
+      <button class="btn btn-tinted">Pelajari lebih lanjut</button>
+      <button class="btn btn-gray">Batal</button>
+      <button class="btn btn-destructive">Hapus akun</button>
+      <button class="btn btn-plain">Lewati</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Input & kontrol</h2>
+    <div class="row" style="align-items:flex-start; gap: var(--space-6)">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="nama@contoh.com">
+      </div>
+      <div class="list-group" style="min-width:260px">
+        <div class="list-row"><span>Notifikasi</span><input type="checkbox" class="toggle" checked></div>
+        <div class="list-row"><span>Mode gelap otomatis</span><input type="checkbox" class="toggle"></div>
+        <div class="list-row"><span>Sinkronkan iCloud</span><input type="checkbox" class="toggle" checked></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Kartu</h2>
+    <p class="desc">Radius besar dan bayangan lembut untuk memisahkan konten tanpa garis tegas.</p>
+    <div class="card-grid">
+      <div class="card"><div class="icon"></div><h3>Keamanan</h3><p>Data terenkripsi end-to-end di semua perangkat.</p></div>
+      <div class="card"><div class="icon" style="background:var(--crimson)"></div><h3>Privasi</h3><p>Hanya kamu yang bisa melihat isi percakapan.</p></div>
+      <div class="card"><div class="icon" style="background:var(--system-green)"></div><h3>Performa</h3><p>Dioptimalkan agar tetap ringan di perangkat lama.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Token CSS</h2>
+    <p class="desc">Salin variabel ini ke proyekmu sebagai titik awal.</p>
+    <table class="tokens">
+      <thead><tr><th>Token</th><th>Nilai</th><th>Kegunaan</th></tr></thead>
+      <tbody>
+        <tr><td><code>--radius-md</code></td><td><code>14px</code></td><td>Kartu, input, tombol persegi</td></tr>
+        <tr><td><code>--radius-full</code></td><td><code>999px</code></td><td>Tombol pil, toggle</td></tr>
+        <tr><td><code>--tap-min</code></td><td><code>44px</code></td><td>Tinggi minimum elemen sentuh</td></tr>
+        <tr><td><code>--brass</code> → <code>--system-blue</code></td><td><code>#A9812E</code></td><td>Aksi utama, tautan</td></tr>
+        <tr><td><code>--crimson</code> → <code>--system-red</code></td><td><code>#8E1F26</code></td><td>Destruktif, turun</td></tr>
+        <tr><td><code>--up</code> / <code>--down</code></td><td><code>#2E7D32</code> / <code>#C62828</code></td><td>Indikator naik/turun</td></tr>
+        <tr><td><code>--ink-soft</code> → <code>--label-secondary</code></td><td><code>#4A473F</code></td><td>Teks pendukung</td></tr>
+        <tr><td><code>--rule</code> → <code>--separator</code></td><td><code>#D8D3C4</code></td><td>Garis pemisah tipis</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    Referensi tidak resmi: struktur dan komponen mengikuti prinsip publik Apple Human Interface Guidelines, sementara palet warna diambil dari brand ordinal30.com (paper, ink, brass, crimson). Untuk aset resmi Apple (UI Kit Figma/Sketch, SF Symbols), kunjungi developer.apple.com/design/resources.
+  </footer>
+
+</div>
+</body>
+</html>

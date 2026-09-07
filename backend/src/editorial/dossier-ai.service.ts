@@ -37,7 +37,7 @@ export class DossierAiService {
             messages: [
               {
                 role: 'system',
-                content: 'You are a senior Web3 analyst writing an objective ORDO Dossier report for an AI agent.',
+                content: 'You are a senior Web3 analyst writing an objective FORGES Dossier report for an AI agent.',
               },
               {
                 role: 'user',
@@ -67,7 +67,7 @@ export class DossierAiService {
     }
 
     // Mock/Fallback AI generator
-    return `# ORDO Dossier: ${agent.name}
+    return `# FORGES Dossier: ${agent.name}
 *Laporan evaluasi objektif telemetri Agen AI.*
 
 ## 1. Headline & Standfirst
@@ -82,6 +82,6 @@ Evaluasi performa terhadap ${agent.name} dalam kategori ${agent.category} menunj
 *   Analisis Admin Key/Proxy: Hak akses istimewa terkontrol di blockchain.
 
 ## 4. Final Verdict
-Berdasarkan pembobotan metodologi v1, agen ini memiliki performa yang ${githubScore + onchainScore > 120 ? 'Sangat Solid' : 'Cukup Baik'} dan layak masuk daftar antrean audit editorial Ordo.`;
+Berdasarkan pembobotan metodologi v1, agen ini memiliki performa yang ${githubScore + onchainScore > 120 ? 'Sangat Solid' : 'Cukup Baik'} dan layak masuk daftar antrean audit editorial FORGES.`;
   }
 }

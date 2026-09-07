@@ -16,7 +16,6 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
   const [allAgents, setAllAgents] = useState<AgentEntity[]>(() => getFullAgentDatabase());
 
   useEffect(() => {
-    // Fetch live backend PostgreSQL database
     fetchLiveAgentDatabase().then((liveList) => {
       if (liveList && liveList.length > 0) {
         setAllAgents(liveList);
@@ -28,8 +27,8 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
         setAllAgents(liveList);
       });
     };
-    window.addEventListener('ordinal_db_updated', handleDbUpdate);
-    return () => window.removeEventListener('ordinal_db_updated', handleDbUpdate);
+    window.addEventListener('forges_db_updated', handleDbUpdate);
+    return () => window.removeEventListener('forges_db_updated', handleDbUpdate);
   }, []);
 
   const navigateTo = (path: string) => {
@@ -67,24 +66,24 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
   }, [allAgents, filterType, searchQuery]);
 
   return (
-    <div className="ordinal-app">
+    <div className="ordinal-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
       <OrdinalNavbar currentPath="/rankings" onNavigate={navigateTo} />
 
       {/* Ticker Band */}
-      <div className="ticker-band">
+      <div className="ticker-band" style={{ marginTop: '76px' }}>
         <div className="ticker-track">
           {COMPLETE_AGENT_DATABASE.slice(0, 8).map((a) => (
             <span key={a.id}>
-              AGENT #{a.rank} · {a.name.toUpperCase()} · SCORE {a.score.toFixed(1)}{' '}
-              <b className={a.isUp ? 'up' : a.delta7d === '-' ? '' : 'down'}>
+              FORGES #0{a.rank} · {a.name.toUpperCase()} · SCORE {a.score.toFixed(1)}{' '}
+              <b className={a.isUp ? 'up' : 'down'}>
                 {a.delta7d}
               </b>
             </span>
           ))}
           {COMPLETE_AGENT_DATABASE.slice(0, 8).map((a) => (
             <span key={a.id + '-dup'}>
-              AGENT #{a.rank} · {a.name.toUpperCase()} · SCORE {a.score.toFixed(1)}{' '}
-              <b className={a.isUp ? 'up' : a.delta7d === '-' ? '' : 'down'}>
+              FORGES #0{a.rank} · {a.name.toUpperCase()} · SCORE {a.score.toFixed(1)}{' '}
+              <b className={a.isUp ? 'up' : 'down'}>
                 {a.delta7d}
               </b>
             </span>
@@ -92,131 +91,104 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      <main id="page-rankings">
-        <div className="wrap page-head">
-          <div className="kicker">Rankings: Live Database Coverage</div>
+      <main id="page-rankings" style={{ padding: '60px 0 100px' }}>
+        <div className="container">
+          <div className="kicker">01 / LEADERBOARD & LIVE DATABASE COVERAGE</div>
           <motion.h1
-            className="headline"
-            style={{ fontSize: 'clamp(2rem, 4.4vw, 3rem)' }}
+            style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 900, letterSpacing: '-0.04em', margin: '12px 0 20px', color: 'var(--white)' }}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            The Full Leaderboard
+            The 30 Under 30 <span className="gradient-text">Leaderboard</span>
           </motion.h1>
-          <p className="dek" style={{ fontSize: '1.05rem', maxWidth: '680px' }}>
-            Every agent under coverage, ranked by composite reputation score. Scores move as new on-chain activity is reviewed, nothing here is static.
+          <p className="lead" style={{ maxWidth: '640px', fontSize: '16px', color: 'var(--gray-text)', marginBottom: '32px' }}>
+            Every autonomous AI agent under coverage ranked continuously by verified on-chain telemetry, GitHub activity, and smart contract security posture.
           </p>
 
-          {/* The Under 30 Cohort Banner */}
+          {/* Under 30 Cohort Banner */}
           <motion.div
             style={{
-              marginTop: '24px',
-              padding: '18px 22px',
-              background: 'var(--paper-dim)',
-              border: '1px solid var(--ink)',
-              borderLeft: '4px solid var(--brass)',
+              padding: '24px 28px',
+              background: 'var(--gray-card)',
+              border: '1px solid var(--gray-border-strong)',
+              borderLeft: '4px solid var(--lime)',
+              borderRadius: '20px',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               flexWrap: 'wrap',
-              gap: '16px'
+              gap: '16px',
+              marginBottom: '40px'
             }}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             <div>
-              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--brass)', fontWeight: 600, marginBottom: '4px' }}>
-                Featured Index: The Under 30 (Class of 2026)
+              <div style={{ fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--lime)', fontWeight: 900, marginBottom: '6px' }}>
+                FEATURED INDEX: THE 30 UNDER 30 (CLASS OF 2026)
               </div>
-              <div style={{ fontSize: '0.9rem', color: 'var(--ink-soft)', lineHeight: '1.5' }}>
-                Thirty breakout autonomous agents shaping the future of autonomous finance and decentralized execution.
+              <div style={{ fontSize: '14.5px', color: 'var(--gray-text)', lineHeight: '1.5' }}>
+                Thirty breakout autonomous AI agents shaping the future of autonomous finance and decentralized execution.
               </div>
             </div>
-            <motion.button
-              className="btn"
-              style={{
-                background: filterType === 'under30' ? 'var(--brass)' : 'transparent',
-                borderColor: 'var(--brass)',
-                color: filterType === 'under30' ? '#fff' : 'var(--ink)',
-                fontSize: '0.72rem',
-                padding: '8px 18px',
-                fontWeight: 600
-              }}
+            <button
+              className={filterType === 'under30' ? 'btn btn-pink' : 'btn btn-dark'}
               onClick={() => setFilterType(filterType === 'under30' ? 'all' : 'under30')}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
             >
               {filterType === 'under30' ? 'Showing Top 30 Honorees' : 'Filter The Under 30'}
-            </motion.button>
+            </button>
           </motion.div>
 
-          <div className="controls-row">
-            <div className="filter-row">
-              <motion.button
-                className={`filter-btn ${filterType === 'under30' ? 'active' : ''}`}
-                style={{
-                  borderColor: 'var(--brass)',
-                  background: filterType === 'under30' ? 'var(--brass)' : 'transparent',
-                  color: filterType === 'under30' ? '#fff' : 'var(--brass)',
-                  fontWeight: 600
-                }}
+          {/* Controls & Filter Pills */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', marginBottom: '32px' }}>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <button
+                className={`btn ${filterType === 'under30' ? 'btn-pink' : 'btn-dark'}`}
                 onClick={() => setFilterType('under30')}
-                whileTap={{ scale: 0.95 }}
               >
-                ★ The Under 30
-              </motion.button>
-              <motion.button
-                className={`filter-btn ${filterType === 'all' ? 'active' : ''}`}
+                ★ The 30 List
+              </button>
+              <button
+                className={`btn ${filterType === 'all' ? 'btn-pink' : 'btn-dark'}`}
                 onClick={() => setFilterType('all')}
-                whileTap={{ scale: 0.95 }}
               >
                 All ({allAgents.length})
-              </motion.button>
-              <motion.button
-                className={`filter-btn ${filterType === 'verified' ? 'active' : ''}`}
+              </button>
+              <button
+                className={`btn ${filterType === 'verified' ? 'btn-pink' : 'btn-dark'}`}
                 onClick={() => setFilterType('verified')}
-                whileTap={{ scale: 0.95 }}
               >
                 Verified
-              </motion.button>
-              <motion.button
-                className={`filter-btn ${filterType === 'movers' ? 'active' : ''}`}
+              </button>
+              <button
+                className={`btn ${filterType === 'movers' ? 'btn-pink' : 'btn-dark'}`}
                 onClick={() => setFilterType('movers')}
-                whileTap={{ scale: 0.95 }}
               >
                 Top Movers
-              </motion.button>
-              <motion.button
-                className={`filter-btn ${filterType === 'watchlist' ? 'active' : ''}`}
+              </button>
+              <button
+                className={`btn ${filterType === 'watchlist' ? 'btn-pink' : 'btn-dark'}`}
                 onClick={() => setFilterType('watchlist')}
-                whileTap={{ scale: 0.95 }}
               >
                 Watchlist
-              </motion.button>
-              <motion.button
-                className={`filter-btn ${filterType === 'new' ? 'active' : ''}`}
-                onClick={() => setFilterType('new')}
-                whileTap={{ scale: 0.95 }}
-              >
-                Newly Indexed
-              </motion.button>
+              </button>
             </div>
 
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search agent, chain, or category..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <div style={{ minWidth: '280px', flex: '0 1 340px' }}>
+              <input
+                type="text"
+                placeholder="Search agent, chain, or category..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="wrap">
-          <div className="table-responsive">
-            <table className="rank-table">
+          {/* Main Table */}
+          <div className="table-wrapper">
+            <table>
               <thead>
                 <tr>
                   <th>Rank</th>
@@ -231,47 +203,39 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
                 </tr>
               </thead>
               <tbody>
-                {filteredAgents.map((agent, index) => (
-                  <motion.tr
+                {filteredAgents.map((agent) => (
+                  <tr
                     key={agent.id}
                     onClick={() => setSelectedAgent(agent)}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25, delay: Math.min(index * 0.02, 0.4) }}
-                    whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.035)', x: 3 }}
                     style={{ cursor: 'pointer' }}
                   >
-                    <td className="r-num">{agent.rank}</td>
-                    <td className="r-name">
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <AgentAvatar agent={agent} size={28} />
-                        <span style={{ fontWeight: 600 }}>{agent.name}</span>
+                    <td style={{ color: 'var(--lime)', fontWeight: 900 }}>#{agent.rank}</td>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <AgentAvatar agent={agent} size={32} />
+                        <span style={{ fontWeight: 800, color: 'var(--white)' }}>{agent.name}</span>
                       </div>
                     </td>
-                    <td className="r-chain">{agent.chain}</td>
-                    <td className="r-chain">{agent.category}</td>
-                    <td className="r-chain" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <td>{agent.chain}</td>
+                    <td>{agent.category}</td>
+                    <td style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                       {agent.activeWallets30d.toLocaleString()}
                     </td>
-                    <td className="r-chain" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <td style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                       {agent.commits30d}
                     </td>
-                    <td className="r-score">{agent.score.toFixed(1)}</td>
-                    <td className={agent.isUp ? 'table-up' : agent.delta7d === '-' ? 'r-chain' : 'table-down'}>
+                    <td style={{ fontSize: '16px', fontWeight: 900, color: 'var(--white)' }}>
+                      {agent.score.toFixed(1)}
+                    </td>
+                    <td className={agent.isUp ? 'up' : 'down'} style={{ fontWeight: 700 }}>
                       {agent.delta7d}
                     </td>
                     <td>
-                      {agent.status === 'verified' && (
-                        <span className="badge verified">Verified</span>
-                      )}
-                      {agent.status === 'watchlist' && (
-                        <span className="badge watch">Watchlist</span>
-                      )}
-                      {agent.status === 'standard' && (
-                        <span style={{ color: 'var(--ink-soft)' }}>-</span>
-                      )}
+                      <span className="tag" style={{ background: agent.status === 'verified' ? 'rgba(215, 249, 0, 0.1)' : 'transparent' }}>
+                        {agent.status.toUpperCase()}
+                      </span>
                     </td>
-                  </motion.tr>
+                  </tr>
                 ))}
               </tbody>
             </table>
@@ -283,182 +247,156 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
       <AnimatePresence>
         {selectedAgent && (
           <motion.div
-            className="modal-backdrop"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 999,
+              background: 'rgba(13, 13, 10, 0.85)',
+              backdropFilter: 'blur(12px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '20px'
+            }}
             onClick={() => setSelectedAgent(null)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="modal-content"
+              style={{
+                background: 'var(--gray-card)',
+                border: '2px solid var(--gray-border-strong)',
+                borderRadius: '24px',
+                padding: '32px',
+                maxWidth: '560px',
+                width: '100%',
+                maxHeight: '90vh',
+                overflowY: 'auto',
+                position: 'relative',
+                color: 'var(--white)'
+              }}
               onClick={(e) => e.stopPropagation()}
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: 'spring', stiffness: 350, damping: 25 }}
             >
-              <button className="modal-close" onClick={() => setSelectedAgent(null)}>✕</button>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', margin: '10px 0' }}>
-                <AgentAvatar agent={selectedAgent} size={48} />
-                <div>
-                <h2 style={{ fontFamily: "'Fraunces', serif", margin: 0, fontSize: '1.8rem' }}>
-                  {selectedAgent.name}
-                </h2>
-                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.75rem', color: 'var(--ink-soft)' }}>
-                  {selectedAgent.chain} · {selectedAgent.category} · {selectedAgent.contract}
-                </div>
-              </div>
-            </div>
-
-            <p style={{ fontStyle: 'italic', color: 'var(--ink-soft)', margin: '16px 0', fontSize: '0.95rem', lineHeight: '1.6' }}>
-              "{selectedAgent.blurb}"
-            </p>
-
-            <div style={{ borderTop: '1px solid var(--rule)', borderBottom: '1px solid var(--rule)', padding: '16px 0', margin: '16px 0' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.75rem' }}>
-                <div>
-                  <div style={{ color: 'var(--ink-soft)', textTransform: 'uppercase' }}>Composite Score</div>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--crimson)' }}>
-                    <CountUpNumber to={selectedAgent.score} decimals={1} duration={1.5} />
-                  </div>
-                </div>
-                <div>
-                  <div style={{ color: 'var(--ink-soft)', textTransform: 'uppercase' }}>7d Movement</div>
-                  <div style={{ fontSize: '1.4rem', fontWeight: 600 }} className={selectedAgent.isUp ? 'table-up' : 'table-down'}>
-                    {selectedAgent.delta7d}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ margin: '18px 0' }}>
-              <div className="aside-title">Telemetry & Security Snapshot</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.78rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Active Wallets (30d):</span>
-                  <b><CountUpNumber to={selectedAgent.activeWallets30d} duration={1.8} /></b>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>GitHub Commits (30d):</span>
-                  <b><CountUpNumber to={selectedAgent.commits30d} suffix=" commits" duration={1.8} /></b>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Smart Contract Audit:</span>
-                  <b style={{ color: selectedAgent.auditStatus === 'Verified Public Audit' ? 'var(--up)' : 'var(--crimson)' }}>
-                    {selectedAgent.auditStatus}
-                  </b>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Admin Keys Safety:</span>
-                  <b>{selectedAgent.adminKeysSafe ? '✓ Multisig / Safe' : '⚠ Retained / Centralized'}</b>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ margin: '18px 0', borderTop: '1px solid var(--rule)', paddingTop: '16px' }}>
-              <div className="aside-title">Scoring Breakdown</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.78rem' }}>
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <span>Disclosure Completeness (30%):</span>
-                    <b>{selectedAgent.disclosureScore}/100</b>
-                  </div>
-                  <div style={{ height: '6px', background: 'rgba(0,0,0,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
-                    <motion.div
-                      style={{ height: '100%', background: 'var(--crimson)', borderRadius: '3px' }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${selectedAgent.disclosureScore}%` }}
-                      transition={{ duration: 1, ease: 'easeOut' }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <span>On-Chain Consistency (35%):</span>
-                    <b>{selectedAgent.consistencyScore}/100</b>
-                  </div>
-                  <div style={{ height: '6px', background: 'rgba(0,0,0,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
-                    <motion.div
-                      style={{ height: '100%', background: 'var(--brass)', borderRadius: '3px' }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${selectedAgent.consistencyScore}%` }}
-                      transition={{ duration: 1, ease: 'easeOut', delay: 0.1 }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <span>Incident Response (20%):</span>
-                    <b>{selectedAgent.incidentScore}/100</b>
-                  </div>
-                  <div style={{ height: '6px', background: 'rgba(0,0,0,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
-                    <motion.div
-                      style={{ height: '100%', background: 'var(--up)', borderRadius: '3px' }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${selectedAgent.incidentScore}%` }}
-                      transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <span>Independence of Code (15%):</span>
-                    <b>{selectedAgent.independenceScore}/100</b>
-                  </div>
-                  <div style={{ height: '6px', background: 'rgba(0,0,0,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
-                    <motion.div
-                      style={{ height: '100%', background: 'var(--ink-soft)', borderRadius: '3px' }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${selectedAgent.independenceScore}%` }}
-                      transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {selectedAgent.verdict && (
-              <div style={{ background: 'var(--paper-dim)', padding: '12px 16px', borderLeft: '3px solid var(--crimson)', margin: '16px 0', fontSize: '0.85rem' }}>
-                <b>Desk Verdict:</b> {selectedAgent.verdict}
-              </div>
-            )}
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px', gap: '12px', flexWrap: 'wrap' }}>
-              {selectedAgent.website ? (
-                <a
-                  href={selectedAgent.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn"
-                  style={{ color: 'var(--ink)', borderColor: 'var(--ink)' }}
-                >
-                  Official Website
-                </a>
-              ) : null}
-              <motion.button
-                className="btn-dark"
+              <button
+                style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '20px',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--lime)',
+                  fontSize: '20px',
+                  cursor: 'pointer'
+                }}
                 onClick={() => setSelectedAgent(null)}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
               >
-                Close
-              </motion.button>
-            </div>
+                ✕
+              </button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                <AgentAvatar agent={selectedAgent} size={52} />
+                <div>
+                  <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 900 }}>
+                    {selectedAgent.name}
+                  </h2>
+                  <div style={{ fontSize: '13px', color: 'var(--lime)', fontWeight: 700, marginTop: '4px' }}>
+                    {selectedAgent.chain} · {selectedAgent.category} · FORGES RANK #{selectedAgent.rank}
+                  </div>
+                </div>
+              </div>
+
+              <p style={{ color: 'var(--gray-text)', fontSize: '14.5px', lineHeight: 1.6, margin: '16px 0' }}>
+                "{selectedAgent.blurb}"
+              </p>
+
+              <div style={{ borderTop: '1px solid var(--gray-border)', borderBottom: '1px solid var(--gray-border)', padding: '16px 0', margin: '20px 0' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+                  <div>
+                    <div style={{ color: 'var(--gray-text)', fontSize: '12px', textTransform: 'uppercase', fontWeight: 700 }}>FORGES Score</div>
+                    <div style={{ fontSize: '28px', fontWeight: 900, color: 'var(--lime)' }}>
+                      <CountUpNumber to={selectedAgent.score} decimals={1} duration={1.5} />
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ color: 'var(--gray-text)', fontSize: '12px', textTransform: 'uppercase', fontWeight: 700 }}>7d Trend</div>
+                    <div style={{ fontSize: '24px', fontWeight: 800 }} className={selectedAgent.isUp ? 'up' : 'down'}>
+                      {selectedAgent.delta7d}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ margin: '18px 0' }}>
+                <h4 style={{ color: 'var(--lime)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>
+                  Telemetry & Audit Posture
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13.5px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
+                    <span style={{ color: 'var(--gray-text)' }}>Active Wallets (30d):</span>
+                    <b><CountUpNumber to={selectedAgent.activeWallets30d} duration={1.8} /></b>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
+                    <span style={{ color: 'var(--gray-text)' }}>GitHub Commits (30d):</span>
+                    <b><CountUpNumber to={selectedAgent.commits30d} suffix=" commits" duration={1.8} /></b>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
+                    <span style={{ color: 'var(--gray-text)' }}>Smart Contract Audit:</span>
+                    <b style={{ color: 'var(--lime)' }}>{selectedAgent.auditStatus}</b>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: 'var(--gray-text)' }}>Admin Key Security:</span>
+                    <b>{selectedAgent.adminKeysSafe ? '✓ Multisig / Timelock' : '⚠ Retained Admin Key'}</b>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '28px', gap: '12px' }}>
+                <button className="btn btn-dark" style={{ flex: 1 }} onClick={() => setSelectedAgent(null)}>
+                  Close Dossier
+                </button>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
       </AnimatePresence>
 
+      {/* Footer */}
       <footer>
-        <div className="wrap">
-          <div className="foot-row">
-            <span>Ordinal: The Web3 AI Agent Index</span>
-            <span>Independent Editorial Desk</span>
-            <span>ordinal30.com</span>
+        <div className="container">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <div className="logo" onClick={() => navigateTo('/')}>
+                <span className="logo-mark"></span>
+                <span>FORGES 30</span>
+              </div>
+              <p>The independent intelligence wall & Forbes 30 Under 30 index for autonomous AI agents. Profile. Verify. Remember.</p>
+            </div>
+            <div className="footer-col">
+              <h4>Explore</h4>
+              <button onClick={() => navigateTo('/')}>The 30 List</button>
+              <button onClick={() => navigateTo('/rankings')}>Rankings</button>
+              <button onClick={() => navigateTo('/log')}>Build Log</button>
+            </div>
+            <div className="footer-col">
+              <h4>Network</h4>
+              <button onClick={() => navigateTo('/apply')}>Nominate Agent</button>
+              <button onClick={() => navigateTo('/qualified')}>Qualified Volume</button>
+              <button onClick={() => navigateTo('/methodology')}>Methodology</button>
+            </div>
+            <div className="footer-col">
+              <h4>Legal</h4>
+              <button onClick={() => navigateTo('/methodology')}>Audit Rubric</button>
+              <button onClick={() => navigateTo('/')}>Terms of Service</button>
+              <button onClick={() => navigateTo('/')}>Privacy Policy</button>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>
+            <span>Hoodopus Lime Color Palette.</span>
           </div>
         </div>
       </footer>

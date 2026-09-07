@@ -31,161 +31,171 @@ export const BuildLogView: React.FC<BuildLogViewProps> = ({ onNavigate }) => {
   const correctionCount = BUILD_LOG_ENTRIES.filter((e) => e.type === 'correction' || e.type === 'reversal').length;
 
   return (
-    <div className="ordinal-app">
+    <div className="ordinal-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
       <OrdinalNavbar currentPath="/log" onNavigate={onNavigate} />
 
-      <div className="ticker-band">
+      <div className="ticker-band" style={{ marginTop: '76px' }}>
         <div className="ticker-track">
           <span>PUBLIC BUILD LOG · APPEND-ONLY AUDIT TRAIL · DEPLOYMENTS & SYSTEM RECALIBRATIONS</span>
           <span>PUBLIC BUILD LOG · APPEND-ONLY AUDIT TRAIL · DEPLOYMENTS & SYSTEM RECALIBRATIONS</span>
         </div>
       </div>
 
-      <main className="wrap" style={{ maxWidth: '920px', margin: '40px auto 80px', padding: '0 24px' }}>
+      <main style={{ padding: '60px 0 100px' }}>
+        <div className="container" style={{ maxWidth: '960px' }}>
+          <div className="kicker">05 / PUBLIC BUILD LOG · ARCHIVE</div>
+          <motion.h1
+            style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 900, letterSpacing: '-0.04em', margin: '12px 0 20px', color: 'var(--white)' }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            Chronological <span className="gradient-text">Build Register</span>
+          </motion.h1>
+          <p className="lead" style={{ maxWidth: '720px', fontSize: '16.5px', color: 'var(--gray-text)', marginBottom: '40px' }}>
+            An append-only, public record of FORGES system deployments, parameter recalibrations, and telemetry corrections.
+          </p>
 
-        <div className="kicker">Public Build Log</div>
-        <motion.h1
-          className="headline"
-          style={{ fontSize: 'clamp(2.2rem, 4.8vw, 3.4rem)', margin: '14px 0 16px' }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Chronological Change Register
-        </motion.h1>
-        <p className="dek" style={{ fontSize: '1.15rem', maxWidth: '720px', marginBottom: '32px' }}>
-          An append-only, public record of system deployments, parameter recalibrations, and telemetry corrections.
-        </p>
-
-        {/* Ledger summary */}
-        <div className="ledger" style={{ marginBottom: '36px' }}>
-          <div className="ledger-cell">
-            <div className="ledger-num">
-              <CountUpNumber to={totalEntries} duration={1.8} />
-            </div>
-            <div className="ledger-label">Total Logged Deployments</div>
-          </div>
-          <div className="ledger-cell">
-            <div className="ledger-num">
-              <CountUpNumber to={correctionCount} duration={1.8} />
-            </div>
-            <div className="ledger-label">Published Corrections</div>
-          </div>
-          <div className="ledger-cell">
-            <div className="ledger-num">
-              <CountUpNumber to={100} suffix="%" duration={1.5} />
-            </div>
-            <div className="ledger-label">Audit Transparency</div>
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="controls-row" style={{ marginBottom: '32px' }}>
-          <div className="filter-row">
-            <motion.button
-              className={`filter-btn ${filterType === 'all' ? 'active' : ''}`}
-              onClick={() => setFilterType('all')}
-              whileTap={{ scale: 0.95 }}
-            >
-              All Entries ({totalEntries})
-            </motion.button>
-            <motion.button
-              className={`filter-btn ${filterType === 'feature' ? 'active' : ''}`}
-              onClick={() => setFilterType('feature')}
-              whileTap={{ scale: 0.95 }}
-            >
-              Deployments
-            </motion.button>
-            <motion.button
-              className={`filter-btn ${filterType === 'correction' ? 'active' : ''}`}
-              onClick={() => setFilterType('correction')}
-              whileTap={{ scale: 0.95 }}
-            >
-              Corrections ({correctionCount})
-            </motion.button>
-          </div>
-
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search entries or date..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        {/* Entries list */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {filteredEntries.map((entry, idx) => (
-            <motion.div
-              key={entry.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: Math.min(idx * 0.03, 0.4) }}
-              whileHover={{ x: 4, backgroundColor: 'rgba(0,0,0,0.02)' }}
-              style={{
-                border: '1px solid var(--rule)',
-                borderLeft: entry.type === 'correction' ? '4px solid var(--crimson)' : '4px solid var(--brass)',
-                padding: '20px 24px',
-                background: 'var(--paper)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '16px'
-              }}
-            >
-              <div style={{ flex: '1 1 500px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.72rem', color: 'var(--ink-soft)', fontWeight: 600 }}>
-                    {entry.date}
-                  </span>
-                  <span
-                    className="badge"
-                    style={{
-                      color: entry.type === 'correction' ? 'var(--crimson)' : 'var(--brass)',
-                      background: entry.type === 'correction' ? 'var(--crimson-soft)' : 'var(--brass-soft)'
-                    }}
-                  >
-                    {entry.type.toUpperCase()}
-                  </span>
-                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.68rem', color: 'var(--ink-faint)' }}>
-                    #{entry.id}
-                  </span>
-                </div>
-                <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: 'var(--ink)' }}>
-                  {entry.summary}
-                </div>
+          {/* Stats Bar */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '40px' }}>
+            <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '20px', padding: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '36px', fontWeight: 900, color: 'var(--lime)' }}>
+                <CountUpNumber to={totalEntries} duration={1.8} />
               </div>
+              <div style={{ fontSize: '12px', color: 'var(--gray-text)', textTransform: 'uppercase', fontWeight: 800, marginTop: '4px' }}>
+                Logged Deployments
+              </div>
+            </div>
+            <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '20px', padding: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '36px', fontWeight: 900, color: 'var(--lime)' }}>
+                <CountUpNumber to={correctionCount} duration={1.8} />
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--gray-text)', textTransform: 'uppercase', fontWeight: 800, marginTop: '4px' }}>
+                Published Corrections
+              </div>
+            </div>
+            <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '20px', padding: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '36px', fontWeight: 900, color: 'var(--lime)' }}>
+                <CountUpNumber to={100} suffix="%" duration={1.5} />
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--gray-text)', textTransform: 'uppercase', fontWeight: 800, marginTop: '4px' }}>
+                Audit Transparency
+              </div>
+            </div>
+          </div>
 
-              {entry.link && (
-                <motion.button
-                  onClick={() => onNavigate(entry.link!)}
-                  className="btn"
-                  style={{
-                    padding: '8px 16px',
-                    fontSize: '0.72rem',
-                    color: 'var(--ink)',
-                    borderColor: 'var(--ink)',
-                    flexShrink: 0
-                  }}
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.96 }}
-                >
-                  {entry.linkText || 'View Reference →'}
-                </motion.button>
-              )}
-            </motion.div>
-          ))}
+          {/* Filters & Search */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', marginBottom: '32px' }}>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <button
+                className={`btn ${filterType === 'all' ? 'btn-pink' : 'btn-dark'}`}
+                onClick={() => setFilterType('all')}
+              >
+                All Entries ({totalEntries})
+              </button>
+              <button
+                className={`btn ${filterType === 'feature' ? 'btn-pink' : 'btn-dark'}`}
+                onClick={() => setFilterType('feature')}
+              >
+                Deployments
+              </button>
+              <button
+                className={`btn ${filterType === 'correction' ? 'btn-pink' : 'btn-dark'}`}
+                onClick={() => setFilterType('correction')}
+              >
+                Corrections
+              </button>
+            </div>
+
+            <div style={{ minWidth: '240px' }}>
+              <input
+                type="text"
+                placeholder="Search log entries..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Timeline List */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {filteredEntries.map((entry, idx) => (
+              <motion.div
+                key={idx}
+                style={{
+                  background: 'var(--gray-card)',
+                  border: '1px solid var(--gray-border)',
+                  borderRadius: '20px',
+                  padding: '28px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px'
+                }}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '12px', color: 'var(--lime)', fontWeight: 900, letterSpacing: '0.08em' }}>
+                    {entry.date} · {entry.type.toUpperCase()}
+                  </span>
+                  <span className="tag" style={{ background: 'rgba(215, 249, 0, 0.08)' }}>
+                    {entry.id.toUpperCase()}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: '20px', fontWeight: 900, color: 'var(--white)', margin: 0 }}>
+                  {entry.summary}
+                </h3>
+                {entry.link && (
+                  <div style={{ marginTop: '8px' }}>
+                    <button
+                      className="btn btn-dark"
+                      style={{ fontSize: '12px', padding: '6px 14px' }}
+                      onClick={() => onNavigate(entry.link!)}
+                    >
+                      {entry.linkText || 'View Context'} →
+                    </button>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </main>
 
+      {/* Footer */}
       <footer>
-        <div className="wrap">
-          <div className="foot-row">
-            <span>Ordinal: The Web3 AI Agent Index</span>
-            <span>Independent Editorial Desk</span>
-            <span>ordinal30.com</span>
+        <div className="container">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <div className="logo" onClick={() => onNavigate('/')}>
+                <span className="logo-mark"></span>
+                <span>FORGES 30</span>
+              </div>
+              <p>The independent intelligence wall & Forbes 30 Under 30 index for autonomous AI agents. Profile. Verify. Remember.</p>
+            </div>
+            <div className="footer-col">
+              <h4>Explore</h4>
+              <button onClick={() => onNavigate('/')}>The 30 List</button>
+              <button onClick={() => onNavigate('/rankings')}>Rankings</button>
+              <button onClick={() => onNavigate('/log')}>Build Log</button>
+            </div>
+            <div className="footer-col">
+              <h4>Network</h4>
+              <button onClick={() => onNavigate('/apply')}>Nominate Agent</button>
+              <button onClick={() => onNavigate('/qualified')}>Qualified Volume</button>
+              <button onClick={() => onNavigate('/methodology')}>Methodology</button>
+            </div>
+            <div className="footer-col">
+              <h4>Legal</h4>
+              <button onClick={() => onNavigate('/methodology')}>Audit Rubric</button>
+              <button onClick={() => onNavigate('/')}>Terms of Service</button>
+              <button onClick={() => onNavigate('/')}>Privacy Policy</button>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>
+            <span>Hoodopus Lime Color Palette.</span>
           </div>
         </div>
       </footer>

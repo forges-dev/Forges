@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
 
 interface OrdinalNavbarProps {
   currentPath?: string;
@@ -40,20 +39,20 @@ export const GitHubLogoIcon: React.FC<{ size?: number; style?: React.CSSProperti
   </svg>
 );
 
-export const OrdinalNavbar: React.FC<OrdinalNavbarProps> = ({
+export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
   currentPath = '/',
   onNavigate,
 }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const navigateTo = (path: string) => {
     if (onNavigate) {
       onNavigate(path);
-      return;
-    }
-
-    if (typeof window !== 'undefined') {
+    } else if (typeof window !== 'undefined') {
       window.history.pushState({}, '', path);
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
+    setMobileMenuOpen(false);
   };
 
   const isCurrent = (path: string) => {
@@ -65,9 +64,6 @@ export const OrdinalNavbar: React.FC<OrdinalNavbarProps> = ({
     }
     if (path === '/methodology') {
       return currentPath === '/methodology' || currentPath === '/methodology/' || currentPath === '/method';
-    }
-    if (path === '/reports') {
-      return currentPath.startsWith('/reports');
     }
     if (path === '/log') {
       return currentPath === '/log' || currentPath === '/log/';
@@ -82,7 +78,7 @@ export const OrdinalNavbar: React.FC<OrdinalNavbarProps> = ({
   };
 
   const navItems = [
-    { label: 'The Index', path: '/' },
+    { label: 'The 30 List', path: '/' },
     { label: 'Rankings', path: '/rankings' },
     { label: 'Build Log', path: '/log' },
     { label: 'Qualified Volume', path: '/qualified' },
@@ -91,79 +87,96 @@ export const OrdinalNavbar: React.FC<OrdinalNavbarProps> = ({
   ];
 
   return (
-    <header className="wrap masthead" style={{ marginBottom: 0 }}>
-      <div className="masthead-row">
-        <motion.div
-          className="brand-wrapper"
-          onClick={() => navigateTo('/')}
-          style={{ cursor: 'pointer' }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-        >
-          <img src="/logo.jpeg" alt="Ordinal Logo" className="brand-logo-img" />
-          <div className="logotype">
-            ORDINAL
-          </div>
-        </motion.div>
-        <div className="masthead-meta">
-          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span className="live-dot"></span>
-            Vol. I 2026
-          </span>
-          <span>Web3 Intelligence Desk</span>
-          <motion.a
-            href="https://x.com/OrdinalAgentsX"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Official X account (@OrdinalAgentsX)"
-            aria-label="Official X account (@OrdinalAgentsX)"
-            style={{ color: 'var(--ink-soft)', textDecoration: 'none', display: 'flex', alignItems: 'center' }}
-            whileHover={{ scale: 1.15, color: '#111' }}
-          >
-            <XLogoIcon size={14} />
-          </motion.a>
-          <motion.a
-            href="https://github.com/KingofSpades-dev/Ordinal"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="GitHub Repository"
-            aria-label="GitHub Repository"
-            style={{ color: 'var(--ink-soft)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
-            whileHover={{ scale: 1.05, color: '#111' }}
-          >
-            <GitHubLogoIcon size={14} />
-            <span>GitHub</span>
-          </motion.a>
+    <header className="nav">
+      <div className="container nav-inner">
+        <div className="logo" onClick={() => navigateTo('/')}>
+          <span className="logo-mark"></span>
+          <span>FORGES 30</span>
         </div>
-      </div>
 
-      <nav className="masthead-tags" aria-label="Main Navigation">
-        {navItems.map((item) => {
-          const active = isCurrent(item.path);
-          return (
-            <motion.span
+        <nav className="nav-links">
+          {navItems.map((item) => (
+            <button
               key={item.path}
-              className={`nav-link ${active ? 'active' : ''}`}
+              className={isCurrent(item.path) ? 'active' : ''}
               onClick={() => navigateTo(item.path)}
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             >
               {item.label}
-            </motion.span>
-          );
-        })}
-      </nav>
+            </button>
+          ))}
+        </nav>
+
+        <div className="nav-actions">
+          <button className="btn btn-dark" onClick={() => navigateTo('/methodology')}>
+            Scope & Rubric
+          </button>
+          <button className="btn btn-pink" onClick={() => navigateTo('/apply')}>
+            Nominate Agent
+          </button>
+        </div>
+
+        <button
+          className="menu"
+          aria-label="Open menu"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          ☰
+        </button>
+      </div>
+
+      {mobileMenuOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '76px',
+            left: 0,
+            right: 0,
+            padding: '24px',
+            background: '#0d0d0a',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            borderBottom: '1px solid var(--gray-border)',
+            zIndex: 99
+          }}
+        >
+          {navItems.map((item) => (
+            <button
+              key={item.path}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: isCurrent(item.path) ? 'var(--lime)' : 'var(--gray-text)',
+                fontSize: '16px',
+                fontWeight: 700,
+                textAlign: 'left',
+                padding: '8px 0',
+                cursor: 'pointer'
+              }}
+              onClick={() => navigateTo(item.path)}
+            >
+              {item.label}
+            </button>
+          ))}
+          <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+            <button className="btn btn-dark" style={{ flex: 1 }} onClick={() => navigateTo('/methodology')}>
+              Scope & Rubric
+            </button>
+            <button className="btn btn-pink" style={{ flex: 1 }} onClick={() => navigateTo('/apply')}>
+              Nominate Agent
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
 
-export const OrdoNavbar = OrdinalNavbar;
-export const OrdoKeyIcon = () => (
-  <img
-    src="/logo.jpeg"
-    alt="Logo"
-    style={{ width: '22px', height: '22px', borderRadius: '4px', verticalAlign: 'middle' }}
-  />
+export const OrdinalNavbar = ForgesNavbar;
+export const OrdoNavbar = ForgesNavbar;
+
+export const ForgesKeyIcon: React.FC = () => (
+  <span className="logo-mark" style={{ width: '20px', height: '20px', fontSize: '12px', display: 'inline-flex' }}></span>
 );
+
+export const OrdoKeyIcon = ForgesKeyIcon;

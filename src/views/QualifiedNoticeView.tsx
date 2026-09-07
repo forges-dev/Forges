@@ -12,110 +12,135 @@ export const QualifiedNoticeView: React.FC<QualifiedNoticeViewProps> = ({ onNavi
   const { eyebrow, headline, description, expectedPublication, currentStage, allStages } = QUALIFIED_NOTICE_DATA;
 
   return (
-    <div className="ordinal-app">
+    <div className="ordinal-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
       <OrdinalNavbar currentPath="/qualified" onNavigate={onNavigate} />
 
-      <div className="ticker-band">
+      <div className="ticker-band" style={{ marginTop: '76px' }}>
         <div className="ticker-track">
           <span>QUALIFIED VOLUME ENGINE · INSTITUTIONAL TELEMETRY FILTER · REMOVING WASH TRADES & CIRCULAR ROUTING</span>
           <span>QUALIFIED VOLUME ENGINE · INSTITUTIONAL TELEMETRY FILTER · REMOVING WASH TRADES & CIRCULAR ROUTING</span>
         </div>
       </div>
 
-      <main className="wrap" style={{ maxWidth: '920px', margin: '40px auto 80px', padding: '0 24px' }}>
-        <div className="kicker">{eyebrow || 'Telemetry Specification'}</div>
-        <motion.h1
-          className="headline"
-          style={{ fontSize: 'clamp(2.2rem, 4.8vw, 3.4rem)', margin: '14px 0 16px' }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          {headline}
-        </motion.h1>
-        <p className="dek" style={{ fontSize: '1.2rem', maxWidth: '760px', marginBottom: '32px' }}>
-          {description}
-        </p>
+      <main style={{ padding: '60px 0 100px' }}>
+        <div className="container" style={{ maxWidth: '960px' }}>
+          <div className="kicker">{eyebrow}</div>
+          <motion.h1
+            style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 900, letterSpacing: '-0.04em', margin: '12px 0 20px', color: 'var(--white)' }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {headline}
+          </motion.h1>
+          <p className="lead" style={{ maxWidth: '760px', fontSize: '16.5px', color: 'var(--gray-text)', marginBottom: '40px' }}>
+            {description}
+          </p>
 
-        {/* Status Strip */}
-        <div className="ledger" style={{ marginBottom: '40px' }}>
-          <div className="ledger-cell">
-            <div className="ledger-num" style={{ fontSize: '1.8rem' }}>{currentStage}</div>
-            <div className="ledger-label">Current Pipeline Phase</div>
-          </div>
-          <div className="ledger-cell">
-            <div className="ledger-num">{expectedPublication}</div>
-            <div className="ledger-label">Target General Availability</div>
-          </div>
-          <div className="ledger-cell">
-            <div className="ledger-num">
-              <CountUpNumber to={0} suffix="%" duration={1.5} />
+          {/* Status Bar */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '40px' }}>
+            <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '20px', padding: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '24px', fontWeight: 900, color: 'var(--lime)' }}>{currentStage}</div>
+              <div style={{ fontSize: '12px', color: 'var(--gray-text)', textTransform: 'uppercase', fontWeight: 800, marginTop: '6px' }}>
+                Pipeline Phase
+              </div>
             </div>
-            <div className="ledger-label">Wash Trading Tolerance</div>
+            <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '20px', padding: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '24px', fontWeight: 900, color: 'var(--lime)' }}>{expectedPublication}</div>
+              <div style={{ fontSize: '12px', color: 'var(--gray-text)', textTransform: 'uppercase', fontWeight: 800, marginTop: '6px' }}>
+                Target Availability
+              </div>
+            </div>
+            <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '20px', padding: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '32px', fontWeight: 900, color: 'var(--lime)' }}>
+                <CountUpNumber to={0} suffix="%" duration={1.5} />
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--gray-text)', textTransform: 'uppercase', fontWeight: 800, marginTop: '6px' }}>
+                Wash Trading Tolerance
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* Development Stages */}
-        <section style={{ border: '1px solid var(--ink)', padding: '28px', background: 'var(--paper)', marginBottom: '36px' }}>
-          <div className="aside-title">Development & Verification Roadmap</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '16px' }}>
-            {allStages.map((stageName, idx) => {
-              const currentStageIndex = allStages.indexOf(currentStage);
-              const isPast = idx < currentStageIndex;
-              const isCurrent = idx === currentStageIndex;
-              return (
-                <motion.div
-                  key={stageName}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: idx * 0.1 }}
-                  whileHover={{ x: 4 }}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '12px 16px',
-                    borderLeft: isCurrent ? '4px solid var(--crimson)' : isPast ? '4px solid var(--brass)' : '4px solid var(--rule)',
-                    background: isCurrent ? 'var(--paper-dim)' : 'transparent'
-                  }}
-                >
-                  <div>
-                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.75rem', fontWeight: 600, color: 'var(--ink-soft)' }}>
-                      STAGE 0{idx + 1} ·
-                    </span>{' '}
-                    <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>{stageName}</span>
-                  </div>
-                  <span
-                    className="badge"
+          {/* Roadmap Card */}
+          <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '24px', padding: '36px' }}>
+            <h3 style={{ fontSize: '22px', fontWeight: 900, color: 'var(--white)', marginBottom: '20px' }}>
+              Development & Verification Roadmap
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {allStages.map((stageName, idx) => {
+                const currentStageIndex = allStages.indexOf(currentStage);
+                const isPast = idx < currentStageIndex;
+                const isCurrent = idx === currentStageIndex;
+                return (
+                  <motion.div
+                    key={stageName}
                     style={{
-                      color: isCurrent ? 'var(--crimson)' : isPast ? 'var(--brass)' : 'var(--ink-soft)',
-                      background: isCurrent ? 'var(--crimson-soft)' : isPast ? 'var(--brass-soft)' : 'transparent'
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '16px 20px',
+                      borderRadius: '14px',
+                      borderLeft: isCurrent ? '4px solid var(--lime)' : isPast ? '4px solid #6fbf73' : '4px solid var(--gray-border-strong)',
+                      background: isCurrent ? 'rgba(215, 249, 0, 0.08)' : '#141410'
                     }}
                   >
-                    {isPast ? 'COMPLETE' : isCurrent ? 'IN PROGRESS' : 'QUEUED'}
-                  </span>
-                </motion.div>
-              );
-            })}
+                    <div>
+                      <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--lime)', textTransform: 'uppercase', marginRight: '8px' }}>
+                        STAGE 0{idx + 1}
+                      </span>
+                      <span style={{ fontWeight: 800, fontSize: '15px', color: 'var(--white)' }}>{stageName}</span>
+                    </div>
+                    <span
+                      className="tag"
+                      style={{
+                        background: isCurrent ? 'var(--lime)' : 'transparent',
+                        color: isCurrent ? 'var(--ink)' : 'var(--lime)',
+                        fontWeight: 800
+                      }}
+                    >
+                      {isPast ? 'COMPLETE' : isCurrent ? 'IN PROGRESS' : 'QUEUED'}
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
-        </section>
-
-        {/* Methodology explanation */}
-        <section style={{ background: 'var(--paper-dim)', padding: '24px', borderLeft: '4px solid var(--brass)' }}>
-          <div className="aside-title" style={{ color: 'var(--brass)' }}>Why Qualified Volume Matters</div>
-          <p style={{ fontSize: '0.96rem', lineHeight: '1.7', margin: 0, color: 'var(--ink)' }}>
-            Raw volume on decentralized exchanges is vulnerable to self-dealing and automated circular loops.
-            Ordinal filters all transaction graph telemetry through cluster-detection algorithms to isolate genuine commercial demand from subsidized liquidity farming.
-          </p>
-        </section>
+        </div>
       </main>
 
+      {/* Footer */}
       <footer>
-        <div className="wrap">
-          <div className="foot-row">
-            <span>Ordinal: The Web3 AI Agent Index</span>
-            <span>Independent Editorial Desk</span>
-            <span>ordinal30.com</span>
+        <div className="container">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <div className="logo" onClick={() => onNavigate('/')}>
+                <span className="logo-mark"></span>
+                <span>FORGES 30</span>
+              </div>
+              <p>The independent intelligence wall & Forbes 30 Under 30 index for autonomous AI agents. Profile. Verify. Remember.</p>
+            </div>
+            <div className="footer-col">
+              <h4>Explore</h4>
+              <button onClick={() => onNavigate('/')}>The 30 List</button>
+              <button onClick={() => onNavigate('/rankings')}>Rankings</button>
+              <button onClick={() => onNavigate('/log')}>Build Log</button>
+            </div>
+            <div className="footer-col">
+              <h4>Network</h4>
+              <button onClick={() => onNavigate('/apply')}>Nominate Agent</button>
+              <button onClick={() => onNavigate('/qualified')}>Qualified Volume</button>
+              <button onClick={() => onNavigate('/methodology')}>Methodology</button>
+            </div>
+            <div className="footer-col">
+              <h4>Legal</h4>
+              <button onClick={() => onNavigate('/methodology')}>Audit Rubric</button>
+              <button onClick={() => onNavigate('/')}>Terms of Service</button>
+              <button onClick={() => onNavigate('/')}>Privacy Policy</button>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>
+            <span>Hoodopus Lime Color Palette.</span>
           </div>
         </div>
       </footer>

@@ -1,2 +1,2 @@
-export { OrdinalNavbar, OrdoNavbar, OrdoKeyIcon, XLogoIcon, GitHubLogoIcon } from './OrdinalNavbar';
+export { ForgesNavbar, OrdinalNavbar, OrdoNavbar, ForgesKeyIcon, OrdoKeyIcon, XLogoIcon, GitHubLogoIcon } from './OrdinalNavbar';
 

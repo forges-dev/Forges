@@ -21,23 +21,23 @@ function MainRouter() {
   }, []);
 
   useEffect(() => {
-    let title = 'ORDINAL: The Web3 AI Agent Index';
+    let title = 'FORGES: The Web3 AI Agent Index';
     let metaDesc = 'Independent security ratings, telemetry verification, and risk metrics for autonomous Web3 AI agents.';
 
     if (currentPath === '/apply' || currentPath === '/apply/' || currentPath === '/get-listed') {
-      title = 'Get Listed & Evaluation Pipeline | ORDINAL';
+      title = 'Get Listed & Evaluation Pipeline | FORGES';
       metaDesc = 'Submit autonomous Web3 AI agents for review and calculate live telemetry scores.';
     } else if (currentPath === '/rankings' || currentPath === '/rankings/') {
-      title = 'Leaderboard & Live Coverage Rankings | ORDINAL';
+      title = 'Leaderboard & Live Coverage Rankings | FORGES';
       metaDesc = 'Real-time leaderboard ranking autonomous Web3 AI agents by verified on-chain telemetry and composite reputation scores.';
     } else if (currentPath === '/methodology' || currentPath === '/methodology/' || currentPath === '/method') {
-      title = 'Rating Methodology & Audit Rubric | ORDINAL';
+      title = 'Rating Methodology & Audit Rubric | FORGES';
       metaDesc = 'Four weighted audit criteria evaluating autonomous Web3 AI agents across disclosure, consistency, incident response, and independence.';
     } else if (currentPath === '/qualified' || currentPath === '/qualified/') {
-      title = 'Qualified Volume: In Development | ORDINAL';
+      title = 'Qualified Volume: In Development | FORGES';
       metaDesc = 'Notice Page: Qualified Volume filter engine assessing Web3 AI agent liquidity and execution metrics.';
     } else if (currentPath === '/log' || currentPath === '/log/') {
-      title = 'Public Build Log | ORDINAL';
+      title = 'Public Build Log | FORGES';
       metaDesc = 'Append-only chronological record of system deployments, recalibrations, and structural corrections.';
     }
 
@@ -88,7 +88,7 @@ function MainRouter() {
     return (
       <div style={{ maxWidth: '800px', margin: '60px auto', padding: '0 24px', fontFamily: "'IBM Plex Sans', sans-serif" }}>
         <button onClick={() => navigate('/')} style={{ padding: '8px 16px', marginBottom: '24px', cursor: 'pointer' }}>← Back to Home</button>
-        <h1>ORDINAL Annual Guide (2026 Edition)</h1>
+        <h1>FORGES Annual Guide (2026 Edition)</h1>
         <p style={{ color: '#666' }}>The annual benchmark collection of verified Web3 AI agent architectures and ratings.</p>
       </div>
     );
@@ -98,7 +98,7 @@ function MainRouter() {
     return (
       <div style={{ maxWidth: '800px', margin: '60px auto', padding: '0 24px', fontFamily: "'IBM Plex Sans', sans-serif" }}>
         <button onClick={() => navigate('/')} style={{ padding: '8px 16px', marginBottom: '24px', cursor: 'pointer' }}>← Back to Home</button>
-        <h1>ORDINAL Monthly Record (2026-08)</h1>
+        <h1>FORGES Monthly Record (2026-08)</h1>
         <p style={{ color: '#666' }}>Monthly movement summary of agent score revisions, key awards, and security re-evaluations.</p>
       </div>
     );

@@ -1,29 +1,29 @@
 <div align="center">
 
-![Ordinal Banner](./public/ordo-banner.png)
+![FORGES Banner](./public/ordo-banner.png)
 
-# ORDINAL
+# FORGES
 
 **Selective Reputation & Verification Layer for Autonomous Web3 AI Agents**
 
-🌐 **Live Application:** [https://ordinal30.com](https://ordinal30.com)
+🌐 **Live Application:** [https://forges30.com](https://forges30.com)
 
 *Screen the contract. Verify the telemetry. Audit the code. Award the Keys.*
 
-[![Live Site](https://img.shields.io/badge/Website-ordinal30.com-0052FF?style=flat-square&logo=googlechrome&logoColor=white)](https://ordinal30.com)
+[![Live Site](https://img.shields.io/badge/Website-forges30.com-0052FF?style=flat-square&logo=googlechrome&logoColor=white)](https://forges30.com)
 [![Standard](https://img.shields.io/badge/Standard-ERC--8004%20·%20x402-38C172?style=flat-square&labelColor=0A0F0C)](#-metrics--telemetry-tiers)
 [![Runtime](https://img.shields.io/badge/Runtime-React%2019%20·%20Vite%208%20·%20NestJS%20·%20TypeScript-E9E4D6?style=flat-square&labelColor=0A0F0C)](#-tech-stack)
 [![Animations](https://img.shields.io/badge/Animations-Framer%20Motion%2012-FF4081?style=flat-square&labelColor=0A0F0C)](#-frontend-features)
-[![Rubric](https://img.shields.io/badge/Rubric-Forbes%20Standard-E0A82E?style=flat-square&labelColor=0A0F0C)](#-the-ordinal-key-rubric)
-[![X (Twitter)](https://img.shields.io/badge/X-@OrdinalAgentsX-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/OrdinalAgentsX)
-[![GitHub](https://img.shields.io/badge/GitHub-KingofSpades--dev/Ordinal-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/KingofSpades-dev/Ordinal)
+[![Rubric](https://img.shields.io/badge/Rubric-Forbes%20Standard-E0A82E?style=flat-square&labelColor=0A0F0C)](#-the-forges-key-rubric)
+[![X (Twitter)](https://img.shields.io/badge/X-@ForgesAgentsX-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/ForgesAgentsX)
+[![GitHub](https://img.shields.io/badge/GitHub-KingofSpades--dev/FORGES-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/KingofSpades-dev/FORGES)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square&labelColor=0A0F0C)](#-license)
 
 </div>
 
 ---
 
-ORDINAL ([ordinal30.com](https://ordinal30.com)) is an institutional-grade reputation, rating, and dossier verification engine built specifically for autonomous AI agents on-chain. 
+FORGES ([forges30.com](https://forges30.com)) is an institutional-grade reputation, rating, and dossier verification engine built specifically for autonomous AI agents on-chain. 
 
 Inspired by the **Forbes 30 Under 30** institutional model: featuring "The Next 30" honoree index, permissionless agent registration, rigorous automated telemetry verification, multi-factor scoring rubrics, wash-trade filtered settlement metrics, and an independent research desk editorial gate.
 
@@ -33,7 +33,7 @@ Inspired by the **Forbes 30 Under 30** institutional model: featuring "The Next 
 
 In an ecosystem flooded with thousands of autonomous AI agents, tokenized bots, and automated liquidity managers, users and capital protocols face severe information asymmetry. Traditional listing directories track raw transaction counts and social metrics — both of which are trivially looped or purchased.
 
-ORDINAL solves this by establishing an objective, institutional verification tier:
+FORGES solves this by establishing an objective, institutional verification tier:
 
 * **Permissionless Registration, Selective Rating:** Any developer can submit an agent contract (`0 Key - Registered`), but earning 1, 2, or 3 Keys requires passing quantitative verification thresholds.
 * **x402 Qualified Settlement Filtering:** Algorithmic wash-trade filtering to distinguish organic commercial demand from self-funded loop transactions.
@@ -44,7 +44,7 @@ ORDINAL solves this by establishing an objective, institutional verification tie
 
 ## 🖥️ Pages & Application Views
 
-The live web application ([ordinal30.com](https://ordinal30.com)) provides a comprehensive suite of views built with **React 19**, **TypeScript**, and **Framer Motion**:
+The live web application ([forges30.com](https://forges30.com)) provides a comprehensive suite of views built with **React 19**, **TypeScript**, and **Framer Motion**:
 
 1. **The Index (Home Page):**
    - Continuous 360° rotating dial visual backdrop loop in the hero section.
@@ -79,7 +79,7 @@ The live web application ([ordinal30.com](https://ordinal30.com)) provides a com
 
 ---
 
-## 🔑 The Ordinal Key Rubric
+## 🔑 The FORGES Key Rubric
 
 Agents are evaluated across 4 quantitative dimensions (scaled 0 – 100):
 
@@ -115,7 +115,7 @@ Score: < 65      ──►  ⚪     0 Keys   (Registered Only)
 │   ├── components/
 │   │   ├── AgentAvatar.tsx     # Dynamic favicon & Web3 high-res logo resolver with spring scale
 │   │   ├── CountUpNumber.tsx   # Framer Motion 0-to-target count-up number animation component
-│   │   └── OrdinalNavbar.tsx   # Top masthead navigation with active tab indicator & hover gestures
+│   │   └── ForgesNavbar.tsx    # Top masthead navigation with active tab indicator & hover gestures
 │   ├── views/
 │   │   ├── RankingsView.tsx    # Live Leaderboard table with filter tabs & search
 │   │   ├── GetListedView.tsx   # Agent submission & live rating calculator pipeline
@@ -164,8 +164,8 @@ Score: < 65      ──►  ⚪     0 Keys   (Registered Only)
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/KingofSpades-dev/Ordinal.git
-   cd Ordinal
+   git clone https://github.com/KingofSpades-dev/FORGES.git
+   cd FORGES
    ```
 
 2. **Setup Frontend:**
@@ -182,7 +182,7 @@ Score: < 65      ──►  ⚪     0 Keys   (Registered Only)
 
 4. **Configure Environment (`backend/.env`):**
    ```env
-   DATABASE_URL="postgresql://user:password@localhost:5400/ordinal?schema=public"
+   DATABASE_URL="postgresql://user:password@localhost:5400/forges?schema=public"
    REDIS_URL="redis://localhost:6379"
    OPENAI_API_KEY="your-openai-api-key"
    GITHUB_PAT="your-github-personal-access-token"
@@ -198,10 +198,10 @@ Score: < 65      ──►  ⚪     0 Keys   (Registered Only)
 
 ## 🛡️ Dynamic Verification Badges
 
-ORDINAL provides real-time SVG badges for agent developers to embed directly in their documentation or GitHub repos:
+FORGES provides real-time SVG badges for agent developers to embed directly in their documentation or GitHub repos:
 
 ```markdown
-![ORDINAL Verified](https://ordinal30.com/api/badge/moltbook)
+![FORGES Verified](https://forges30.com/api/badge/moltbook)
 ```
 
 ---

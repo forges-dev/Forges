@@ -1062,16 +1062,20 @@ async function main() {
     ];
 
     for (const snap of dynamicSnapshots) {
-      await prisma.signalSnapshot.create({
-        data: {
-          agentId: agent.id,
-          signalKey: snap.signalKey,
-          value: snap.value,
-          source: 'seed_cohort_v1',
-          methodVersion: '0.1',
-          rawPayload: JSON.stringify(snap)
-        }
-      });
+      try {
+        await prisma.signalSnapshot.create({
+          data: {
+            agentId: agent.id,
+            signalKey: snap.signalKey,
+            value: snap.value,
+            source: 'seed_cohort_v1',
+            methodVersion: '0.1',
+            rawPayload: JSON.stringify(snap)
+          }
+        });
+      } catch (e) {
+        // ignore duplicate
+      }
     }
 
     // 2.5 Seeding AgentIdentity
@@ -1083,60 +1087,70 @@ async function main() {
         const chain = chainList[i] || chainList[0];
         const tier = adminKeysSafe === 0 ? 'unverified' : 'verified';
         
-        await prisma.agentIdentity.create({
-          data: {
-            agentId: agent.id,
-            chainKey: chain.toLowerCase(),
-            contractAddress: addr,
-            addressType: 'contract',
-            isPrimary: i === 0,
-            verificationTier: tier,
-            verificationMethod: 'none',
-            verifiedAt: new Date(),
-            lastCheckedAt: new Date(),
-          }
-        });
+        try {
+          await prisma.agentIdentity.create({
+            data: {
+              agentId: agent.id,
+              chainKey: chain.toLowerCase(),
+              contractAddress: addr,
+              addressType: 'contract',
+              isPrimary: i === 0,
+              verificationTier: tier,
+              verificationMethod: 'none',
+              verifiedAt: new Date(),
+              lastCheckedAt: new Date(),
+            }
+          });
+        } catch (err) {
+          // ignore duplicate
+        }
       }
     }
 
     // 2.6 Seeding AgentLink
     if (agentData.website && agentData.website !== 'N/A') {
-      await prisma.agentLink.create({
-        data: {
-          agentId: agent.id,
-          kind: 'website',
-          url: agentData.website,
-          resolves: true,
-          lastCheckedAt: new Date(),
-          httpStatus: 200
-        }
-      });
+      try {
+        await prisma.agentLink.create({
+          data: {
+            agentId: agent.id,
+            kind: 'website',
+            url: agentData.website,
+            resolves: true,
+            lastCheckedAt: new Date(),
+            httpStatus: 200
+          }
+        });
+      } catch (e) {}
     }
 
     if (agentData.docsUrl && agentData.docsUrl !== 'N/A') {
-      await prisma.agentLink.create({
-        data: {
-          agentId: agent.id,
-          kind: 'docs',
-          url: agentData.docsUrl,
-          resolves: true,
-          lastCheckedAt: new Date(),
-          httpStatus: 200
-        }
-      });
+      try {
+        await prisma.agentLink.create({
+          data: {
+            agentId: agent.id,
+            kind: 'docs',
+            url: agentData.docsUrl,
+            resolves: true,
+            lastCheckedAt: new Date(),
+            httpStatus: 200
+          }
+        });
+      } catch (e) {}
     }
 
     if (agentData.githubUrl && agentData.githubUrl !== 'N/A') {
-      await prisma.agentLink.create({
-        data: {
-          agentId: agent.id,
-          kind: 'github',
-          url: agentData.githubUrl,
-          resolves: true,
-          lastCheckedAt: new Date(),
-          httpStatus: 200
-        }
-      });
+      try {
+        await prisma.agentLink.create({
+          data: {
+            agentId: agent.id,
+            kind: 'github',
+            url: agentData.githubUrl,
+            resolves: true,
+            lastCheckedAt: new Date(),
+            httpStatus: 200
+          }
+        });
+      } catch (e) {}
     }
 
     // 3. Compute score based on Rubric v0.1
@@ -1220,47 +1234,53 @@ async function main() {
       starDesc: keyDesc,
     };
 
-    await prisma.score.create({
-      data: {
-        agentId: agent.id,
-        methodologyVersion: '0.1',
-        hardSignalScores: JSON.stringify(hardSignalScores),
-        editorialScore: 0.0,
-        confidence,
-      }
-    });
+    try {
+      await prisma.score.create({
+        data: {
+          agentId: agent.id,
+          methodologyVersion: '0.1',
+          hardSignalScores: JSON.stringify(hardSignalScores),
+          editorialScore: 0.0,
+          confidence,
+        }
+      });
+    } catch (e) {}
 
     // 4. Seeding Key Awards based on Michelin Thresholds
     if (keysCount > 0) {
       const expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + 365);
-      await prisma.keyAward.create({
-        data: {
-          agentId: agent.id,
-          keyCount: keysCount,
-          expiresAt,
-          methodologyVersion: '0.1',
-          editorId: admin.id,
-          rationale: agentData.keyRationale || 'Category standard.'
-        }
-      });
+      try {
+        await prisma.keyAward.create({
+          data: {
+            agentId: agent.id,
+            keyCount: keysCount,
+            expiresAt,
+            methodologyVersion: '0.1',
+            editorId: admin.id,
+            rationale: agentData.keyRationale || 'Category standard.'
+          }
+        });
+      } catch (e) {}
     }
 
     // 5. Seeding Dossiers
     if (agentData.dossier) {
-      await prisma.dossier.create({
-        data: {
-          agentId: agent.id,
-          dossierNumber: agentData.dossier.dossierNumber,
-          title: agentData.dossier.title,
-          body: agentData.dossier.body,
-          verdict: agentData.dossier.verdict,
-          methodologyVersion: agentData.dossier.methodologyVersion,
-          editorId: admin.id,
-          editorVerified: true,
-          publishedAt: new Date(),
-        }
-      });
+      try {
+        await prisma.dossier.create({
+          data: {
+            agentId: agent.id,
+            dossierNumber: agentData.dossier.dossierNumber,
+            title: agentData.dossier.title,
+            body: agentData.dossier.body,
+            verdict: agentData.dossier.verdict,
+            methodologyVersion: agentData.dossier.methodologyVersion,
+            editorId: admin.id,
+            editorVerified: true,
+            publishedAt: new Date(),
+          }
+        });
+      } catch (e) {}
     }
   }
 
