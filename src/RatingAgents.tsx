@@ -172,9 +172,9 @@ function AgentFavicon({ websiteUrl, name, size = 48, className = '', borderRadiu
   }
 
   try {
-    const url = new URL(websiteUrl);
-    const domain = url.hostname;
-    const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${domain}&default=404`;
+    const url = new URL(websiteUrl.startsWith('http') ? websiteUrl : `https://${websiteUrl}`);
+    const domain = url.hostname.replace(/^www\./, '');
+    const faviconUrl = `https://www.google.com/s2/favicons?sz=128&domain=${domain}`;
 
     return (
       <div
@@ -1008,12 +1008,12 @@ export default function RatingAgents() {
                   transition: 'all 0.25s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.transform = 'none';
                   e.currentTarget.style.background = '#63101B';
                   e.currentTarget.style.boxShadow = '0 6px 20px rgba(124, 21, 34, 0.32)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.transform = 'none';
                   e.currentTarget.style.background = 'var(--accent, #7C1522)';
                   e.currentTarget.style.boxShadow = '0 4px 14px rgba(124, 21, 34, 0.25)';
                 }}

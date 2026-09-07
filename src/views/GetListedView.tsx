@@ -28,7 +28,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
       if (draft) {
         setFormData(JSON.parse(draft));
       }
-    } catch (e) {}
+    } catch (e) { }
   }, []);
 
   const navigateTo = (path: string) => {
@@ -47,7 +47,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
     setFormData(updated);
     try {
       localStorage.setItem('forges_getlisted_draft', JSON.stringify(updated));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -114,7 +114,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
           submittedBy: 'user_nomination'
         })
       });
-    } catch (err) {}
+    } catch (err) { }
 
     saveAgentToClientDatabase(newAgent);
 
@@ -170,7 +170,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '40px' }}>
             {/* Nomination Form */}
-            <div style={{ background: 'var(--gray-card)', border: '1px solid var(--gray-border)', borderRadius: '24px', padding: '36px' }}>
+            <div style={{ background: '#0d0d0a', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '24px', padding: '36px', boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)' }}>
               <form onSubmit={handleFormSubmit}>
                 <AnimatePresence>
                   {formSubmitted && (
@@ -203,7 +203,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                <div className="form-row-2col">
                   <div>
                     <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
                       Primary Chain *
@@ -255,7 +255,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                <div className="form-row-2col">
                   <div>
                     <label style={{ display: 'block', color: 'var(--lime)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
                       Official Website URL *
@@ -312,7 +312,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
                   style={{ width: '100%', padding: '16px' }}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Ingesting & Diagnostics...' : 'Submit for Class of 2026 Audit →'}
+                  {isSubmitting ? 'Ingesting & Diagnostics...' : 'Submit for Class of 2026 Audit'}
                 </button>
               </form>
             </div>
@@ -397,7 +397,6 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
           </div>
           <div className="footer-bottom">
             <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>
-            <span>Hoodopus Lime Color Palette.</span>
           </div>
         </div>
       </footer>

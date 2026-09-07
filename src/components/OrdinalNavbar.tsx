@@ -78,11 +78,10 @@ export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
   };
 
   const navItems = [
-    { label: 'The 30 List', path: '/' },
-    { label: 'Rankings', path: '/rankings' },
-    { label: 'Build Log', path: '/log' },
-    { label: 'Qualified Volume', path: '/qualified' },
+    { label: 'Home', path: '/' },
+    { label: 'The 30', path: '/rankings' },
     { label: 'Methodology', path: '/methodology' },
+    { label: 'Build Log', path: '/log' },
     { label: 'Get Listed', path: '/apply' },
   ];
 
@@ -117,27 +116,31 @@ export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
 
         <button
           className="menu"
-          aria-label="Open menu"
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{ fontSize: '24px', padding: '4px 8px' }}
         >
-          ☰
+          {mobileMenuOpen ? '✕' : '☰'}
         </button>
       </div>
 
       {mobileMenuOpen && (
         <div
           style={{
-            position: 'absolute',
+            position: 'fixed',
             top: '76px',
             left: 0,
             right: 0,
-            padding: '24px',
-            background: '#0d0d0a',
+            bottom: 0,
+            padding: '24px 32px 48px',
+            background: 'rgba(13, 13, 10, 0.98)',
+            backdropFilter: 'blur(16px)',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
-            borderBottom: '1px solid var(--gray-border)',
-            zIndex: 99
+            zIndex: 999,
+            overflowY: 'auto',
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)'
           }}
         >
           {navItems.map((item) => (
@@ -146,11 +149,12 @@ export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
               style={{
                 background: 'none',
                 border: 'none',
-                color: isCurrent(item.path) ? 'var(--lime)' : 'var(--gray-text)',
-                fontSize: '16px',
-                fontWeight: 700,
+                color: isCurrent(item.path) ? 'var(--lime)' : '#ffffff',
+                fontSize: '18px',
+                fontWeight: 800,
                 textAlign: 'left',
-                padding: '8px 0',
+                padding: '12px 0',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
                 cursor: 'pointer'
               }}
               onClick={() => navigateTo(item.path)}
@@ -158,11 +162,11 @@ export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
               {item.label}
             </button>
           ))}
-          <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-            <button className="btn btn-dark" style={{ flex: 1 }} onClick={() => navigateTo('/methodology')}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '24px' }}>
+            <button className="btn btn-dark" style={{ width: '100%', justifyContent: 'center' }} onClick={() => navigateTo('/methodology')}>
               Scope & Rubric
             </button>
-            <button className="btn btn-pink" style={{ flex: 1 }} onClick={() => navigateTo('/apply')}>
+            <button className="btn btn-pink" style={{ width: '100%', justifyContent: 'center' }} onClick={() => navigateTo('/apply')}>
               Nominate Agent
             </button>
           </div>

@@ -1,9 +1,24 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { getFullAgentDatabase, fetchLiveAgentDatabase, type AgentEntity } from './data/agentDatabase';
 import { OrdinalNavbar } from './components/OrdinalNavbar';
-import { AgentAvatar, getFaviconUrl } from './components/AgentAvatar';
-import { CountUpNumber } from './components/CountUpNumber';
+import { AgentCardImage } from './components/AgentAvatar';
+import { AgentDossierModal } from './components/AgentDossierModal';
+
+const supportedChains = [
+  { name: 'Ethereum', icon: '/chains/ethereum.svg', hasNameInSvg: true },
+  { name: 'Base', icon: '/chains/base.svg', hasNameInSvg: true },
+  { name: 'Solana', icon: '/chains/solana.svg', hasNameInSvg: true },
+  { name: 'Arbitrum', icon: '/chains/arbitrum.svg', hasNameInSvg: true },
+  { name: 'Optimism', icon: '/chains/optimism.svg', hasNameInSvg: false },
+  { name: 'Polygon', icon: '/chains/polygon.svg', hasNameInSvg: false },
+  { name: 'Avalanche', icon: '/chains/avalanche.svg', hasNameInSvg: false },
+  { name: 'Berachain', icon: '/chains/berachain.svg', hasNameInSvg: true },
+  { name: 'BNB Chain', icon: '/chains/bnb.svg', hasNameInSvg: false },
+  { name: 'Sui', icon: '/chains/sui.svg', hasNameInSvg: true },
+  { name: 'Aptos', icon: '/chains/aptos.svg', hasNameInSvg: true },
+  { name: 'TON', icon: '/chains/ton.svg', hasNameInSvg: false }
+];
 
 export default function App({ onNavigate }: { onNavigate?: (path: string) => void }) {
   const [selectedAgent, setSelectedAgent] = useState<AgentEntity | null>(null);
@@ -108,11 +123,11 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
             <div className="hero-copy">
               <div className="eyebrow">THE DEFINITIVE INDEX OF MACHINE AUTONOMY · CLASS OF 2026</div>
               <h1>
-                Indexing the <span className="gradient-text">30 Most Influential</span><br />
+                Indexing the <span className="gradient-text">Top 30 Category-Defining</span><br />
                 Autonomous AI Agents.
               </h1>
               <p>
-                <b>FORGES 30:</b> The institutional benchmark index and public intelligence wall for Web3 autonomous systems — auditing real-time capability, smart contract provenance, codebase security, and un-bought execution integrity.
+                The institutional benchmark index and public intelligence wall for Web3 autonomous systems, auditing real-time capability, smart contract provenance, codebase security, and un-bought execution integrity.
               </p>
 
               <div className="hero-actions">
@@ -120,10 +135,10 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
                   const el = document.getElementById('agents');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}>
-                  Explore The 30 List →
+                  Explore The 30 List
                 </button>
                 <button className="btn btn-dark" onClick={() => navigateTo('/apply')}>
-                  Nominate an Agent →
+                  Nominate an Agent
                 </button>
               </div>
 
@@ -156,22 +171,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
           </div>
         </section>
 
-        {/* Chain Coverage & Live Ticker Strip */}
-        <div className="strip">
-          <div className="container strip-inner">
-            <div className="strip-label">Multichain Coverage</div>
-            <div className="chain">
-              <span>Ethereum</span>
-              <span>Base</span>
-              <span>Solana</span>
-              <span>Arbitrum</span>
-              <span>Optimism</span>
-              <span>Polygon</span>
-              <span>Avalanche</span>
-            </div>
-          </div>
-        </div>
-
+        {/* Live Score Ticker Band */}
         <div className="ticker-band">
           <div className="ticker-track">
             {allAgents.slice(0, 8).map((a) => (
@@ -235,6 +235,28 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
           </div>
         </section>
 
+        {/* Multichain Coverage Running Marquee Band (Below Section 02 / THE SCOPE) */}
+        <div className="chain-strip-band">
+          <div className="chain-strip-label">Multichain Coverage</div>
+          <div className="chain-marquee-wrap">
+            <div className="chain-marquee-track">
+              {supportedChains.concat(supportedChains).map((c, i) => (
+                <span key={c.name + '-' + i}>
+                  <img
+                    src={c.icon}
+                    alt={c.name}
+                    className={c.hasNameInSvg ? 'chain-full-logo' : 'chain-icon'}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                  {!c.hasNameInSvg && <span className="chain-text">{c.name}</span>}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Profiled Agents / 30 Under 30 Honorees Carousel */}
         <section className="agents" id="agents">
           <div className="container">
@@ -265,50 +287,30 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
                   transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
               >
-                {allAgents.map((agent) => {
-                  const faviconUrl = getFaviconUrl(agent.website, agent.name, agent.slug);
-                  return (
-                    <article
-                      key={agent.id}
-                      className="agent"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => setSelectedAgent(agent)}
-                    >
-                      <div className="agent-top">
-                        {faviconUrl ? (
-                          <img
-                            src={faviconUrl}
-                            alt={agent.name}
-                            className="agent-full-img"
-                            onError={(e) => {
-                              (e.currentTarget as HTMLElement).style.display = 'none';
-                              const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                              if (fallback) fallback.style.display = 'flex';
-                            }}
-                          />
-                        ) : null}
-                        <div
-                          className="agent-full-fallback"
-                          style={{ display: faviconUrl ? 'none' : 'flex' }}
-                        >
-                          {agent.avatar || agent.name.slice(0, 2).toUpperCase()}
-                        </div>
-                        <div className="agent-top-overlay" />
+                {allAgents.map((agent) => (
+                  <article
+                    key={agent.id}
+                    className="agent"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setSelectedAgent(agent)}
+                  >
+                    <div className="agent-top">
+                      <AgentCardImage agent={agent} />
+                      <div className="agent-top-overlay" />
+                    </div>
+                    <div className="agent-body">
+                      <div className="agent-name">
+                        <h3>{agent.name}</h3>
+                        <span className="tag">{agent.tag || 'Honoree'}</span>
                       </div>
-                      <div className="agent-body">
-                        <div className="agent-name">
-                          <h3>{agent.name}</h3>
-                          <span className="tag">{agent.tag || 'Honoree'}</span>
-                        </div>
-                        <p>{agent.blurb}</p>
-                        <div className="mini-meta">
-                          <span>Trust Score {agent.score.toFixed(1)}</span>
-                          <span>{agent.chain} · #{agent.rank}</span>
-                        </div>
+                      <p>{agent.blurb}</p>
+                      <div className="mini-meta">
+                        <span style={{ color: 'var(--lime)', fontWeight: 900 }}>Trust Score {agent.score.toFixed(1)}</span>
+                        <span style={{ color: 'rgba(255, 255, 255, 0.8)' }}>{agent.chain} · #{agent.rank}</span>
                       </div>
-                    </article>
-                  );
-                })}
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
 
@@ -338,7 +340,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
 
             <div style={{ textAlign: 'center', marginTop: '40px' }}>
               <button className="btn btn-dark" onClick={() => navigateTo('/rankings')}>
-                View Full 30 Under 30 Leaderboard →
+                View Full 30 Under 30 Leaderboard
               </button>
             </div>
           </div>
@@ -478,7 +480,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
                   <p>
                     Reliability compounds in silence. We analyze the smart contract discipline and operational telemetry that separate real machine autonomy from temporary hype.
                   </p>
-                  <a href="#publication" onClick={() => navigateTo('/log')}>Read Publication →</a>
+                  <a href="#publication" onClick={() => navigateTo('/log')}>Read Publication</a>
                 </div>
               </article>
 
@@ -487,13 +489,13 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
                   <small>DOSSIER SPOTLIGHT · VX-4</small>
                   <h3>Inside an execution-first agent.</h3>
                   <p>Capability, constraints, and multi-chain telemetry on Base & Ethereum.</p>
-                  <a href="#agents" onClick={() => navigateTo('/rankings')}>Open Dossier →</a>
+                  <a href="#agents" onClick={() => navigateTo('/rankings')}>Open Dossier</a>
                 </article>
                 <article className="article">
                   <small>METHODOLOGY · V1.0</small>
                   <h3>How we score trust.</h3>
                   <p>The evidence ladder behind every FORGES Key rating and audit tier.</p>
-                  <a href="#dossier" onClick={() => navigateTo('/methodology')}>View Methodology →</a>
+                  <a href="#dossier" onClick={() => navigateTo('/methodology')}>View Methodology</a>
                 </article>
               </div>
             </div>
@@ -554,13 +556,16 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
               >
-                <img
-                  src="/gemini_image.jpeg"
-                  alt="Autonomous AI Agent Intelligence Motherboard"
+                <video
+                  src="/robot_eyes.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   className="wall-artwork-img"
                 />
                 <div className="wall-artwork-overlay" />
-                
+
                 {/* HUD Top Bar */}
                 <div className="wall-hud-top">
                   <span className="hud-pill">
@@ -600,12 +605,15 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
           <div className="container">
             <div className="cta-card with-artwork">
               <div className="cta-art-side">
-                <img
-                  src="/publication_image.jpeg"
-                  alt="Join FORGES AI Agent Class of 2026"
+                <video
+                  src="/robot_pulse.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   className="cta-art-img"
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 />
-                <div className="cta-art-overlay" />
                 <div className="cta-art-badge">
                   <span className="hud-pill"><i className="pulse-dot"></i> CLASS OF 2026 NOMINATIONS OPEN</span>
                 </div>
@@ -619,7 +627,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
                 </p>
                 <div className="cta-buttons">
                   <button className="btn btn-pink" onClick={() => navigateTo('/apply')}>
-                    Nominate an Agent →
+                    Nominate an Agent
                   </button>
                   <button className="btn btn-dark" onClick={() => navigateTo('/methodology')}>
                     Join Research Network
@@ -632,134 +640,11 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
       </main>
 
       {/* Agent Detail Modal */}
-      <AnimatePresence>
-        {selectedAgent && (
-          <motion.div
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 999,
-              background: 'rgba(13, 13, 10, 0.85)',
-              backdropFilter: 'blur(12px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px'
-            }}
-            onClick={() => setSelectedAgent(null)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              style={{
-                background: 'var(--gray-card)',
-                border: '2px solid var(--gray-border-strong)',
-                borderRadius: '24px',
-                padding: '32px',
-                maxWidth: '560px',
-                width: '100%',
-                maxHeight: '90vh',
-                overflowY: 'auto',
-                position: 'relative',
-                color: 'var(--white)'
-              }}
-              onClick={(e) => e.stopPropagation()}
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            >
-              <button
-                style={{
-                  position: 'absolute',
-                  top: '20px',
-                  right: '20px',
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--lime)',
-                  fontSize: '20px',
-                  cursor: 'pointer'
-                }}
-                onClick={() => setSelectedAgent(null)}
-              >
-                ✕
-              </button>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                <AgentAvatar agent={selectedAgent} size={52} />
-                <div>
-                  <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 900 }}>
-                    {selectedAgent.name}
-                  </h2>
-                  <div style={{ fontSize: '13px', color: 'var(--lime)', fontWeight: 700, marginTop: '4px' }}>
-                    {selectedAgent.chain} · {selectedAgent.category} · FORGES RANK #{selectedAgent.rank}
-                  </div>
-                </div>
-              </div>
-
-              <p style={{ color: 'var(--gray-text)', fontSize: '14.5px', lineHeight: 1.6, margin: '16px 0' }}>
-                "{selectedAgent.blurb}"
-              </p>
-
-              <div style={{ borderTop: '1px solid var(--gray-border)', borderBottom: '1px solid var(--gray-border)', padding: '16px 0', margin: '20px 0' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-                  <div>
-                    <div style={{ color: 'var(--gray-text)', fontSize: '12px', textTransform: 'uppercase', fontWeight: 700 }}>FORGES Score</div>
-                    <div style={{ fontSize: '28px', fontWeight: 900, color: 'var(--lime)' }}>
-                      <CountUpNumber to={selectedAgent.score} decimals={1} duration={1.5} />
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ color: 'var(--gray-text)', fontSize: '12px', textTransform: 'uppercase', fontWeight: 700 }}>7d Trend</div>
-                    <div style={{ fontSize: '24px', fontWeight: 800 }} className={selectedAgent.isUp ? 'up' : 'down'}>
-                      {selectedAgent.delta7d}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ margin: '18px 0' }}>
-                <h4 style={{ color: 'var(--lime)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>
-                  Telemetry & Audit Posture
-                </h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13.5px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
-                    <span style={{ color: 'var(--gray-text)' }}>Active Wallets (30d):</span>
-                    <b><CountUpNumber to={selectedAgent.activeWallets30d} duration={1.8} /></b>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
-                    <span style={{ color: 'var(--gray-text)' }}>GitHub Commits (30d):</span>
-                    <b><CountUpNumber to={selectedAgent.commits30d} suffix=" commits" duration={1.8} /></b>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
-                    <span style={{ color: 'var(--gray-text)' }}>Smart Contract Audit:</span>
-                    <b style={{ color: 'var(--lime)' }}>{selectedAgent.auditStatus}</b>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--gray-text)' }}>Admin Key Security:</span>
-                    <b>{selectedAgent.adminKeysSafe ? '✓ Multisig / Timelock' : '⚠ Retained Admin Key'}</b>
-                  </div>
-                </div>
-              </div>
-
-              {selectedAgent.verdict && (
-                <div style={{ background: '#141410', padding: '14px 18px', borderLeft: '3px solid var(--lime)', borderRadius: '8px', margin: '20px 0', fontSize: '13px', color: 'var(--gray-text)' }}>
-                  <strong style={{ color: 'var(--white)' }}>Editorial Verdict:</strong> {selectedAgent.verdict}
-                </div>
-              )}
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '28px', gap: '12px' }}>
-                <button className="btn btn-dark" style={{ flex: 1 }} onClick={() => setSelectedAgent(null)}>
-                  Close Dossier
-                </button>
-                <button className="btn btn-pink" style={{ flex: 1 }} onClick={() => navigateTo('/rankings')}>
-                  View Rankings
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <AgentDossierModal
+        agent={selectedAgent}
+        onClose={() => setSelectedAgent(null)}
+        onNavigate={navigateTo}
+      />
 
       {/* Footer */}
       <footer>
@@ -774,8 +659,8 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
             </div>
             <div className="footer-col">
               <h4>Explore</h4>
-              <button onClick={() => navigateTo('/')}>The 30 List</button>
-              <button onClick={() => navigateTo('/rankings')}>Rankings</button>
+              <button onClick={() => navigateTo('/')}>Home</button>
+              <button onClick={() => navigateTo('/rankings')}>The 30</button>
               <button onClick={() => navigateTo('/log')}>Build Log</button>
             </div>
             <div className="footer-col">

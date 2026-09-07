@@ -188,7 +188,7 @@ export const ReportsCatalogView: React.FC<{ onSelectReport: (slug: string) => vo
               className="spot-card"
               style={{ cursor: 'pointer', border: '1px solid var(--rule)', borderTop: '3px solid var(--crimson)', padding: '24px' }}
               onClick={() => onSelectReport(rep.slug)}
-              whileHover={{ y: -5, boxShadow: '0 12px 24px rgba(0,0,0,0.08)' }}
+              whileHover={{ boxShadow: '0 12px 24px rgba(0,0,0,0.08)' }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             >
               <div className="spot-card-top">
@@ -211,7 +211,7 @@ export const ReportsCatalogView: React.FC<{ onSelectReport: (slug: string) => vo
               </p>
               <div className="spot-foot">
                 <span className="spot-age">Wallets: {rep.evidence.uniqueWallets.toLocaleString()}</span>
-                <span className="spot-score" style={{ color: 'var(--crimson)' }}>Read Dossier →</span>
+                <span className="spot-score" style={{ color: 'var(--crimson)' }}>Read Dossier</span>
               </div>
             </motion.div>
           ))}

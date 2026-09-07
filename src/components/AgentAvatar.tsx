@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 
 interface AgentAvatarProps {
   agent: {
@@ -13,98 +12,141 @@ interface AgentAvatarProps {
   style?: React.CSSProperties;
 }
 
-// Curated high-res Web3 logos for established networks & agents
+// Curated high-res Web3 CDN logos for top agents
 const KNOWN_AGENT_LOGOS: Record<string, string> = {
   'cipherworks': 'https://www.google.com/s2/favicons?domain=cipherworks.ai&sz=128',
-  'clanker-tokenbot': 'https://assets.coingecko.com/coins/images/51860/standard/clanker.png',
-  'clanker': 'https://assets.coingecko.com/coins/images/51860/standard/clanker.png',
-  'clanker (tokenbot)': 'https://assets.coingecko.com/coins/images/51860/standard/clanker.png',
-  'nosana': 'https://assets.coingecko.com/coins/images/22564/standard/nosana.png',
-  'nosana (nos)': 'https://assets.coingecko.com/coins/images/22564/standard/nosana.png',
-  'myshell': 'https://assets.coingecko.com/coins/images/34947/standard/myshell.png',
-  'myshell (shell)': 'https://assets.coingecko.com/coins/images/34947/standard/myshell.png',
-  'bittensor': 'https://assets.coingecko.com/coins/images/29854/standard/bittensor-logo-clean-200.png',
-  'bittensor (tao)': 'https://assets.coingecko.com/coins/images/29854/standard/bittensor-logo-clean-200.png',
-  'fetch-ai': 'https://assets.coingecko.com/coins/images/5681/standard/Fetch.jpg',
-  'fetch.ai': 'https://assets.coingecko.com/coins/images/5681/standard/Fetch.jpg',
-  'fetch.ai (fet)': 'https://assets.coingecko.com/coins/images/5681/standard/Fetch.jpg',
+  'clanker-tokenbot': 'https://www.google.com/s2/favicons?domain=clanker.world&sz=128',
+  'clanker': 'https://www.google.com/s2/favicons?domain=clanker.world&sz=128',
+  'clanker (tokenbot)': 'https://www.google.com/s2/favicons?domain=clanker.world&sz=128',
+  'nosana': 'https://www.google.com/s2/favicons?domain=nosana.com&sz=128',
+  'nosana (nos)': 'https://www.google.com/s2/favicons?domain=nosana.com&sz=128',
+  'myshell': 'https://www.google.com/s2/favicons?domain=myshell.ai&sz=128',
+  'myshell (shell)': 'https://www.google.com/s2/favicons?domain=myshell.ai&sz=128',
+  'bittensor': 'https://www.google.com/s2/favicons?domain=bittensor.com&sz=128',
+  'bittensor (tao)': 'https://www.google.com/s2/favicons?domain=bittensor.com&sz=128',
+  'fetch-ai': 'https://www.google.com/s2/favicons?domain=fetch.ai&sz=128',
+  'fetch.ai': 'https://www.google.com/s2/favicons?domain=fetch.ai&sz=128',
+  'fetch.ai (fet)': 'https://www.google.com/s2/favicons?domain=fetch.ai&sz=128',
   'agent-zero': 'https://raw.githubusercontent.com/agent0ai/agent-zero/main/docs/logo.png',
   'agent zero': 'https://raw.githubusercontent.com/agent0ai/agent-zero/main/docs/logo.png',
   'agent zero (a0t)': 'https://raw.githubusercontent.com/agent0ai/agent-zero/main/docs/logo.png',
   'elizaos': 'https://raw.githubusercontent.com/elizaOS/eliza/main/packages/client-twitter/assets/logo.png',
-  'virtuals-protocol': 'https://assets.coingecko.com/coins/images/33077/standard/virtuals.png',
-  'virtuals protocol': 'https://assets.coingecko.com/coins/images/33077/standard/virtuals.png',
-  'chaingpt': 'https://assets.coingecko.com/coins/images/29729/standard/ChainGPT_Logo.png',
-  'chaingpt (cgpt)': 'https://assets.coingecko.com/coins/images/29729/standard/ChainGPT_Logo.png',
+  'virtuals-protocol': 'https://www.google.com/s2/favicons?domain=virtuals.io&sz=128',
+  'virtuals protocol': 'https://www.google.com/s2/favicons?domain=virtuals.io&sz=128',
+  'chaingpt': 'https://www.google.com/s2/favicons?domain=chaingpt.org&sz=128',
+  'chaingpt (cgpt)': 'https://www.google.com/s2/favicons?domain=chaingpt.org&sz=128',
   'moltbook': 'https://avatars.githubusercontent.com/u/190847983?v=4',
-  'pippin-agent': 'https://assets.coingecko.com/coins/images/51493/standard/pippin.png',
-  'pippin': 'https://assets.coingecko.com/coins/images/51493/standard/pippin.png',
-  'paal-ai': 'https://assets.coingecko.com/coins/images/30748/standard/Paal.png',
-  'paal ai': 'https://assets.coingecko.com/coins/images/30748/standard/Paal.png',
-  'bankr': 'https://bankr.bot/favicon.ico',
-  'bankr (bnkr)': 'https://bankr.bot/favicon.ico',
-  'heurist': 'https://assets.coingecko.com/coins/images/38600/standard/heurist.jpg',
-  'heurist (heu)': 'https://assets.coingecko.com/coins/images/38600/standard/heurist.jpg',
+  'pippin-agent': 'https://www.google.com/s2/favicons?domain=pippin.love&sz=128',
+  'pippin': 'https://www.google.com/s2/favicons?domain=pippin.love&sz=128',
+  'paal-ai': 'https://www.google.com/s2/favicons?domain=paal.ai&sz=128',
+  'paal ai': 'https://www.google.com/s2/favicons?domain=paal.ai&sz=128',
+  'bankr': 'https://www.google.com/s2/favicons?domain=bankr.bot&sz=128',
+  'bankr (bnkr)': 'https://www.google.com/s2/favicons?domain=bankr.bot&sz=128',
+  'heurist': 'https://www.google.com/s2/favicons?domain=heurist.ai&sz=128',
+  'heurist (heu)': 'https://www.google.com/s2/favicons?domain=heurist.ai&sz=128',
   'solana-agent-kit': 'https://raw.githubusercontent.com/sendaifun/solana-agent-kit/main/logo.png',
   'solana agent kit': 'https://raw.githubusercontent.com/sendaifun/solana-agent-kit/main/logo.png',
-  'talus-network': 'https://talus.network/favicon.ico',
-  'talus network': 'https://talus.network/favicon.ico',
-  'wayfinder': 'https://wayfinder.ai/favicon.ico',
-  'wayfinder (prompt)': 'https://wayfinder.ai/favicon.ico',
-  'almanak': 'https://assets.coingecko.com/coins/images/35000/standard/almanak.png',
-  'theoriq': 'https://theoriq.ai/favicon.ico',
-  'theoriq (thq)': 'https://theoriq.ai/favicon.ico',
-  'sentient': 'https://sentient.xyz/favicon.ico',
-  'sentient (sent)': 'https://sentient.xyz/favicon.ico',
-  'chaos-labs': 'https://chaoslabs.xyz/favicon.ico',
-  'chaos labs': 'https://chaoslabs.xyz/favicon.ico',
-  'chaos labs (chaos)': 'https://chaoslabs.xyz/favicon.ico',
-  'freysa': 'https://freysa.ai/favicon.ico',
-  'freysa (fai)': 'https://freysa.ai/favicon.ico',
-  'autonolas': 'https://assets.coingecko.com/coins/images/31034/standard/olas.png',
-  'autonolas (olas)': 'https://assets.coingecko.com/coins/images/31034/standard/olas.png',
-  '0g-labs': 'https://assets.coingecko.com/coins/images/36000/standard/0g.png',
-  '0g labs': 'https://assets.coingecko.com/coins/images/36000/standard/0g.png',
-  '0g': 'https://assets.coingecko.com/coins/images/36000/standard/0g.png',
-  '0g labs (og / aogi)': 'https://assets.coingecko.com/coins/images/36000/standard/0g.png',
-  'luna': 'https://assets.coingecko.com/coins/images/33077/standard/virtuals.png',
-  'luna by virtuals': 'https://assets.coingecko.com/coins/images/33077/standard/virtuals.png',
-  'truth-terminal': 'https://assets.coingecko.com/coins/images/50787/standard/goat.jpg',
-  'truth terminal': 'https://assets.coingecko.com/coins/images/50787/standard/goat.jpg',
-  'aixbt': 'https://assets.coingecko.com/coins/images/51761/standard/aixbt.jpg',
-  'promethia': 'https://promethia.finance/favicon.ico',
-  'promethia (pro)': 'https://promethia.finance/favicon.ico',
-  'aurelia': 'https://aurelia.ai/favicon.ico',
-  'aurelia ai': 'https://aurelia.ai/favicon.ico',
+  'talus-network': 'https://www.google.com/s2/favicons?domain=talus.network&sz=128',
+  'talus network': 'https://www.google.com/s2/favicons?domain=talus.network&sz=128',
+  'wayfinder': 'https://www.google.com/s2/favicons?domain=wayfinder.ai&sz=128',
+  'wayfinder (prompt)': 'https://www.google.com/s2/favicons?domain=wayfinder.ai&sz=128',
+  'almanak': 'https://www.google.com/s2/favicons?domain=almanak.co&sz=128',
+  'theoriq': 'https://www.google.com/s2/favicons?domain=theoriq.ai&sz=128',
+  'theoriq (thq)': 'https://www.google.com/s2/favicons?domain=theoriq.ai&sz=128',
+  'sentient': 'https://www.google.com/s2/favicons?domain=sentient.xyz&sz=128',
+  'sentient (sent)': 'https://www.google.com/s2/favicons?domain=sentient.xyz&sz=128',
+  'chaos-labs': 'https://www.google.com/s2/favicons?domain=chaoslabs.xyz&sz=128',
+  'chaos labs': 'https://www.google.com/s2/favicons?domain=chaoslabs.xyz&sz=128',
+  'chaos labs (chaos)': 'https://www.google.com/s2/favicons?domain=chaoslabs.xyz&sz=128',
+  'freysa': 'https://www.google.com/s2/favicons?domain=freysa.ai&sz=128',
+  'freysa (fai)': 'https://www.google.com/s2/favicons?domain=freysa.ai&sz=128',
+  'autonolas': 'https://www.google.com/s2/favicons?domain=olas.network&sz=128',
+  'autonolas (olas)': 'https://www.google.com/s2/favicons?domain=olas.network&sz=128',
+  '0g-labs': 'https://www.google.com/s2/favicons?domain=0g.ai&sz=128',
+  '0g labs': 'https://www.google.com/s2/favicons?domain=0g.ai&sz=128',
+  '0g': 'https://www.google.com/s2/favicons?domain=0g.ai&sz=128',
+  '0g labs (og / aogi)': 'https://www.google.com/s2/favicons?domain=0g.ai&sz=128',
+  'luna': 'https://www.google.com/s2/favicons?domain=virtuals.io&sz=128',
+  'luna by virtuals': 'https://www.google.com/s2/favicons?domain=virtuals.io&sz=128',
+  'truth-terminal': 'https://www.google.com/s2/favicons?domain=truthcollective.foundation&sz=128',
+  'truth terminal': 'https://www.google.com/s2/favicons?domain=truthcollective.foundation&sz=128',
+  'aixbt': 'https://www.google.com/s2/favicons?domain=aixbt.tech&sz=128',
+  'promethia': 'https://www.google.com/s2/favicons?domain=promethia.finance&sz=128',
+  'promethia (pro)': 'https://www.google.com/s2/favicons?domain=promethia.finance&sz=128',
+  'aurelia': 'https://www.google.com/s2/favicons?domain=aurelia.ai&sz=128',
+  'aurelia ai': 'https://www.google.com/s2/favicons?domain=aurelia.ai&sz=128',
   'clawd': 'https://avatars.githubusercontent.com/u/190847983?v=4',
   'clawd (clawd.atg.eth)': 'https://avatars.githubusercontent.com/u/190847983?v=4',
+  'zerebro': 'https://www.google.com/s2/favicons?domain=zerebro.org&sz=128',
+  'gokite': 'https://www.google.com/s2/favicons?domain=gokite.ai&sz=128',
+  'recall': 'https://www.google.com/s2/favicons?domain=recall.network&sz=128',
+  'naptha': 'https://www.google.com/s2/favicons?domain=naptha.ai&sz=128',
+  'griffain': 'https://www.google.com/s2/favicons?domain=griffain.com&sz=128',
+  'vader-ai': 'https://www.google.com/s2/favicons?domain=vaderai.ai&sz=128',
+  'cod3x': 'https://www.google.com/s2/favicons?domain=cod3x.org&sz=128',
+  'sky-ai': 'https://www.google.com/s2/favicons?domain=skyai.pro&sz=128'
 };
 
+export const extractCleanDomain = (website?: string): string | null => {
+  if (!website || website === 'N/A' || website === 'NONE' || website.trim() === '') return null;
+  try {
+    const cleanUrl = website.startsWith('http') ? website : `https://${website}`;
+    const url = new URL(cleanUrl);
+    let domain = url.hostname.replace(/^www\./, '').toLowerCase();
 
+    // Extract root domain from subdomains like app.virtuals.io or docs.cipherworks.ai
+    if (domain.startsWith('app.') || domain.startsWith('docs.') || domain.startsWith('api.') || domain.startsWith('beta.')) {
+      const parts = domain.split('.');
+      if (parts.length > 2) {
+        domain = parts.slice(-2).join('.');
+      }
+    }
 
-export const getFaviconUrl = (website?: string, agentName?: string, slug?: string): string | null => {
+    if (!domain || domain === 'localhost') return null;
+    return domain;
+  } catch {
+    return null;
+  }
+};
+
+export const getFaviconSources = (website?: string, agentName?: string, slug?: string): string[] => {
+  const sources: string[] = [];
   const keySlug = (slug || '').toLowerCase().trim();
   const keyName = (agentName || '').toLowerCase().trim();
   const cleanName = keyName.replace(/\s*\([^)]*\)/g, '').trim();
   const cleanSlug = keySlug.replace(/-agent$/, '').trim();
 
-  if (KNOWN_AGENT_LOGOS[keySlug]) return KNOWN_AGENT_LOGOS[keySlug];
-  if (KNOWN_AGENT_LOGOS[keyName]) return KNOWN_AGENT_LOGOS[keyName];
-  if (KNOWN_AGENT_LOGOS[cleanName]) return KNOWN_AGENT_LOGOS[cleanName];
-  if (KNOWN_AGENT_LOGOS[cleanSlug]) return KNOWN_AGENT_LOGOS[cleanSlug];
-
-  if (!website || website === 'N/A' || website === 'NONE' || website === '') return null;
-
-  try {
-    const cleanUrl = website.startsWith('http') ? website : `https://${website}`;
-    const url = new URL(cleanUrl);
-    const domain = url.hostname.replace(/^www\./, '').toLowerCase();
-    if (!domain || domain === 'localhost') return null;
-
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-  } catch {
-    return null;
+  // 1. Curated verified logo
+  const curated = KNOWN_AGENT_LOGOS[keySlug] || KNOWN_AGENT_LOGOS[keyName] || KNOWN_AGENT_LOGOS[cleanName] || KNOWN_AGENT_LOGOS[cleanSlug];
+  if (curated) {
+    sources.push(curated);
   }
+
+  const domain = extractCleanDomain(website);
+  if (domain) {
+    // 2. Google Favicons API (128px high-res)
+    const googleUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    if (!sources.includes(googleUrl)) sources.push(googleUrl);
+
+    // 3. DuckDuckGo Favicon CDN
+    const ddgUrl = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+    if (!sources.includes(ddgUrl)) sources.push(ddgUrl);
+
+    // 4. Unavatar Multi-Source Favicon API
+    const unavatarUrl = `https://unavatar.io/${domain}`;
+    if (!sources.includes(unavatarUrl)) sources.push(unavatarUrl);
+
+    // 5. Icon Horse CDN
+    const iconHorseUrl = `https://icon.horse/icon/${domain}`;
+    if (!sources.includes(iconHorseUrl)) sources.push(iconHorseUrl);
+  }
+
+  return sources;
+};
+
+export const getFaviconUrl = (website?: string, agentName?: string, slug?: string): string | null => {
+  const sources = getFaviconSources(website, agentName, slug);
+  return sources.length > 0 ? sources[0] : null;
 };
 
 export const AgentAvatar: React.FC<AgentAvatarProps> = ({
@@ -113,16 +155,14 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
   className = '',
   style = {}
 }) => {
-  const [imgError, setImgError] = useState(false);
   const slug = (agent as any).slug || agent.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-  const faviconUrl = !imgError ? getFaviconUrl(agent.website, agent.name, slug) : null;
+  const sources = React.useMemo(() => getFaviconSources(agent.website, agent.name, slug), [agent.website, agent.name, slug]);
+  const [sourceIdx, setSourceIdx] = useState(0);
   const dimension = typeof size === 'number' ? `${size}px` : size;
 
-  if (faviconUrl) {
+  if (sourceIdx < sources.length) {
     return (
-      <motion.span
-        whileHover={{ scale: 1.15, rotate: 2 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+      <span
         className={`aside-avatar ${className}`}
         style={{
           width: dimension,
@@ -134,8 +174,8 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
           justifyContent: 'center',
           borderRadius: '50%',
           overflow: 'hidden',
-          backgroundColor: '#fff',
-          border: '1px solid var(--rule)',
+          backgroundColor: '#ffffff',
+          border: '1px solid var(--gray-border-strong)',
           padding: '2px',
           boxSizing: 'border-box',
           verticalAlign: 'middle',
@@ -144,7 +184,7 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
         }}
       >
         <img
-          src={faviconUrl}
+          src={sources[sourceIdx]}
           alt={`${agent.name} logo`}
           style={{
             width: '100%',
@@ -153,18 +193,16 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
             borderRadius: '50%',
             display: 'block'
           }}
-          onError={() => setImgError(true)}
+          onError={() => setSourceIdx((prev) => prev + 1)}
           loading="lazy"
         />
-      </motion.span>
+      </span>
     );
   }
 
-  // Beautiful editorial monogram badge for agents without an external logo
+  // Editorial monogram badge for agents without an external logo
   return (
-    <motion.span
-      whileHover={{ scale: 1.15 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+    <span
       className={`aside-avatar ${className}`}
       style={{
         width: dimension,
@@ -175,19 +213,51 @@ export const AgentAvatar: React.FC<AgentAvatarProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: '50%',
-        backgroundColor: '#0E0D0B',
-        color: '#FAF9F6',
+        backgroundColor: '#0d0d0a',
+        color: 'var(--lime)',
         fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: typeof size === 'number' ? `${Math.max(10, Math.floor(size * 0.36))}px` : '0.75rem',
-        fontWeight: 700,
+        fontSize: typeof size === 'number' ? `${Math.max(10, Math.floor(size * 0.38))}px` : '0.75rem',
+        fontWeight: 800,
         letterSpacing: '-0.5px',
         verticalAlign: 'middle',
-        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.15)',
+        border: '1px solid var(--lime)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
         cursor: 'pointer',
         ...style
       }}
     >
       {agent.avatar || agent.name.slice(0, 2).toUpperCase()}
-    </motion.span>
+    </span>
+  );
+};
+
+export const AgentCardImage: React.FC<{
+  agent: {
+    name: string;
+    avatar?: string;
+    website?: string;
+    slug?: string;
+  };
+}> = ({ agent }) => {
+  const slug = (agent as any).slug || agent.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  const sources = React.useMemo(() => getFaviconSources(agent.website, agent.name, slug), [agent.website, agent.name, slug]);
+  const [sourceIdx, setSourceIdx] = useState(0);
+
+  if (sourceIdx < sources.length) {
+    return (
+      <img
+        src={sources[sourceIdx]}
+        alt={agent.name}
+        className="agent-full-img"
+        onError={() => setSourceIdx((prev) => prev + 1)}
+        loading="lazy"
+      />
+    );
+  }
+
+  return (
+    <div className="agent-full-fallback">
+      {agent.avatar || agent.name.slice(0, 2).toUpperCase()}
+    </div>
   );
 };

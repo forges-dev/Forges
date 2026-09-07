@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { COMPLETE_AGENT_DATABASE, getFullAgentDatabase, fetchLiveAgentDatabase, type AgentEntity } from '../data/agentDatabase';
 import { OrdinalNavbar } from '../components/OrdinalNavbar';
 import { AgentAvatar } from '../components/AgentAvatar';
-import { CountUpNumber } from '../components/CountUpNumber';
+import { AgentDossierModal } from '../components/AgentDossierModal';
 
 interface RankingsViewProps {
   onNavigate?: (path: string) => void;
@@ -110,8 +110,8 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
           <motion.div
             style={{
               padding: '24px 28px',
-              background: 'var(--gray-card)',
-              border: '1px solid var(--gray-border-strong)',
+              background: '#0d0d0a',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
               borderLeft: '4px solid var(--lime)',
               borderRadius: '20px',
               display: 'flex',
@@ -119,7 +119,8 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
               alignItems: 'center',
               flexWrap: 'wrap',
               gap: '16px',
-              marginBottom: '40px'
+              marginBottom: '40px',
+              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)'
             }}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -129,7 +130,7 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
               <div style={{ fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--lime)', fontWeight: 900, marginBottom: '6px' }}>
                 FEATURED INDEX: THE 30 UNDER 30 (CLASS OF 2026)
               </div>
-              <div style={{ fontSize: '14.5px', color: 'var(--gray-text)', lineHeight: '1.5' }}>
+              <div style={{ fontSize: '14.5px', color: 'rgba(255, 255, 255, 0.75)', lineHeight: '1.5' }}>
                 Thirty breakout autonomous AI agents shaping the future of autonomous finance and decentralized execution.
               </div>
             </div>
@@ -213,25 +214,25 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <AgentAvatar agent={agent} size={32} />
-                        <span style={{ fontWeight: 800, color: 'var(--white)' }}>{agent.name}</span>
+                        <span style={{ fontWeight: 800, color: '#ffffff' }}>{agent.name}</span>
                       </div>
                     </td>
-                    <td>{agent.chain}</td>
-                    <td>{agent.category}</td>
-                    <td style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <td style={{ color: 'rgba(255, 255, 255, 0.75)' }}>{agent.chain}</td>
+                    <td style={{ color: 'rgba(255, 255, 255, 0.75)' }}>{agent.category}</td>
+                    <td style={{ fontFamily: "'IBM Plex Mono', monospace", color: 'rgba(255, 255, 255, 0.9)' }}>
                       {agent.activeWallets30d.toLocaleString()}
                     </td>
-                    <td style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <td style={{ fontFamily: "'IBM Plex Mono', monospace", color: 'rgba(255, 255, 255, 0.9)' }}>
                       {agent.commits30d}
                     </td>
-                    <td style={{ fontSize: '16px', fontWeight: 900, color: 'var(--white)' }}>
+                    <td style={{ fontSize: '16px', fontWeight: 900, color: '#ffffff' }}>
                       {agent.score.toFixed(1)}
                     </td>
                     <td className={agent.isUp ? 'up' : 'down'} style={{ fontWeight: 700 }}>
                       {agent.delta7d}
                     </td>
                     <td>
-                      <span className="tag" style={{ background: agent.status === 'verified' ? 'rgba(215, 249, 0, 0.1)' : 'transparent' }}>
+                      <span className="tag" style={{ background: agent.status === 'verified' ? 'rgba(215, 249, 0, 0.15)' : 'transparent', color: agent.status === 'verified' ? 'var(--lime)' : 'rgba(255,255,255,0.7)', border: '1px solid rgba(215, 249, 0, 0.3)' }}>
                         {agent.status.toUpperCase()}
                       </span>
                     </td>
@@ -244,125 +245,11 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
       </main>
 
       {/* Agent Detail Modal */}
-      <AnimatePresence>
-        {selectedAgent && (
-          <motion.div
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 999,
-              background: 'rgba(13, 13, 10, 0.85)',
-              backdropFilter: 'blur(12px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px'
-            }}
-            onClick={() => setSelectedAgent(null)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              style={{
-                background: 'var(--gray-card)',
-                border: '2px solid var(--gray-border-strong)',
-                borderRadius: '24px',
-                padding: '32px',
-                maxWidth: '560px',
-                width: '100%',
-                maxHeight: '90vh',
-                overflowY: 'auto',
-                position: 'relative',
-                color: 'var(--white)'
-              }}
-              onClick={(e) => e.stopPropagation()}
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            >
-              <button
-                style={{
-                  position: 'absolute',
-                  top: '20px',
-                  right: '20px',
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--lime)',
-                  fontSize: '20px',
-                  cursor: 'pointer'
-                }}
-                onClick={() => setSelectedAgent(null)}
-              >
-                ✕
-              </button>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                <AgentAvatar agent={selectedAgent} size={52} />
-                <div>
-                  <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 900 }}>
-                    {selectedAgent.name}
-                  </h2>
-                  <div style={{ fontSize: '13px', color: 'var(--lime)', fontWeight: 700, marginTop: '4px' }}>
-                    {selectedAgent.chain} · {selectedAgent.category} · FORGES RANK #{selectedAgent.rank}
-                  </div>
-                </div>
-              </div>
-
-              <p style={{ color: 'var(--gray-text)', fontSize: '14.5px', lineHeight: 1.6, margin: '16px 0' }}>
-                "{selectedAgent.blurb}"
-              </p>
-
-              <div style={{ borderTop: '1px solid var(--gray-border)', borderBottom: '1px solid var(--gray-border)', padding: '16px 0', margin: '20px 0' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-                  <div>
-                    <div style={{ color: 'var(--gray-text)', fontSize: '12px', textTransform: 'uppercase', fontWeight: 700 }}>FORGES Score</div>
-                    <div style={{ fontSize: '28px', fontWeight: 900, color: 'var(--lime)' }}>
-                      <CountUpNumber to={selectedAgent.score} decimals={1} duration={1.5} />
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ color: 'var(--gray-text)', fontSize: '12px', textTransform: 'uppercase', fontWeight: 700 }}>7d Trend</div>
-                    <div style={{ fontSize: '24px', fontWeight: 800 }} className={selectedAgent.isUp ? 'up' : 'down'}>
-                      {selectedAgent.delta7d}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ margin: '18px 0' }}>
-                <h4 style={{ color: 'var(--lime)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>
-                  Telemetry & Audit Posture
-                </h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13.5px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
-                    <span style={{ color: 'var(--gray-text)' }}>Active Wallets (30d):</span>
-                    <b><CountUpNumber to={selectedAgent.activeWallets30d} duration={1.8} /></b>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
-                    <span style={{ color: 'var(--gray-text)' }}>GitHub Commits (30d):</span>
-                    <b><CountUpNumber to={selectedAgent.commits30d} suffix=" commits" duration={1.8} /></b>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--gray-border)', paddingBottom: '6px' }}>
-                    <span style={{ color: 'var(--gray-text)' }}>Smart Contract Audit:</span>
-                    <b style={{ color: 'var(--lime)' }}>{selectedAgent.auditStatus}</b>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--gray-text)' }}>Admin Key Security:</span>
-                    <b>{selectedAgent.adminKeysSafe ? '✓ Multisig / Timelock' : '⚠ Retained Admin Key'}</b>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '28px', gap: '12px' }}>
-                <button className="btn btn-dark" style={{ flex: 1 }} onClick={() => setSelectedAgent(null)}>
-                  Close Dossier
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <AgentDossierModal
+        agent={selectedAgent}
+        onClose={() => setSelectedAgent(null)}
+        onNavigate={onNavigate}
+      />
 
       {/* Footer */}
       <footer>
@@ -396,7 +283,6 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
           </div>
           <div className="footer-bottom">
             <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>
-            <span>Hoodopus Lime Color Palette.</span>
           </div>
         </div>
       </footer>

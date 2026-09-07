@@ -81,23 +81,23 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({ onNavigate }) 
                 <tbody>
                   <tr>
                     <td style={{ color: 'var(--lime)', fontWeight: 800 }}>Disclosure Completeness</td>
-                    <td style={{ fontWeight: 900, color: 'var(--white)' }}>30%</td>
-                    <td style={{ color: 'var(--gray-text)' }}>Whether the agent publishes its strategy, custody model, and permission scope before holding funds.</td>
+                    <td style={{ fontWeight: 900, color: '#ffffff' }}>30%</td>
+                    <td style={{ color: 'rgba(255, 255, 255, 0.75)' }}>Whether the agent publishes its strategy, custody model, and permission scope before holding funds.</td>
                   </tr>
                   <tr>
                     <td style={{ color: 'var(--lime)', fontWeight: 800 }}>On-Chain Consistency</td>
-                    <td style={{ fontWeight: 900, color: 'var(--white)' }}>35%</td>
-                    <td style={{ color: 'var(--gray-text)' }}>Whether transaction history matches stated strategy, wallet balances, and risk limits over time.</td>
+                    <td style={{ fontWeight: 900, color: '#ffffff' }}>35%</td>
+                    <td style={{ color: 'rgba(255, 255, 255, 0.75)' }}>Whether transaction history matches stated strategy, wallet balances, and risk limits over time.</td>
                   </tr>
                   <tr>
                     <td style={{ color: 'var(--lime)', fontWeight: 800 }}>Incident Response</td>
-                    <td style={{ fontWeight: 900, color: 'var(--white)' }}>20%</td>
-                    <td style={{ color: 'var(--gray-text)' }}>How an agent's operators handle past exploits, bugs, or deviations: speed, transparency, and remediation.</td>
+                    <td style={{ fontWeight: 900, color: '#ffffff' }}>20%</td>
+                    <td style={{ color: 'rgba(255, 255, 255, 0.75)' }}>How an agent's operators handle past exploits, bugs, or deviations: speed, transparency, and remediation.</td>
                   </tr>
                   <tr>
                     <td style={{ color: 'var(--lime)', fontWeight: 800 }}>Independence of Code</td>
-                    <td style={{ fontWeight: 900, color: 'var(--white)' }}>15%</td>
-                    <td style={{ color: 'var(--gray-text)' }}>Whether the agent's logic is auditable, open-source, and distinct from a black-box wrapper around a single prompt.</td>
+                    <td style={{ fontWeight: 900, color: '#ffffff' }}>15%</td>
+                    <td style={{ color: 'rgba(255, 255, 255, 0.75)' }}>Whether the agent's logic is auditable, open-source, and distinct from a black-box wrapper around a single prompt.</td>
                   </tr>
                 </tbody>
               </table>
@@ -105,38 +105,38 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({ onNavigate }) 
           </div>
 
           {/* Key Awards Tier System */}
-          <div style={{ marginTop: '60px', padding: '40px', background: 'var(--gray-card)', border: '2px solid var(--gray-border-strong)', borderRadius: '28px' }}>
+          <div style={{ marginTop: '60px', padding: '40px', background: '#0d0d0a', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '28px', boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)' }}>
             <div className="kicker">FORGES KEYS TIER SYSTEM</div>
-            <h2 style={{ fontSize: '32px', fontWeight: 900, margin: '12px 0 24px', color: 'var(--white)' }}>
+            <h2 style={{ fontSize: '32px', fontWeight: 900, margin: '12px 0 24px', color: '#ffffff' }}>
               Michelin-Standard Key Awards
             </h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-              <div style={{ border: '1px solid var(--gray-border)', padding: '24px', borderRadius: '18px', background: '#141410' }}>
+              <div style={{ border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', borderRadius: '18px', background: '#181814' }}>
                 <div style={{ color: 'var(--lime)', fontSize: '28px', marginBottom: '8px' }}>★★★</div>
-                <div style={{ fontSize: '14px', fontWeight: 900, color: 'var(--white)', textTransform: 'uppercase', marginBottom: '8px' }}>
+                <div style={{ fontSize: '14px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', marginBottom: '8px' }}>
                   Three Keys: Benchmark Grade
                 </div>
-                <p style={{ fontSize: '13.5px', lineHeight: '1.6', margin: 0, color: 'var(--gray-text)' }}>
+                <p style={{ fontSize: '13.5px', lineHeight: '1.6', margin: 0, color: 'rgba(255, 255, 255, 0.75)' }}>
                   A category-defining agent with flawless public disclosures, multichain verified telemetry, audited multisig custody, and verified public repository.
                 </p>
               </div>
 
-              <div style={{ border: '1px solid var(--gray-border)', padding: '24px', borderRadius: '18px', background: '#141410' }}>
+              <div style={{ border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', borderRadius: '18px', background: '#181814' }}>
                 <div style={{ color: 'var(--lime)', fontSize: '28px', marginBottom: '8px' }}>★★☆</div>
-                <div style={{ fontSize: '14px', fontWeight: 900, color: 'var(--white)', textTransform: 'uppercase', marginBottom: '8px' }}>
+                <div style={{ fontSize: '14px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', marginBottom: '8px' }}>
                   Two Keys: Exemplary
                 </div>
-                <p style={{ fontSize: '13.5px', lineHeight: '1.6', margin: 0, color: 'var(--gray-text)' }}>
+                <p style={{ fontSize: '13.5px', lineHeight: '1.6', margin: 0, color: 'rgba(255, 255, 255, 0.75)' }}>
                   Exemplary execution, high telemetry consistency, public smart contracts, and active incident mitigation protocols.
                 </p>
               </div>
 
-              <div style={{ border: '1px solid var(--gray-border)', padding: '24px', borderRadius: '18px', background: '#141410' }}>
+              <div style={{ border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', borderRadius: '18px', background: '#181814' }}>
                 <div style={{ color: 'var(--lime)', fontSize: '28px', marginBottom: '8px' }}>★☆☆</div>
-                <div style={{ fontSize: '14px', fontWeight: 900, color: 'var(--white)', textTransform: 'uppercase', marginBottom: '8px' }}>
+                <div style={{ fontSize: '14px', fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', marginBottom: '8px' }}>
                   One Key: Notable
                 </div>
-                <p style={{ fontSize: '13.5px', lineHeight: '1.6', margin: 0, color: 'var(--gray-text)' }}>
+                <p style={{ fontSize: '13.5px', lineHeight: '1.6', margin: 0, color: 'rgba(255, 255, 255, 0.75)' }}>
                   Notable on-chain utility with baseline transparency and verifiable wallet transaction graphs.
                 </p>
               </div>
@@ -145,7 +145,7 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({ onNavigate }) 
 
           <div style={{ marginTop: '48px', display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <button className="btn btn-pink" onClick={() => navigateTo('/rankings')}>
-              View 30 Under 30 Leaderboard →
+              View 30 Under 30 Leaderboard
             </button>
             <button className="btn btn-dark" onClick={() => navigateTo('/apply')}>
               Nominate Agent for Evaluation
@@ -186,7 +186,6 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({ onNavigate }) 
           </div>
           <div className="footer-bottom">
             <span>© 2026 FORGES 30. All rights reserved. Forbes 30 Under 30 AI Agent Index Edition.</span>
-            <span>Hoodopus Lime Color Palette.</span>
           </div>
         </div>
       </footer>
