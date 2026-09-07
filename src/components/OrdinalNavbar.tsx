@@ -106,9 +106,14 @@ export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
         </nav>
 
         <div className="nav-actions">
-          <button className="btn btn-dark" onClick={() => navigateTo('/methodology')}>
-            Scope & Rubric
-          </button>
+          <a
+            href="https://github.com/forges-dev/Forges"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-dark"
+          >
+            <GitHubLogoIcon size={14} /> GitHub
+          </a>
           <button className="btn btn-pink" onClick={() => navigateTo('/apply')}>
             Nominate Agent
           </button>
@@ -163,9 +168,15 @@ export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
             </button>
           ))}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '24px' }}>
-            <button className="btn btn-dark" style={{ width: '100%', justifyContent: 'center' }} onClick={() => navigateTo('/methodology')}>
-              Scope & Rubric
-            </button>
+            <a
+              href="https://github.com/forges-dev/Forges"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-dark"
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              <GitHubLogoIcon size={16} /> GitHub Repository
+            </a>
             <button className="btn btn-pink" style={{ width: '100%', justifyContent: 'center' }} onClick={() => navigateTo('/apply')}>
               Nominate Agent
             </button>
