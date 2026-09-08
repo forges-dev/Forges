@@ -367,26 +367,36 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
 
       {/* Footer */}
       <footer>
+        <img src="/footer_art.jpeg" alt="FORGES AI Intelligence Matrix Background" className="footer-bg-img" />
+        <div className="footer-bg-overlay" />
+
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand">
-              <div className="logo" onClick={() => navigateTo('/')}>
+              <div className="logo" onClick={() => navigateTo('/')} style={{ cursor: 'pointer' }}>
                 <span className="logo-mark"></span>
                 <span>FORGES 30</span>
               </div>
               <p>The independent intelligence wall & Forbes 30 Under 30 index for autonomous AI agents. Profile. Verify. Remember.</p>
+              <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span className="pulse-dot" style={{ width: '8px', height: '8px', background: 'var(--lime)', borderRadius: '50%', boxShadow: '0 0 10px var(--lime)' }} />
+                <span style={{ fontSize: '11px', color: 'var(--lime)', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  REAL-TIME TELEMETRY ACTIVE
+                </span>
+              </div>
             </div>
             <div className="footer-col">
               <h4>Explore</h4>
-              <button onClick={() => navigateTo('/')}>The 30 List</button>
-              <button onClick={() => navigateTo('/rankings')}>Rankings</button>
+              <button onClick={() => navigateTo('/')}>Home</button>
+              <button onClick={() => navigateTo('/rankings')}>The 30 List</button>
               <button onClick={() => navigateTo('/log')}>Build Log</button>
+              <button onClick={() => navigateTo('/methodology')}>Methodology</button>
             </div>
             <div className="footer-col">
               <h4>Network</h4>
               <button onClick={() => navigateTo('/apply')}>Nominate Agent</button>
               <button onClick={() => navigateTo('/qualified')}>Qualified Volume</button>
-              <button onClick={() => navigateTo('/methodology')}>Methodology</button>
+              <a href="https://github.com/forges-dev/Forges" target="_blank" rel="noreferrer">GitHub Repository</a>
             </div>
           </div>
           <div className="footer-bottom">
