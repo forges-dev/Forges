@@ -21,6 +21,7 @@ function MainRouter() {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     let title = 'FORGES: The Web3 AI Agent Index';
     let metaDesc = 'Independent security ratings, telemetry verification, and risk metrics for autonomous Web3 AI agents.';
 
@@ -54,6 +55,7 @@ function MainRouter() {
   const navigate = (path: string) => {
     window.history.pushState({}, '', path);
     window.dispatchEvent(new PopStateEvent('popstate'));
+    window.scrollTo(0, 0);
   };
 
   if (currentPath === '/apply' || currentPath === '/apply/' || currentPath === '/get-listed') {

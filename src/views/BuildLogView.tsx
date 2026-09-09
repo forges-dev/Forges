@@ -48,7 +48,7 @@ export const BuildLogView: React.FC<BuildLogViewProps> = ({ onNavigate, defaultT
 
       <main style={{ padding: '60px 0 100px' }}>
         <div className="container" style={{ maxWidth: '980px' }}>
-          <div className="kicker">05 / SYSTEM PROTOCOL · TELEMETRY & BUILD LOG</div>
+          <div className="kicker">SYSTEM PROTOCOL · TELEMETRY & BUILD LOG</div>
 
           <motion.h1
             style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 900, letterSpacing: '-0.04em', margin: '12px 0 18px', color: 'var(--white)' }}

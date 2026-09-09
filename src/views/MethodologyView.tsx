@@ -10,12 +10,11 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({ onNavigate }) 
   const navigateTo = (path: string) => {
     if (onNavigate) {
       onNavigate(path);
-      return;
-    }
-    if (typeof window !== 'undefined') {
+    } else if (typeof window !== 'undefined') {
       window.history.pushState({}, '', path);
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -32,7 +31,7 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({ onNavigate }) 
 
       <main id="page-method" style={{ padding: '60px 0 100px' }}>
         <div className="container">
-          <div className="kicker">02 / THE METHODOLOGY · AUDIT RUBRIC</div>
+          <div className="kicker">THE METHODOLOGY · AUDIT RUBRIC</div>
           <motion.h1
             style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 900, letterSpacing: '-0.04em', margin: '12px 0 20px', color: 'var(--white)' }}
             initial={{ opacity: 0, y: 15 }}

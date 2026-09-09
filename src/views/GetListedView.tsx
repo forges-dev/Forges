@@ -35,12 +35,11 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
   const navigateTo = (path: string) => {
     if (onNavigate) {
       onNavigate(path);
-      return;
-    }
-    if (typeof window !== 'undefined') {
+    } else if (typeof window !== 'undefined') {
       window.history.pushState({}, '', path);
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
+    window.scrollTo(0, 0);
   };
 
   const handleFieldChange = (field: string, value: string) => {
@@ -160,7 +159,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
 
       <main style={{ padding: '60px 0 100px' }}>
         <div className="container">
-          <div className="kicker">07 / EVALUATION PIPELINE · NOMINATIONS</div>
+          <div className="kicker">EVALUATION PIPELINE · NOMINATIONS</div>
           <motion.h1
             style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 900, letterSpacing: '-0.04em', margin: '12px 0 20px', color: 'var(--white)' }}
             initial={{ opacity: 0, y: 15 }}

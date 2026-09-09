@@ -34,12 +34,11 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
   const navigateTo = (path: string) => {
     if (onNavigate) {
       onNavigate(path);
-      return;
-    }
-    if (typeof window !== 'undefined') {
+    } else if (typeof window !== 'undefined') {
       window.history.pushState({}, '', path);
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
+    window.scrollTo(0, 0);
   };
 
   const filteredAgents = useMemo(() => {
@@ -93,7 +92,7 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
 
       <main id="page-rankings" style={{ padding: '60px 0 100px' }}>
         <div className="container">
-          <div className="kicker">01 / LEADERBOARD & LIVE DATABASE COVERAGE</div>
+          <div className="kicker">LEADERBOARD & LIVE DATABASE COVERAGE</div>
           <motion.h1
             style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 900, letterSpacing: '-0.04em', margin: '12px 0 20px', color: 'var(--white)' }}
             initial={{ opacity: 0, y: 15 }}

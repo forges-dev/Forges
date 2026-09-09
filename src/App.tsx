@@ -75,12 +75,11 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
   const navigateTo = (path: string) => {
     if (onNavigate) {
       onNavigate(path);
-      return;
-    }
-    if (typeof window !== 'undefined') {
+    } else if (typeof window !== 'undefined') {
       window.history.pushState({}, '', path);
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
+    window.scrollTo(0, 0);
   };
 
   const dbStats = useMemo(() => {
@@ -198,7 +197,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
           <div className="container">
             <div className="section-head">
               <div>
-                <div className="kicker">02 / THE SCOPE · EVALUATION RUBRIC</div>
+                <div className="kicker">THE SCOPE · EVALUATION RUBRIC</div>
                 <h2>Four objective signals.<br />Zero promotional hype.</h2>
               </div>
               <p className="lead">
@@ -350,7 +349,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
         <section className="dossier" id="dossier">
           <div className="container dossier-grid">
             <div className="dossier-copy">
-              <div className="kicker">04 / DOSSIER AUDIT · OBJECTIVE EVIDENCE</div>
+              <div className="kicker">DOSSIER AUDIT · OBJECTIVE EVIDENCE</div>
               <h2>FORGES Keys are not popularity. They're verifiable proof.</h2>
               <p className="lead" style={{ marginTop: '22px' }}>
                 Every profiled agent receives an unalterable scorecard. Our benchmark ratings measure verified smart contract execution, key security posture, and open-source code integrity over hype.
@@ -452,7 +451,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
           <div className="container">
             <div className="section-head">
               <div>
-                <div className="kicker">05 / FORBES-STANDARD PUBLICATION</div>
+                <div className="kicker">FORBES-STANDARD PUBLICATION</div>
                 <h2>The living record of machine autonomy.</h2>
               </div>
               <p className="lead">
@@ -507,7 +506,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
           <div className="container">
             <div className="section-head" style={{ marginBottom: '36px' }}>
               <div>
-                <div className="kicker">06 / WHY THE WALL EXISTS</div>
+                <div className="kicker">WHY THE WALL EXISTS</div>
                 <h2>Because machine autonomy requires institutional memory.</h2>
               </div>
               <p className="lead">
@@ -620,7 +619,7 @@ export default function App({ onNavigate }: { onNavigate?: (path: string) => voi
               </div>
 
               <div className="cta-content-side">
-                <div className="kicker">07 / ENTER THE WALL</div>
+                <div className="kicker">ENTER THE WALL</div>
                 <h2>Build something worth profiling.</h2>
                 <p>
                   Nominate an autonomous agent for the FORGES 30 Under 30 Class of 2026, inspect public dossiers, or join our research network.
