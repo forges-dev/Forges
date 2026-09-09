@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ForgesNavbar } from '../components/OrdinalNavbar';
+import { ForgesNavbar, XLogoIcon } from '../components/OrdinalNavbar';
 import { saveAgentToClientDatabase, type AgentEntity } from '../data/agentDatabase';
 
 interface GetListedViewProps {
@@ -21,6 +21,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [submissionRef, setSubmissionRef] = useState<string>('');
+  const [submittedAgent, setSubmittedAgent] = useState<AgentEntity | null>(null);
 
   useEffect(() => {
     try {
@@ -45,6 +46,9 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
   const handleFieldChange = (field: string, value: string) => {
     const updated = { ...formData, [field]: value };
     setFormData(updated);
+    if (formSubmitted) {
+      setFormSubmitted(false);
+    }
     try {
       localStorage.setItem('forges_getlisted_draft', JSON.stringify(updated));
     } catch (e) { }
@@ -98,6 +102,8 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
       verdict: `Provisional evaluation index for ${formData.agentName}.`
     };
 
+    setSubmittedAgent(newAgent);
+
     try {
       await fetch((import.meta.env.VITE_API_URL || 'http://localhost:3001') + '/api/v1/agents/submit', {
         method: 'POST',
@@ -131,7 +137,7 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
         githubUrl: '',
         description: ''
       });
-    }, 600);
+    }, 1400);
   };
 
   const discScore = formData.docsUrl && formData.website ? 94 : formData.website ? 75 : 50;
@@ -140,7 +146,6 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
   const indScore = formData.githubUrl && formData.githubUrl.trim() !== '' && formData.githubUrl !== 'N/A' ? 92 : 68;
   const compScore = discScore * 0.3 + consScore * 0.35 + incScore * 0.2 + indScore * 0.15;
   const hasInput = Boolean(formData.agentName && formData.contract);
-  const stars = compScore >= 90 ? '★★★' : compScore >= 80 ? '★★' : compScore >= 70 ? '★' : 'Unrated';
 
   return (
     <div className="forges-app" style={{ background: 'var(--ink)', minHeight: '100vh', color: 'var(--white)' }}>
@@ -320,45 +325,168 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
             {/* Diagnostic Card */}
             <div>
               <div className="rating-box">
-                <div style={{ color: 'var(--lime)', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  PROVISIONAL RATING SIMULATOR
-                </div>
-                <div className="stars">{hasInput ? stars : '☆☆☆'}</div>
-                <div className="score">
-                  {hasInput ? compScore.toFixed(1) : '-'} <small>/ 10</small>
-                </div>
+                {isSubmitting ? (
+                  <div style={{ padding: '16px 0', textAlign: 'center' }}>
+                    <div style={{ color: 'var(--lime)', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <span style={{ width: '8px', height: '8px', background: 'var(--lime)', borderRadius: '50%', boxShadow: '0 0 10px var(--lime)' }} />
+                      RUNNING TELEMETRY DIAGNOSTICS...
+                    </div>
 
-                <div className="metric">
-                  <div className="metric-row">
-                    <span>Disclosure Completeness</span>
-                    <b>{discScore} / 100</b>
-                  </div>
-                  <div className="bar"><i style={{ width: `${discScore}%` }}></i></div>
-                </div>
+                    <div style={{ position: 'relative', width: '72px', height: '72px', margin: '24px auto' }}>
+                      <motion.div
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: '50%',
+                          border: '3px solid rgba(215, 249, 0, 0.15)',
+                          borderTopColor: 'var(--lime)',
+                          borderRightColor: 'var(--lime)'
+                        }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+                      />
+                      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '22px' }}>
+                        ⚙️
+                      </div>
+                    </div>
 
-                <div className="metric">
-                  <div className="metric-row">
-                    <span>On-Chain Consistency</span>
-                    <b>{consScore} / 100</b>
-                  </div>
-                  <div className="bar"><i style={{ width: `${consScore}%` }}></i></div>
-                </div>
+                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#ffffff', marginBottom: '6px' }}>
+                      Evaluating Agent Telemetry
+                    </div>
+                    <div style={{ fontSize: '12.5px', color: 'var(--gray-text)', lineHeight: 1.5, maxWidth: '280px', margin: '0 auto 24px' }}>
+                      Indexing smart contract bytecode, verifying repository commits, & calculating final Key rating...
+                    </div>
 
-                <div className="metric">
-                  <div className="metric-row">
-                    <span>Incident Response</span>
-                    <b>{incScore} / 100</b>
-                  </div>
-                  <div className="bar"><i style={{ width: `${incScore}%` }}></i></div>
-                </div>
+                    {/* Progress Bar Animation */}
+                    <div style={{ background: 'rgba(255, 255, 255, 0.08)', borderRadius: '10px', height: '6px', overflow: 'hidden', width: '100%' }}>
+                      <motion.div
+                        style={{ background: 'linear-gradient(90deg, var(--lime), #38C172)', height: '100%' }}
+                        initial={{ width: '0%' }}
+                        animate={{ width: '100%' }}
+                        transition={{ duration: 1.2, ease: 'easeInOut' }}
+                      />
+                    </div>
 
-                <div className="metric">
-                  <div className="metric-row">
-                    <span>Code Independence</span>
-                    <b>{indScore} / 100</b>
+                    <div style={{ marginTop: '14px', fontSize: '11px', color: 'var(--lime)', fontWeight: 800, letterSpacing: '0.08em' }}>
+                      PROVISIONAL SCORE INGESTION IN PROGRESS
+                    </div>
                   </div>
-                  <div className="bar"><i style={{ width: `${indScore}%` }}></i></div>
-                </div>
+                ) : formSubmitted && submittedAgent ? (
+                  <>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                      <div style={{ color: 'var(--lime)', fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                        FINAL RATING ASSESSMENT
+                      </div>
+                      <span style={{ background: 'rgba(215, 249, 0, 0.15)', color: 'var(--lime)', fontSize: '11px', fontWeight: 800, padding: '3px 8px', borderRadius: '12px' }}>
+                        ✓ EVALUATION INDEXED
+                      </span>
+                    </div>
+
+                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#ffffff', marginBottom: '2px' }}>
+                      {submittedAgent.name}
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--gray-text)', marginBottom: '12px' }}>
+                      {submittedAgent.category} · {submittedAgent.chain}
+                    </div>
+
+                    <div className="stars">
+                      {submittedAgent.keyCount === 3 ? '★★★' : submittedAgent.keyCount === 2 ? '★★☆' : submittedAgent.keyCount === 1 ? '★☆☆' : '☆☆☆'}
+                      <span style={{ fontSize: '13px', color: 'var(--gray-text)', marginLeft: '10px', fontWeight: 600 }}>
+                        ({submittedAgent.keyCount > 0 ? `${submittedAgent.keyCount} Key${submittedAgent.keyCount > 1 ? 's' : ''} Awarded` : 'Unrated'})
+                      </span>
+                    </div>
+                    <div className="score">
+                      {submittedAgent.score.toFixed(1)} <small>/ 100</small>
+                    </div>
+
+                    <div className="metric">
+                      <div className="metric-row">
+                        <span>Disclosure Completeness</span>
+                        <b>{submittedAgent.disclosureScore} / 100</b>
+                      </div>
+                      <div className="bar"><i style={{ width: `${submittedAgent.disclosureScore}%` }}></i></div>
+                    </div>
+
+                    <div className="metric">
+                      <div className="metric-row">
+                        <span>On-Chain Consistency</span>
+                        <b>{submittedAgent.consistencyScore} / 100</b>
+                      </div>
+                      <div className="bar"><i style={{ width: `${submittedAgent.consistencyScore}%` }}></i></div>
+                    </div>
+
+                    <div className="metric">
+                      <div className="metric-row">
+                        <span>Incident Response</span>
+                        <b>{submittedAgent.incidentScore} / 100</b>
+                      </div>
+                      <div className="bar"><i style={{ width: `${submittedAgent.incidentScore}%` }}></i></div>
+                    </div>
+
+                    <div className="metric">
+                      <div className="metric-row">
+                        <span>Code Independence</span>
+                        <b>{submittedAgent.independenceScore} / 100</b>
+                      </div>
+                      <div className="bar"><i style={{ width: `${submittedAgent.independenceScore}%` }}></i></div>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="btn btn-dark"
+                      style={{ width: '100%', marginTop: '24px', fontSize: '12px' }}
+                      onClick={() => setFormSubmitted(false)}
+                    >
+                      Simulate Another Agent
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div style={{ color: 'var(--lime)', fontWeight: 800, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                      PROVISIONAL RATING SIMULATOR
+                    </div>
+                    <div className="stars">
+                      {hasInput
+                        ? (compScore >= 90 ? '★★★' : compScore >= 80 ? '★★☆' : compScore >= 70 ? '★☆☆' : '☆☆☆')
+                        : '☆☆☆'}
+                    </div>
+                    <div className="score">
+                      {hasInput ? compScore.toFixed(1) : '-'} <small>/ 100</small>
+                    </div>
+
+                    <div className="metric">
+                      <div className="metric-row">
+                        <span>Disclosure Completeness</span>
+                        <b>{discScore} / 100</b>
+                      </div>
+                      <div className="bar"><i style={{ width: `${discScore}%` }}></i></div>
+                    </div>
+
+                    <div className="metric">
+                      <div className="metric-row">
+                        <span>On-Chain Consistency</span>
+                        <b>{consScore} / 100</b>
+                      </div>
+                      <div className="bar"><i style={{ width: `${consScore}%` }}></i></div>
+                    </div>
+
+                    <div className="metric">
+                      <div className="metric-row">
+                        <span>Incident Response</span>
+                        <b>{incScore} / 100</b>
+                      </div>
+                      <div className="bar"><i style={{ width: `${incScore}%` }}></i></div>
+                    </div>
+
+                    <div className="metric">
+                      <div className="metric-row">
+                        <span>Code Independence</span>
+                        <b>{indScore} / 100</b>
+                      </div>
+                      <div className="bar"><i style={{ width: `${indScore}%` }}></i></div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -396,6 +524,9 @@ export const GetListedView: React.FC<GetListedViewProps> = ({ onNavigate }) => {
               <h4>Network</h4>
               <button onClick={() => navigateTo('/apply')}>Nominate Agent</button>
               <button onClick={() => navigateTo('/qualified')}>Qualified Volume</button>
+              <a href="https://x.com/forgesagentsx" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <XLogoIcon size={12} /> Official X (@forgesagentsx)
+              </a>
               <a href="https://github.com/forges-dev/Forges" target="_blank" rel="noreferrer">GitHub Repository</a>
             </div>
           </div>

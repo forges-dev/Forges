@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+/*  */import { PrismaClient } from '@prisma/client';
 import { IngestService } from '../src/agents/ingest.service';
 import * as dotenv from 'dotenv';
 dotenv.config();

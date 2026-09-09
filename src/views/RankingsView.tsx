@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { COMPLETE_AGENT_DATABASE, getFullAgentDatabase, fetchLiveAgentDatabase, type AgentEntity } from '../data/agentDatabase';
-import { ForgesNavbar } from '../components/OrdinalNavbar';
+import { ForgesNavbar, XLogoIcon } from '../components/OrdinalNavbar';
 import { AgentAvatar } from '../components/AgentAvatar';
 import { AgentDossierModal } from '../components/AgentDossierModal';
 
@@ -282,6 +282,9 @@ export const RankingsView: React.FC<RankingsViewProps> = ({ onNavigate }) => {
               <h4>Network</h4>
               <button onClick={() => navigateTo('/apply')}>Nominate Agent</button>
               <button onClick={() => navigateTo('/qualified')}>Qualified Volume</button>
+              <a href="https://x.com/forgesagentsx" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <XLogoIcon size={12} /> Official X (@forgesagentsx)
+              </a>
               <a href="https://github.com/forges-dev/Forges" target="_blank" rel="noreferrer">GitHub Repository</a>
             </div>
           </div>

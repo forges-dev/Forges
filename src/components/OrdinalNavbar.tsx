@@ -107,6 +107,17 @@ export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
 
         <div className="nav-actions">
           <a
+            href="https://x.com/forgesagentsx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-dark"
+            aria-label="X (Twitter)"
+            title="X (@forgesagentsx)"
+            style={{ padding: '0 12px', minWidth: '38px' }}
+          >
+            <XLogoIcon size={14} />
+          </a>
+          <a
             href="https://github.com/forges-dev/Forges"
             target="_blank"
             rel="noopener noreferrer"
@@ -168,6 +179,17 @@ export const ForgesNavbar: React.FC<OrdinalNavbarProps> = ({
             </button>
           ))}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '24px' }}>
+            <a
+              href="https://x.com/forgesagentsx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-dark"
+              style={{ width: '100%', justifyContent: 'center' }}
+              aria-label="X (Twitter)"
+              title="X (@forgesagentsx)"
+            >
+              <XLogoIcon size={16} />
+            </a>
             <a
               href="https://github.com/forges-dev/Forges"
               target="_blank"
